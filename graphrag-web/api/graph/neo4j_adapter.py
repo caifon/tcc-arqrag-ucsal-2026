@@ -45,6 +45,15 @@ class Neo4jGraphRepository(BaseGraphRepository):
             return
 
         with self._session() as session:
+            try:
+                count_res = session.run("MATCH (n) RETURN count(n) as total")
+                rec = count_res.single()
+                if rec and rec["total"] >= len(nos):
+                    logger.info(f"Neo4j já populado com {rec['total']} nós. Carga inicial pulada.")
+                    return
+            except Exception:
+                pass
+
             for no in nos:
                 session.run(
                     f"""
