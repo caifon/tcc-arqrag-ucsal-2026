@@ -17,7 +17,8 @@ class GeminiService:
     """
 
     def __init__(self, api_key: Optional[str] = None):
-        self.api_key = api_key or os.getenv("GEMINI_API_KEY")
+        key = api_key or os.getenv("GEMINI_API_KEY")
+        self.api_key = key.strip() if key else None
         self.base_url = "https://generativelanguage.googleapis.com/v1beta"
         self._cache_embeddings: Dict[str, List[float]] = {}
 

@@ -11,10 +11,11 @@ class Neo4jGraphRepository(BaseGraphRepository):
     """Adaptador oficial para Neo4j (Local ou Neo4j AuraDB na nuvem)."""
 
     def __init__(self, uri: Optional[str] = None, user: Optional[str] = None, password: Optional[str] = None, database: Optional[str] = None):
-        self.uri = uri or os.getenv("NEO4J_URI", "bolt://localhost:7687")
-        self.user = user or os.getenv("NEO4J_USERNAME", "neo4j")
-        self.password = password or os.getenv("NEO4J_PASSWORD", "password")
-        self.database = database or os.getenv("NEO4J_DATABASE")
+        self.uri = (uri or os.getenv("NEO4J_URI", "bolt://localhost:7687")).strip()
+        self.user = (user or os.getenv("NEO4J_USERNAME", "neo4j")).strip()
+        self.password = (password or os.getenv("NEO4J_PASSWORD", "password")).strip()
+        db = database or os.getenv("NEO4J_DATABASE")
+        self.database = db.strip() if db else None
         self._driver = None
         self._conectado = False
 
