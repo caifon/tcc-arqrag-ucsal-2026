@@ -19,6 +19,7 @@ class GeminiService:
     def __init__(self, api_key: Optional[str] = None):
         self.api_key = api_key or os.getenv("GEMINI_API_KEY")
         self.base_url = "https://generativelanguage.googleapis.com/v1beta"
+        self._cache_embeddings: Dict[str, List[float]] = {}
 
     # ----------------- 1. EMBEDDINGS LEVES (PORTA DE ENTRADA) ----------------- #
 
@@ -46,19 +47,55 @@ class GeminiService:
     def obter_embedding_gemini(self, texto: str) -> Optional[List[float]]:
         if not self.api_key:
             return None
+        if texto in self._cache_embeddings:
+            return self._cache_embeddings[texto]
         try:
-            url = f"{self.base_url}/models/text-embedding-004:embedContent?key={self.api_key}"
+            url = f"{self.base_url}/models/gemini-embedding-001:embedContent?key={self.api_key}"
             payload = {
-                "model": "models/text-embedding-004",
+                "model": "models/gemini-embedding-001",
                 "content": {"parts": [{"text": texto[:2000]}]}
             }
             resp = requests.post(url, json=payload, timeout=5)
             if resp.status_code == 200:
                 data = resp.json()
-                return data.get("embedding", {}).get("values")
+                vals = data.get("embedding", {}).get("values")
+                if vals:
+                    self._cache_embeddings[texto] = vals
+                    return vals
         except Exception:
             pass
         return None
+
+    def obter_embeddings_lote(self, textos: List[str]) -> Dict[str, List[float]]:
+        faltantes = [t for t in textos if t and t not in self._cache_embeddings]
+        if not faltantes or not self.api_key:
+            return {t: self._cache_embeddings[t] for t in textos if t in self._cache_embeddings}
+
+        try:
+            for i in range(0, len(faltantes), 50):
+                chunk = faltantes[i:i + 50]
+                url = f"{self.base_url}/models/gemini-embedding-001:batchEmbedContents?key={self.api_key}"
+                payload = {
+                    "requests": [
+                        {
+                            "model": "models/gemini-embedding-001",
+                            "content": {"parts": [{"text": t[:2000]}]}
+                        }
+                        for t in chunk
+                    ]
+                }
+                resp = requests.post(url, json=payload, timeout=8)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    embs = data.get("embeddings", [])
+                    for t, e in zip(chunk, embs):
+                        vals = e.get("values")
+                        if vals:
+                            self._cache_embeddings[t] = vals
+        except Exception:
+            pass
+
+        return {t: self._cache_embeddings[t] for t in textos if t in self._cache_embeddings}
 
     def calcular_similaridade(self, texto_query: str, texto_no: str) -> float:
         v1 = self.obter_embedding_gemini(texto_query)
@@ -75,10 +112,23 @@ class GeminiService:
         return self._cosseno_fallback(t_q, t_n)
 
     def encontrar_nos_entrada(self, query: str, nos: List[NoGrafo], top_k: int = 3, threshold: float = 0.10) -> List[Tuple[NoGrafo, float]]:
+        textos_alvo = [f"{no.nome} {no.descricao} {' '.join(str(v) for v in no.metadados.values())}" for no in nos]
+        if self.api_key:
+            self.obter_embeddings_lote([query] + textos_alvo)
+
+        v_query = self._cache_embeddings.get(query)
+        t_query = self._tokenizar_fallback(query)
         scores = []
-        for no in nos:
-            texto_alvo = f"{no.nome} {no.descricao} {' '.join(str(v) for v in no.metadados.values())}"
-            score = self.calcular_similaridade(query, texto_alvo)
+        for no, texto_alvo in zip(nos, textos_alvo):
+            v_no = self._cache_embeddings.get(texto_alvo)
+            if v_query and v_no:
+                dot = sum(a * b for a, b in zip(v_query, v_no))
+                norm1 = math.sqrt(sum(a ** 2 for a in v_query))
+                norm2 = math.sqrt(sum(b ** 2 for b in v_no))
+                score = float(dot / (norm1 * norm2)) if norm1 > 0 and norm2 > 0 else 0.0
+            else:
+                score = self._cosseno_fallback(t_query, self._tokenizar_fallback(texto_alvo))
+
             if score >= threshold:
                 scores.append((no, score))
 
