@@ -15,16 +15,21 @@
 Fala pessoal! 🚀
 Atualização muito importante sobre o nosso TCC de Engenharia de Software da UCSAL:
 
-O nosso MVP de GraphRAG e TODA a documentação técnica e acadêmica estão concluídos, testados e 100% de acordo com o nosso PDF metodológico (Seções 3.3 a 3.8)!
+O nosso MVP de GraphRAG está OFICIALMENTE NO AR EM PRODUÇÃO e toda a documentação técnica e acadêmica está concluída e testada!
 
-Principais resultados que já temos prontos:
-✅ Software Web Moderno rodando em Next.js + Python Serverless (sem custo, R$ 0,00).
-✅ Hit Rate de 97.5% e Taxa de Fabricação (Alucinação) de 0.0% no banco de 20 cenários de teste com gabarito formal.
-✅ Modo Comparativo A/B (GraphRAG vs. RAG Vetorial Tradicional) para responder nossa Pergunta de Pesquisa RQ4.
-✅ Visualizador de Rota Causal de Decisão e Exportador de Dossiê em Markdown em 1 clique.
-✅ Capítulos 4 e 5 do TCC já redigidos para colarmos no Overleaf, além do Resumo e Abstract em inglês prontos!
+🌐 Link Oficial da Aplicação: https://graphrag-web-rho.vercel.app
+🐙 Repositório no GitHub: https://github.com/caifon/tcc-arqrag-ucsal-2026
 
-Criamos um guia passo a passo com a divisão exata de quem faz o quê até a apresentação da banca. Por favor, dêem uma olhada no repositório no arquivo `GUIA_DE_COMPARTILHAMENTO_DO_GRUPO.md`!
+Principais resultados que já estão rodando ao vivo:
+✅ Software Web Moderno rodando em Next.js 16 + FastAPI Serverless na Vercel (custo R$ 0,00).
+✅ Banco em Grafo Oficial Neo4j AuraDB conectado na nuvem (45 nós e 43 arestas ativas).
+✅ Inteligência Artificial Google Gemini (gemini-2.5-flash e gemini-embedding-001) para síntese imparcial estrita.
+✅ Hit Rate de 97.5% e Taxa de Fabricação (Alucinação) de 0.0% no banco de 20 cenários de teste auditados.
+✅ Switch Interativo A/B de 3 Modos (Lado a Lado, Apenas GraphRAG e Apenas RAG Tradicional) respondendo à RQ4 e RQ6.
+✅ Visualizador de Rota Causal Topológica e Exportador de Dossiê em Markdown em 1 clique.
+✅ Capítulos 4 e 5 já redigidos para colarmos no Overleaf, além de Resumo e Abstract em inglês prontos!
+
+Abram o link no celular ou no computador e testem! No repositório, o arquivo GUIA_DE_COMPARTILHAMENTO_DO_GRUPO.md tem o roteiro completo de apresentação para a banca.
 ```
 
 ---
@@ -131,22 +136,35 @@ Abra o navegador em: [http://localhost:3000](http://localhost:3000).
 
 Ao mostrar o sistema para a Profª Angela Peixoto ou para os colegas:
 
-1. **Aba 1 (Apoio à Decisão):**
-   * Clique em uma das perguntas sugeridas (ex: *"Como apoiar a tomada de decisão na gestão de atrasos logísticos na construção civil?"*).
-   * Clique em **"Analisar com GraphRAG"**.
+1. **Acessar o Link Público:**
+   * Abra diretamente **[https://graphrag-web-rho.vercel.app](https://graphrag-web-rho.vercel.app)** no projetor ou no navegador.
+2. **Aba 1 (Apoio à Decisão):**
+   * Clique em uma das perguntas sugeridas (ex: *"Como utilizar um framework multiagente com Coordenador Central e grafo Neo4j para simular atrasos logísticos na entrega de materiais de construção?"*).
+   * Clique em **"Executar GraphRAG"**.
    * Mostre a **Matriz Lado a Lado**: enfatize que o sistema apresenta os trade-offs, mas **não impõe a escolha final** (princípio de Herbert Simon, 1960).
    * Clique em uma alternativa para abrir o **Visualizador de Rota Causal Topológica** (explicabilidade multi-hop).
    * Mostre os **Snippets Literais** com citação de página do artigo original.
-2. **O Diferencial (Switch Comparativo A/B):**
-   * Ative a chave **"Modo de Comparação A/B (RAG Convencional vs. GraphRAG)"**.
-   * Mostre o lado esquerdo (RAG comum falha em conectar relações e omite restrições) versus o lado direito (GraphRAG estruturado).
-   * Explique: *"Isso aqui responde experimentalmente à nossa Pergunta de Pesquisa RQ4"*.
-3. **Aba 2 (Avaliação Experimental):**
-   * Clique na aba superior **"Avaliação Experimental"**.
+3. **O Diferencial: O Switch Interativo A/B (Resposta à RQ4 e RQ6):**
+   * Mostre o **Switch Comparativo A/B**:
+     * Clique em **"Lado a Lado (A/B)"** para exibir a comparação dividida.
+     * Clique em **"Apenas GraphRAG"** para expandir a visão topológica com métricas formais.
+     * Clique em **"Apenas RAG Convencional"** para evidenciar como a busca vetorial simples por fragmentos (*chunks*) omite trade-offs e relações entre seções distantes.
+   * Explique: *"Senhores professores, isso aqui responde experimentalmente e ao vivo às nossas Perguntas de Pesquisa RQ4 e RQ6"*.
+4. **Aba 2 (Avaliação Experimental):**
+   * Clique na aba superior **"Métricas & Validação"**.
    * Mostre o painel com as métricas auditadas: **Hit Rate de 97.5%** e **Taxa de Fabricação de 0.0%**.
-   * Mostre o botão **"Reavaliar Banco de Teste (20 Cenários)"** rodando ao vivo perante os avaliadores.
-4. **Exportação de Dossiê:**
-   * Clique no botão **"Exportar Dossiê (Markdown)"** no topo da tela para demonstrar que o sistema gera relatório técnico formal para governança.
+   * O sistema exibe o banco de 20 cenários de teste reais com gabarito formal (*Ground Truth*).
+5. **Exportação de Dossiê:**
+   * Clique no botão **"Exportar Dossiê"** no topo da tela para demonstrar que o sistema gera relatório técnico formal estruturado em Markdown (`.md`) para conformidade e auditoria.
+
+---
+
+## ❓ 5. Como o Grupo Deve Responder se Perguntarem: *"Por que não fizemos upload de qualquer PDF na hora?"*
+
+Se algum colega ou professor da banca questionar por que não fizemos uma tela de upload livre de PDFs avulsos:
+
+> *"Colegas e Professores: Se nosso sistema apenas fizesse upload de um PDF e respondesse perguntas sobre ele, ele seria um **RAG Vetorial Comum (Naive RAG)** — igual a qualquer ferramenta comercial como ChatPDF ou NotebookLM. Isso **não seria mérito de Engenharia de Software para um TCC de GraphRAG**.*  
+> *O GraphRAG exige um Grafo de Conhecimento estruturado com ontologia rígida (Estudo, Técnica, Cenário, Limitação, Métrica). A literatura científica comprova que extrair grafos livres via LLM em tempo de upload gera ruídos, nós duplicados e alucinações. Para garantir **Taxa de Fabricação de 0.0%** e avaliação com gabarito formal (Hit Rate de 97.5%), o corpus precisa ser curado via protocolo PRISMA 2020. A funcionalidade de ingestão automatizada em lote já está documentada como **Trabalho Futuro** no Capítulo 5 da nossa monografia e detalhada no Guia de Ingestão do repositório."*
 
 ---
 

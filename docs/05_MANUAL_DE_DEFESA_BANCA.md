@@ -53,3 +53,10 @@
 
 ### Q5. *"Qual a diferença prática entre a aba de Apoio à Decisão e a aba de Avaliação Experimental?"*
 * **Resposta:** A primeira aba é o ambiente operacional de uso do decisor final (onde ele pesquisa suas dúvidas de engenharia, inspeciona rotas causais e exporta dossiês técnicos). A segunda aba é o painel de validação científica para a comunidade acadêmica e auditores, que executa o banco de 20 testes com gabarito formal e exibe o Hit Rate de 97,5% em tempo real.
+
+### Q6. *"Por que vocês focaram o MVP nos artigos selecionados pelo PRISMA em vez de permitir upload e análise de qualquer PDF anexado na hora?"*
+* **Resposta:** Se o sistema recebesse qualquer PDF avulso e respondesse sobre ele, ele seria um **RAG Vetorial Comum (Naive RAG)** — ferramenta genérica já trivializada no mercado (ex.: ChatPDF). O mérito de Engenharia de Software da nossa pesquisa foi transformar uma Revisão Sistemática da Literatura (protocolo PRISMA 2020) em um **software vivo com Grafo de Conhecimento formalmente modelado**. Para o GraphRAG funcionar com integridade semântica e sem alucinações (Taxa de Fabricação 0.0%), a literatura (Gao et al., 2023) exige ontologia rígida e curada; a extração dinâmica aberta (*OpenIE*) geraria entidades inconsistentes e nós duplicados. A ingestão assistida de novos PDFs está formalizada como Trabalho Futuro no Capítulo 5 da monografia e estruturada no Guia de Ingestão do repositório.
+
+### Q7. *"Como funciona o Switch Interativo A/B e o que ele comprova na prática?"*
+* **Resposta:** O Switch A/B é o instrumento empírico do software para responder diretamente às perguntas de pesquisa **RQ4** (*fatores que favorecem o GraphRAG frente ao RAG comum*) e **RQ6** (*trade-offs de arquitetura*). Ao alternar entre a visão vetorial tradicional e a visão em grafo, o decisor constata ao vivo que a busca vetorial simples por chunks soltos omite restrições operacionais registradas em seções separadas dos artigos e quebra relações multi-hop, enquanto o GraphRAG conecta a cadeia causal e preserva os trade-offs comprovados pela literatura.
+

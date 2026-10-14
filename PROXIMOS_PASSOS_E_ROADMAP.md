@@ -8,34 +8,28 @@
 
 ## ⚡ 1. Resumo Executivo: O Que Está Pronto e Operacional
 
-O projeto foi totalmente readequado para uma arquitetura monorepo de nível de produção acadêmica, rodando com custo **R$ 0,00**, sem necessidade de GPUs locais, sem Docker e pronto para deploy automático na **Vercel**:
-
-* **Frontend:** **Next.js (App Router / TypeScript / Tailwind CSS)** com interface moderna, três abas integradas (*Apoio à Decisão*, *Avaliação Experimental* e *Ontologia & Corpus*).
-* **Backend:** **Microserviço Python Serverless (FastAPI)** na pasta `api/`, com roteamento transparente via *rewrites* no Next.js.
-* **Inteligência Artificial:** Integrado à **API do Google Gemini** (`text-embedding-004` para similaridade semântica dos nós de entrada e `gemini-2.5-flash` para síntese estrita e imparcial com *Structured Outputs*).
-* **Camada de Grafo Híbrida:** Conector oficial para **Neo4j AuraDB Free** na nuvem com fallback automático em memória (**NetworkX**) para rodar instantaneamente em qualquer máquina.
+* **Aplicação em Produção:** 🌐 **[https://graphrag-web-rho.vercel.app](https://graphrag-web-rho.vercel.app)** (Deploy ativo na Vercel).
+* **Repositório Oficial:** 🐙 **[https://github.com/caifon/tcc-arqrag-ucsal-2026](https://github.com/caifon/tcc-arqrag-ucsal-2026)**.
+* **Frontend:** **Next.js 16 (App Router / TypeScript / Tailwind CSS)** com interface moderna, três abas integradas (*Apoio à Decisão*, *Métricas & Validação* e *Ontologia & Corpus*).
+* **Backend:** **Microserviço Python 3.12 Serverless (FastAPI)** na pasta `api/`, com roteamento transparente via *rewrites* no Next.js.
+* **Inteligência Artificial:** Integrado à **API do Google Gemini** (`gemini-embedding-001` neurais de 3072 dimensões com batching de alta performance e `gemini-2.5-flash` para síntese estrita com *Structured Outputs*).
+* **Camada de Grafo Oficial:** Conexão ativa com **Neo4j AuraDB Free** na nuvem (`40baf46b.databases.neo4j.io`) com 45 nós e 43 arestas catalogadas, mantendo fallback resiliente em memória (**NetworkX**).
 * **Métricas Metodológicas Validadas (Banco de 20 Cenários):**
   * **Hit Rate Médio:** **`97.5%`** (19 acertos nos 20 cenários de teste com gabarito formal).
   * **Taxa de Fabricação (Alucinação):** **`0.0%`** (100% de rastreabilidade às evidências e nós catalogados).
 
-> **Comando Único para Execução Local:**
-> ```powershell
-> cd "graphrag-web"
-> npm run dev
-> ```
-> *(Acessível no navegador em `http://localhost:3000`).*
-
 ---
 
-## ✨ 2. As 3 Melhorias de Alto Impacto Implementadas (MVP 2.0)
+## ✨ 2. As Melhorias de Alto Impacto Implementadas (MVP 2.0)
 
-As três funcionalidades estratégicas sugeridas para impressionar a banca foram **codificadas, testadas e validadas**:
+As funcionalidades estratégicas recomendadas para a banca foram **codificadas, testadas e validadas em produção**:
 
-### 1. Modo de Comparação A/B em Tempo Real (RAG Convencional vs. GraphRAG)
+### 1. Switch Interativo A/B de 3 Modos em Tempo Real (RAG Convencional vs. GraphRAG)
 * **Objetivo Acadêmico:** Responder diretamente à **RQ4 / RQ6** da monografia (*Quais características favorecem o GraphRAG em detrimento do RAG convencional para tomada de decisão?*).
-* **Como Funciona na Tela:** Um switch interativo divide a visualização em duas colunas:
-  * **Lado A (RAG Vetorial Tradicional):** O sistema simula a busca vetorial simples em chunks soltos e aponta as limitações reais (omissão de trade-offs, perda de relações multi-hop e maior risco de alucinação ao tentar inferir conclusões sem arestas).
-  * **Lado B (GraphRAG Estruturado):** Demonstra o poder do subgrafo conexo, trazendo as alternativas dispostas lado a lado, as restrições arquiteturais e as evidências comprovadas.
+* **Como Funciona na Tela:** Um switch interativo animado (estilo iOS/Tailwind) e um controle segmentado permitem alternar instantaneamente entre 3 visões metodológicas com latência zero:
+  * **Modo Lado a Lado (A/B):** Coloca frente a frente o RAG vetorial comum e o GraphRAG.
+  * **Modo Apenas GraphRAG:** Foco exclusivo nas conexões topológicas, restrições e rastreabilidade formal.
+  * **Modo Apenas RAG Tradicional:** Evidencia na prática as limitações da recuperação por fragmentos textuais desconexos (*chunks*), apontando a perda de relações causais e maior risco de alucinação.
 
 ### 2. Visualizador de Rota Causal de Decisão (Path Explorer)
 * **Objetivo Acadêmico:** Comprovar a eliminação da "caixa-preta" através da explicabilidade topológica (*Multi-hop Explainability*).

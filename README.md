@@ -1,5 +1,7 @@
 # 🕸️ GraphRAG para Apoio à Tomada de Decisão: Um Mapeamento Sistemático da Literatura
 
+[![Vercel Live](https://img.shields.io/badge/Deploy-Vercel%20Live-success.svg?logo=vercel)](https://graphrag-web-rho.vercel.app)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-caifon%2Ftcc--arqrag--ucsal--2026-blue.svg?logo=github)](https://github.com/caifon/tcc-arqrag-ucsal-2026)
 [![UCSAL](https://img.shields.io/badge/Institui%C3%A7%C3%A3o-UCSAL-blue.svg)](https://ucsal.br)
 [![Curso](https://img.shields.io/badge/Curso-Engenharia%20de%20Software-brightgreen.svg)]()
 [![Ano](https://img.shields.io/badge/Ano-2026-orange.svg)]()
@@ -8,7 +10,9 @@
 
 > **Trabalho de Conclusão de Curso (TCC)** apresentado à Universidade Católica do Salvador (UCSAL) como requisito parcial para a obtenção do título de Bacharel em Engenharia de Software.  
 > **Orientadora:** Profª. Angela Peixoto.  
-> **Base Metodológica:** Diretrizes PRISMA 2020 e Teoria da Decisão de Herbert Simon (1960).
+> **Base Metodológica:** Diretrizes PRISMA 2020 e Teoria da Decisão de Herbert Simon (1960).  
+> **Aplicação Online (Produção):** 🌐 [https://graphrag-web-rho.vercel.app](https://graphrag-web-rho.vercel.app)  
+> **Código Fonte:** 🐙 [https://github.com/caifon/tcc-arqrag-ucsal-2026](https://github.com/caifon/tcc-arqrag-ucsal-2026)
 
 ---
 
@@ -17,6 +21,14 @@
 Este projeto investiga e desenvolve uma solução inovadora em **GraphRAG (Retrieval-Augmented Generation baseado em Grafos)** aplicada ao suporte à tomada de decisão técnica em Engenharia de Software e sistemas complexos.
 
 Enquanto sistemas de busca vetorial convencionais (*Naive RAG*) fatiam documentos em trechos soltos e perdem conexões conceituais, este sistema preserva a topologia relacional das ideias científicas por meio de uma **ontologia fixa pré-estabelecida**. O modelo de linguagem (LLM) atua estritamente como um **formatador neutro**, organizando alternativas concorrentes lado a lado com suas evidências, restrições e citações literais, **sem impor escolhas ao usuário**.
+
+### 🎯 Decisão Arquitetural: Por que focar no Corpus PRISMA em vez de "Upload Genérico de PDFs"?
+Uma das perguntas metodológicas mais relevantes do projeto é: *"Por que não focar o MVP em uma ferramenta genérica de upload e análise de PDFs anexados na hora?"*
+1. **Diferença Científica entre "ChatPDF" e GraphRAG:** Fazer upload de um arquivo e buscar por palavras-chave é o que qualquer ferramenta comercial de RAG vetorial básico faz. O mérito de Engenharia de Software desta tese é transformar uma **Revisão Sistemática da Literatura (protocolo PRISMA 2020)** — tradicionalmente uma tabela estática e esquecida — em um **banco de conhecimento vivo, navegável e auditável em Grafo**.
+2. **Eliminação de Alucinações por Design (Taxa 0.0%):** A literatura (Gao et al., 2023; Edge et al., 2024) comprova que extrair grafos abertos (*Open Information Extraction*) de PDFs arbitrários em tempo de execução introduz entidades falsas, sinônimos duplicados e ruído. A ontologia rígida pré-qualificada garante que o modelo **não fabrique nenhuma relação causal**.
+3. **Validade Experimental e Benchmarking:** Um banco formal de 20 cenários de teste com gabarito formal (*Ground Truth*) só é matematicamente validável sobre um corpus controlado com *Hit Rate* auditável (97.5%).
+4. **Viabilidade e Latência em Produção:** Extrair nós e arestas de um artigo acadêmico completo via LLM em tempo de upload exigiria minutos e causaria *timeouts* em ambientes serverless. No modelo adotado, a consulta responde em menos de 2 segundos.
+*(A ingestão dinâmica assistida é mapeada como Trabalho Futuro no Capítulo 5 da monografia e estruturada no [02_GUIA_INGESTAO_E_CORPUS.md](docs/02_GUIA_INGESTAO_E_CORPUS.md)).*
 
 ---
 

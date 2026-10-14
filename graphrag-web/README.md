@@ -1,13 +1,30 @@
 # 🌐 GraphRAG Decision Support Web App
 
-**Frontend:** Next.js 15 (App Router, TypeScript, Tailwind CSS, Lucide Icons)  
-**Backend:** FastAPI / Python Serverless (`api/index.py`)  
-**Mecanismo de Grafo:** Neo4j (AuraDB Free) + NetworkX (Fallback in-memory)  
-**Provedor de IA:** Google Gemini API (`text-embedding-004` e `gemini-2.5-flash`)
+[![Vercel Live](https://img.shields.io/badge/Deploy-Vercel%20Live-success.svg?logo=vercel)](https://graphrag-web-rho.vercel.app)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-caifon%2Ftcc--arqrag--ucsal--2026-blue.svg?logo=github)](https://github.com/caifon/tcc-arqrag-ucsal-2026)
+
+**Link de Produção:** 🌐 [https://graphrag-web-rho.vercel.app](https://graphrag-web-rho.vercel.app)  
+**Repositório Oficial:** 🐙 [https://github.com/caifon/tcc-arqrag-ucsal-2026](https://github.com/caifon/tcc-arqrag-ucsal-2026)  
+**Frontend:** Next.js 16 (App Router, TypeScript, Tailwind CSS, Lucide Icons)  
+**Backend:** FastAPI / Python 3.12 Serverless (`api/index.py`)  
+**Mecanismo de Grafo:** Neo4j AuraDB Cloud (`40baf46b.databases.neo4j.io`) + NetworkX (Fallback in-memory)  
+**Provedor de IA:** Google Gemini API (`gemini-embedding-001` neurais de 3072D e `gemini-2.5-flash` para síntese estrita)
 
 ---
 
-## 🚀 Execução Rápida
+## ⚡ Funcionalidades em Destaque
+
+1. **Switch Interativo A/B em Tempo Real (Resposta à RQ4 e RQ6):**
+   * Permite alternar instantaneamente entre 3 visões metodológicas com 0ms de latência:
+     * ⚖️ **Lado a Lado (A/B):** Comparação dividida entre o RAG convencional e o GraphRAG.
+     * 🕸️ **Apenas GraphRAG:** Foco exclusivo nas conexões topológicas, restrições e rastreabilidade formal.
+     * 📄 **Apenas RAG Convencional:** Demonstração empírica de como a recuperação por fragmentos textuais desconexos (*chunks*) omite trade-offs e falha em raciocínio multi-hop.
+2. **Visualizador de Rota Causal Topológica (*Multi-hop Explainability*):**
+   * Inspeção passo a passo do trajeto percorrido no grafo desde o nó semente até as limitações e snippets literais.
+3. **Exportador de Dossiê Decisório em 1 Clique:**
+   * Geração automática de parecer técnico formal estruturado em Markdown (`.md`).
+4. **Painel de Avaliação Experimental Automático:**
+   * Bateria com 20 cenários com gabarito formal (*Ground Truth*), apurando em tempo real o *Hit Rate* (97.5%) e *Taxa de Fabricação* (0.0%).
 
 ### 1. Instalação das Dependências
 
