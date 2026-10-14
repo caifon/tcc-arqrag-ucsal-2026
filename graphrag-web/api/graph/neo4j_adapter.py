@@ -10,12 +10,18 @@ logger = logging.getLogger(__name__)
 class Neo4jGraphRepository(BaseGraphRepository):
     """Adaptador oficial para Neo4j (Local ou Neo4j AuraDB na nuvem)."""
 
-    def __init__(self, uri: Optional[str] = None, user: Optional[str] = None, password: Optional[str] = None):
+    def __init__(self, uri: Optional[str] = None, user: Optional[str] = None, password: Optional[str] = None, database: Optional[str] = None):
         self.uri = uri or os.getenv("NEO4J_URI", "bolt://localhost:7687")
         self.user = user or os.getenv("NEO4J_USERNAME", "neo4j")
         self.password = password or os.getenv("NEO4J_PASSWORD", "password")
+        self.database = database or os.getenv("NEO4J_DATABASE")
         self._driver = None
         self._conectado = False
+
+    def _session(self):
+        if self.database:
+            return self._driver.session(database=self.database)
+        return self._driver.session()
 
     def conectar(self) -> bool:
         try:
@@ -38,7 +44,7 @@ class Neo4jGraphRepository(BaseGraphRepository):
         if not self._conectado:
             return
 
-        with self._driver.session() as session:
+        with self._session() as session:
             for no in nos:
                 session.run(
                     f"""
@@ -67,7 +73,7 @@ class Neo4jGraphRepository(BaseGraphRepository):
         if not self._conectado:
             return []
         nos = []
-        with self._driver.session() as session:
+        with self._session() as session:
             query = f"MATCH (n:{tipo.value}) RETURN n" if tipo else "MATCH (n) RETURN n, labels(n) as lbls"
             result = session.run(query)
             for record in result:
@@ -84,7 +90,7 @@ class Neo4jGraphRepository(BaseGraphRepository):
     def obter_no_por_id(self, no_id: str) -> Optional[NoGrafo]:
         if not self._conectado:
             return None
-        with self._driver.session() as session:
+        with self._session() as session:
             result = session.run("MATCH (n {id: $id}) RETURN n, labels(n) as lbls", id=no_id)
             record = result.single()
             if record:
@@ -105,10 +111,10 @@ class Neo4jGraphRepository(BaseGraphRepository):
             return SubgrafoEvidencia(nos_entrada=[], nos_recuperados=[], arestas=[], snippets=[])
 
         nos_recuperados = {}
-        arestas = []
+        arestas_dict = {}
         snippets = []
 
-        with self._driver.session() as session:
+        with self._session() as session:
             query = f"""
             MATCH (start) WHERE start.id IN $nos_ids
             MATCH path = (start)-[r*1..{max_saltos}]-(target)
@@ -142,11 +148,28 @@ class Neo4jGraphRepository(BaseGraphRepository):
                             "estudo_id": n.get("estudo_id", "")
                         })
 
+                oid = record.get("o_id")
+                did = record.get("d_id")
+                rtipo = record.get("rel_tipo")
+                if oid and did and rtipo:
+                    chave_aresta = f"{oid}->{rtipo}->{did}"
+                    if chave_aresta not in arestas_dict:
+                        from api.ontology import TipoAresta
+                        try:
+                            t_aresta = TipoAresta(rtipo)
+                        except ValueError:
+                            t_aresta = TipoAresta.USA
+                        arestas_dict[chave_aresta] = ArestaGrafo(
+                            origem_id=oid,
+                            destino_id=did,
+                            tipo=t_aresta
+                        )
+
         nos_entrada_objs = [nos_recuperados[nid] for nid in nos_ids if nid in nos_recuperados]
 
         return SubgrafoEvidencia(
             nos_entrada=nos_entrada_objs,
             nos_recuperados=list(nos_recuperados.values()),
-            arestas=arestas,
+            arestas=list(arestas_dict.values()),
             snippets=snippets
         )
