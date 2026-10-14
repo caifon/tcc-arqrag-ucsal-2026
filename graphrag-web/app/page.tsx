@@ -149,6 +149,7 @@ export default function Home() {
   const [topK, setTopK] = useState(2);
   const [maxHops, setMaxHops] = useState(2);
   const [compararBaseline, setCompararBaseline] = useState(true);
+  const [modoVisualizacaoAB, setModoVisualizacaoAB] = useState<"lado_a_lado" | "graphrag_only" | "vetorial_only">("lado_a_lado");
   const [selectedAltIndex, setSelectedAltIndex] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<QueryResponse | null>(null);
@@ -417,16 +418,35 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4">
                 <div className="flex items-center gap-4 text-xs text-slate-500">
-                  <label className="flex items-center gap-2 cursor-pointer font-medium text-slate-700 dark:text-slate-300">
-                    <input
-                      type="checkbox"
-                      checked={compararBaseline}
-                      onChange={(e) => setCompararBaseline(e.target.checked)}
-                      className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
-                    />
-                    <GitCompare className="w-3.5 h-3.5 text-indigo-500" />
-                    <span>Modo Comparação A/B (RAG Convencional vs. GraphRAG - Responde à RQ4)</span>
-                  </label>
+                  <div className="flex items-center gap-2.5">
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={compararBaseline}
+                      onClick={() => setCompararBaseline(!compararBaseline)}
+                      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                        compararBaseline ? "bg-blue-600" : "bg-slate-300 dark:bg-slate-700"
+                      }`}
+                    >
+                      <span
+                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
+                          compararBaseline ? "translate-x-5" : "translate-x-0"
+                        }`}
+                      />
+                    </button>
+                    <span
+                      onClick={() => setCompararBaseline(!compararBaseline)}
+                      className="cursor-pointer font-medium text-slate-700 dark:text-slate-300 select-none flex items-center gap-1.5"
+                    >
+                      <GitCompare className="w-3.5 h-3.5 text-indigo-500" />
+                      <span>Switch Comparativo A/B</span>
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded transition ${
+                        compararBaseline ? "bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300" : "bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+                      }`}>
+                        {compararBaseline ? "ATIVO" : "INATIVO"}
+                      </span>
+                    </span>
+                  </div>
                   <div className="hidden md:flex items-center gap-2 text-slate-400">
                     <span>|</span>
                     <span>Expansão Topológica: <strong>{maxHops} saltos (Seção 3.8)</strong></span>
@@ -470,81 +490,155 @@ export default function Home() {
             {result && (
               <div className="space-y-6">
                 {/* 1. MODO DE COMPARAÇÃO A/B (RAG CONVENCIONAL VS GRAPHRAG) */}
-                {compararBaseline && result.baseline_vetorial && (
-                  <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-100 via-white to-blue-50/40 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/20 border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div className="flex items-center justify-between mb-4">
+                {compararBaseline && result.baseline_vetorial ? (
+                  <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-100 via-white to-blue-50/40 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/20 border border-slate-200 dark:border-slate-800 shadow-sm transition-all">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-5">
                       <div className="flex items-center gap-2">
                         <GitCompare className="w-5 h-5 text-blue-600" />
-                        <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                          Comparação Empírica A/B em Tempo Real
-                        </h3>
+                        <div>
+                          <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                            Comparação Empírica A/B em Tempo Real
+                          </h3>
+                          <p className="text-xs text-slate-500">
+                            Responde diretamente à RQ4 e RQ6 da Monografia (Engenharia de Software)
+                          </p>
+                        </div>
                       </div>
-                      <span className="text-xs px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 font-semibold">
-                        Responde diretamente à RQ4 do TCC
-                      </span>
+
+                      {/* SWITCH INTERATIVO DE VISUALIZAÇÃO A/B (SEGMENTED CONTROL) */}
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center bg-slate-200/80 dark:bg-slate-800 p-1 rounded-xl border border-slate-300/70 dark:border-slate-700 shadow-xs">
+                          <button
+                            type="button"
+                            onClick={() => setModoVisualizacaoAB("lado_a_lado")}
+                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+                              modoVisualizacaoAB === "lado_a_lado"
+                                ? "bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm"
+                                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                            }`}
+                          >
+                            <Scale className="w-3.5 h-3.5" />
+                            Lado a Lado (A/B)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setModoVisualizacaoAB("graphrag_only")}
+                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+                              modoVisualizacaoAB === "graphrag_only"
+                                ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm"
+                                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                            }`}
+                          >
+                            <Network className="w-3.5 h-3.5" />
+                            Apenas GraphRAG
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setModoVisualizacaoAB("vetorial_only")}
+                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+                              modoVisualizacaoAB === "vetorial_only"
+                                ? "bg-white dark:bg-slate-900 text-rose-600 dark:text-rose-400 shadow-sm"
+                                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                            }`}
+                          >
+                            <FileText className="w-3.5 h-3.5" />
+                            Apenas RAG Convencional
+                          </button>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setCompararBaseline(false)}
+                          className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded-lg transition"
+                          title="Recolher Comparação A/B"
+                        >
+                          <XCircle className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className={`grid gap-6 ${
+                      modoVisualizacaoAB === "lado_a_lado" ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"
+                    }`}>
                       {/* LADO A: RAG VETORIAL CONVENCIONAL */}
-                      <div className="p-4 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-2xs">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
-                            Lado A: RAG Vetorial Convencional (Baseline)
-                          </span>
-                          <span className="text-[11px] text-rose-500 font-semibold">Sem Topologia</span>
-                        </div>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 mb-3 italic leading-relaxed">
-                          "{result.baseline_vetorial.resposta_vetorial}"
-                        </p>
+                      {(modoVisualizacaoAB === "lado_a_lado" || modoVisualizacaoAB === "vetorial_only") && (
+                        <div className="p-4 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-2xs">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                              Lado A: RAG Vetorial Convencional (Baseline)
+                            </span>
+                            <span className="text-[11px] text-rose-500 font-semibold">Sem Topologia</span>
+                          </div>
+                          <p className="text-xs text-slate-600 dark:text-slate-300 mb-3 italic leading-relaxed">
+                            "{result.baseline_vetorial.resposta_vetorial}"
+                          </p>
 
-                        <div className="space-y-2 border-t border-slate-100 dark:border-slate-800 pt-3">
-                          <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400 block">
-                            ⚠️ Limitações Identificadas na Literatura:
-                          </span>
-                          <ul className="text-xs space-y-1">
-                            {result.baseline_vetorial.limitacoes_observadas.map((lim, idx) => (
-                              <li key={idx} className="text-slate-500 dark:text-slate-400 flex items-start gap-1.5">
-                                <AlertTriangle className="w-3.5 h-3.5 text-rose-500 mt-0.5 shrink-0" />
-                                <span>{lim}</span>
-                              </li>
-                            ))}
-                          </ul>
+                          <div className="space-y-2 border-t border-slate-100 dark:border-slate-800 pt-3">
+                            <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400 block">
+                              ⚠️ Limitações Identificadas na Literatura:
+                            </span>
+                            <ul className="text-xs space-y-1">
+                              {result.baseline_vetorial.limitacoes_observadas.map((lim, idx) => (
+                                <li key={idx} className="text-slate-500 dark:text-slate-400 flex items-start gap-1.5">
+                                  <AlertTriangle className="w-3.5 h-3.5 text-rose-500 mt-0.5 shrink-0" />
+                                  <span>{lim}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       {/* LADO B: GRAPHRAG */}
-                      <div className="p-4 rounded-xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 shadow-2xs">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-600 text-white">
-                            Lado B: GraphRAG Estruturado (Seção 3.8)
-                          </span>
-                          <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">Topologia + Métricas + Zero Alucinação</span>
-                        </div>
-                        <p className="text-xs text-slate-700 dark:text-slate-200 mb-3 leading-relaxed">
-                          O Grafo mapeou <strong>{result.alternativas.length} famílias de abordagem</strong> conectadas ao cenário através de expansão de 1 a 2 saltos, dispondo evidências, métricas de avaliação e limitações sem impor escolha final.
-                        </p>
+                      {(modoVisualizacaoAB === "lado_a_lado" || modoVisualizacaoAB === "graphrag_only") && (
+                        <div className="p-4 rounded-xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 shadow-2xs">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-600 text-white">
+                              Lado B: GraphRAG Estruturado (Seção 3.8)
+                            </span>
+                            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">Topologia + Métricas + Zero Alucinação</span>
+                          </div>
+                          <p className="text-xs text-slate-700 dark:text-slate-200 mb-3 leading-relaxed">
+                            O Grafo mapeou <strong>{result.alternativas.length} famílias de abordagem</strong> conectadas ao cenário através de expansão de 1 a 2 saltos, dispondo evidências, métricas de avaliação e limitações sem impor escolha final.
+                          </p>
 
-                        <div className="space-y-2 border-t border-blue-200/60 dark:border-blue-900/60 pt-3">
-                          <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 block">
-                            ✅ Vantagens Metodológicas Comprovadas:
-                          </span>
-                          <ul className="text-xs space-y-1">
-                            <li className="text-slate-700 dark:text-slate-300 flex items-start gap-1.5">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
-                              <span>Preserva relações multi-hop entre entidades distantes sem perda de contexto.</span>
-                            </li>
-                            <li className="text-slate-700 dark:text-slate-300 flex items-start gap-1.5">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
-                              <span>Apresentação lado a lado com métricas formais (NDCG, Win-rate, tempo de resolução).</span>
-                            </li>
-                            <li className="text-slate-700 dark:text-slate-300 flex items-start gap-1.5">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
-                              <span>Taxa de Fabricação 0.0%: o LLM atua estritamente como formatador sem criar dados novos.</span>
-                            </li>
-                          </ul>
+                          <div className="space-y-2 border-t border-blue-200/60 dark:border-blue-900/60 pt-3">
+                            <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 block">
+                              ✅ Vantagens Metodológicas Comprovadas:
+                            </span>
+                            <ul className="text-xs space-y-1">
+                              <li className="text-slate-700 dark:text-slate-300 flex items-start gap-1.5">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                                <span>Preserva relações multi-hop entre entidades distantes sem perda de contexto.</span>
+                              </li>
+                              <li className="text-slate-700 dark:text-slate-300 flex items-start gap-1.5">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                                <span>Apresentação lado a lado com métricas formais (NDCG, Win-rate, tempo de resolução).</span>
+                              </li>
+                              <li className="text-slate-700 dark:text-slate-300 flex items-start gap-1.5">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                                <span>Taxa de Fabricação 0.0%: o LLM atua estritamente como formatador sem criar dados novos.</span>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
+                  </div>
+                ) : (
+                  <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs transition-all">
+                    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                      <GitCompare className="w-4 h-4 text-indigo-500" />
+                      <span>Modo de Comparação Empírica A/B minimizado.</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setCompararBaseline(true)}
+                      className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow-xs"
+                    >
+                      <GitCompare className="w-3.5 h-3.5" />
+                      Expandir Switch A/B
+                    </button>
                   </div>
                 )}
 

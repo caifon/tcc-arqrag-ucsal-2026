@@ -93,10 +93,8 @@ def execute_query(req: QueryRequest):
     )
     sintese_formatada = gemini_service.formatar_sintese(req.query, alternativas, subgrafo)
 
-    # 2. Execução do Baseline Vetorial Tradicional (se solicitado)
-    baseline_data = None
-    if req.comparar_baseline:
-        baseline_data = engine.executar_baseline_vetorial(req.query, top_k=req.top_k)
+    # 2. Execução do Baseline Vetorial Tradicional (sempre disponível para o Switch A/B instantâneo)
+    baseline_data = engine.executar_baseline_vetorial(req.query, top_k=req.top_k)
 
     return {
         "consulta": req.query,
