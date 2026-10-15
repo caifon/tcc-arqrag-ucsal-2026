@@ -10,7 +10,7 @@ from api.graph.inmemory_adapter import InMemoryGraphRepository
 from api.graph.neo4j_adapter import Neo4jGraphRepository
 from api.engine.gemini_service import GeminiService
 from api.engine.traversal import GraphTraversalEngine
-from api.evaluation.metrics import Evaluator
+from api.evaluation.metrics import Evaluator, verificar_fabricacao, sobrenomes_do_acervo
 
 app = FastAPI(
     title="GraphRAG Decision Support API",
@@ -37,35 +37,37 @@ nos_iniciais = [NoGrafo(**item) for item in dados_seed["nos"]]
 arestas_iniciais = [ArestaGrafo(**item) for item in dados_seed["arestas"]]
 
 repo_inmemory = InMemoryGraphRepository()
-repo_inmemory.carregar_dados(nos_iniciais, arestas_iniciais)
+versao_corpus = dados_seed.get("versao", "")
+repo_inmemory.carregar_dados(nos_iniciais, arestas_iniciais, versao_corpus)
 
 repo_neo4j = Neo4jGraphRepository()
 neo4j_conectado = repo_neo4j.conectar()
 if neo4j_conectado:
-    repo_neo4j.carregar_dados(nos_iniciais, arestas_iniciais)
+    repo_neo4j.carregar_dados(nos_iniciais, arestas_iniciais, versao_corpus)
 
 repo_ativo = repo_neo4j if neo4j_conectado else repo_inmemory
 
 gemini_service = GeminiService()
 traversal_engine = GraphTraversalEngine(repo_ativo, gemini_service)
+sobrenomes = sobrenomes_do_acervo(nos_iniciais)
 
 
 class QueryRequest(BaseModel):
     query: str
-    top_k: int = 2
-    max_hops: int = 2
+    top_k: int = 3
     use_neo4j: Optional[bool] = None
-    comparar_baseline: bool = False
 
 
 @app.get("/api/health")
 def health_check():
     return {
         "status": "healthy",
-        "mecanismo_grafo": "Neo4j (AuraDB/Local)" if repo_ativo.is_connected else "Em Memória (NetworkX)",
+        "mecanismo_grafo": "Neo4j" if repo_ativo.is_connected else "Grafo em memória (NetworkX)",
+        "versao_acervo": versao_corpus,
         "nos_carregados": len(nos_iniciais),
         "arestas_carregadas": len(arestas_iniciais),
-        "gemini_api_ativa": bool(gemini_service.api_key)
+        "estudos": sum(1 for n in nos_iniciais if n.tipo == TipoNo.ESTUDO),
+        "gemini_api_ativa": bool(gemini_service.api_key),
     }
 
 
@@ -73,7 +75,7 @@ def health_check():
 def get_ontology():
     return {
         "nos": [n.model_dump() for n in nos_iniciais],
-        "arestas": [a.model_dump() for a in arestas_iniciais]
+        "arestas": [a.model_dump() for a in arestas_iniciais],
     }
 
 
@@ -87,30 +89,24 @@ def execute_query(req: QueryRequest):
         escolhido = repo_neo4j if (req.use_neo4j and repo_neo4j.is_connected) else repo_inmemory
         engine = GraphTraversalEngine(escolhido, gemini_service)
 
-    # 1. Execução do GraphRAG
-    subgrafo, alternativas = engine.executar_recuperacao(
-        req.query, top_k_entrada=req.top_k, max_saltos=req.max_hops
-    )
-    sintese_formatada = gemini_service.formatar_sintese(req.query, alternativas, subgrafo)
-
-    # 2. Execução do Baseline Vetorial Tradicional (sempre disponível para o Switch A/B instantâneo)
-    baseline_data = engine.executar_baseline_vetorial(req.query, top_k=req.top_k)
+    subgrafo, alternativas = engine.executar_recuperacao(req.query, top_k_entrada=req.top_k)
+    sintese = gemini_service.formatar_sintese(req.query, alternativas, subgrafo)
+    conferencia = verificar_fabricacao(sintese["texto"], alternativas, sobrenomes)
 
     return {
         "consulta": req.query,
-        "sintese_formatada": sintese_formatada,
+        "resumo": sintese["texto"],
+        "resumo_origem": sintese["origem"],
+        "conferencia_resumo": conferencia,
         "alternativas": [alt.model_dump() for alt in alternativas],
         "subgrafo": {
             "nos_entrada": [n.model_dump() for n in subgrafo.nos_entrada],
-            "nos_recuperados": [n.model_dump() for n in subgrafo.nos_recuperados],
-            "arestas": [a.model_dump() for a in subgrafo.arestas],
-            "snippets": subgrafo.snippets
+            "total_nos": len(subgrafo.nos_recuperados),
+            "total_arestas": len(subgrafo.arestas),
         },
-        "baseline_vetorial": baseline_data
     }
 
 
 @app.post("/api/evaluate")
 def run_evaluation():
-    relatorio = Evaluator.avaliar_banco_completo(traversal_engine, caminho_testes)
-    return relatorio
+    return Evaluator.avaliar_banco_completo(traversal_engine, caminho_testes)

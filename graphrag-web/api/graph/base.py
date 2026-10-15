@@ -7,7 +7,7 @@ class BaseGraphRepository(ABC):
     """Interface abstrata para persistência e travessia do Grafo de Conhecimento."""
 
     @abstractmethod
-    def carregar_dados(self, nos: List[NoGrafo], arestas: List[ArestaGrafo]) -> None:
+    def carregar_dados(self, nos: List[NoGrafo], arestas: List[ArestaGrafo], versao: str = "") -> None:
         pass
 
     @abstractmethod

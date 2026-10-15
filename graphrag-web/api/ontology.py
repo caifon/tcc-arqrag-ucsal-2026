@@ -46,19 +46,29 @@ class SubgrafoEvidencia(BaseModel):
     snippets: List[Dict[str, Any]] = Field(default_factory=list)
 
 
-class PassoRotaCausal(BaseModel):
+class PassoCaminho(BaseModel):
+    """Um passo do caminho no grafo que explica por que a alternativa apareceu."""
     tipo: str
-    rotulo: str
-    detalhe: str
+    nome: str
+    relacao: Optional[str] = None
+
+
+class EstudoResumo(BaseModel):
+    id: str
+    titulo: str
+    autores: str = ""
+    ano: Optional[int] = None
+    veiculo: str = ""
 
 
 class AlternativaDecisao(BaseModel):
+    tecnica_id: str
     tecnica_nome: str
     descricao: str
-    estudos_apoio: List[str]
-    estrategias: List[str]
+    estudo: Optional[EstudoResumo] = None
+    cenarios: List[str] = Field(default_factory=list)
+    estrategias: List[str] = Field(default_factory=list)
     metricas_avaliacao: List[str] = Field(default_factory=list)
-    limitacoes: List[str]
-    trechos_evidencia: List[Dict[str, Any]]
-    score_relevancia: float
-    rota_causal: List[PassoRotaCausal] = Field(default_factory=list)
+    limitacoes: List[str] = Field(default_factory=list)
+    trechos_evidencia: List[Dict[str, Any]] = Field(default_factory=list)
+    caminho: List[PassoCaminho] = Field(default_factory=list)

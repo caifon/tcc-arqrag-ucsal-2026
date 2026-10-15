@@ -1,411 +1,574 @@
 {
+  "versao": "2026-10-15-v3",
   "nos": [
     {
-      "id": "est_rawat_construction",
+      "id": "estr_consulta_cypher",
+      "tipo": "EstrategiaRecuperacao",
+      "nome": "Consultas estruturadas no grafo (Cypher)",
+      "descricao": "O sistema percorre as dependências guardadas no grafo com consultas Cypher para descobrir o que é afetado por um evento.",
+      "metadados": {}
+    },
+    {
+      "id": "estr_ligacoes_precomputadas",
+      "tipo": "EstrategiaRecuperacao",
+      "nome": "Ligações calculadas antes da consulta",
+      "descricao": "Na montagem do grafo, cada erro já é ligado às ações e contextos mais parecidos; na consulta, o sistema só segue essas ligações.",
+      "metadados": {}
+    },
+    {
+      "id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "EstrategiaRecuperacao",
+      "nome": "Similaridade como porta de entrada e depois caminho no grafo",
+      "descricao": "A pergunta é comparada por similaridade de texto para achar os nós de entrada; a partir deles, a recuperação segue as relações do grafo.",
+      "metadados": {}
+    },
+    {
+      "id": "estr_resumos_comunidades",
+      "tipo": "EstrategiaRecuperacao",
+      "nome": "Resumos de comunidades do grafo",
+      "descricao": "O grafo é dividido em comunidades de entidades relacionadas, e os resumos dessas comunidades complementam o contexto entregue ao LLM.",
+      "metadados": {}
+    },
+    {
+      "id": "met_demonstracao_viabilidade",
+      "tipo": "MetricaAvaliacao",
+      "nome": "Demonstração de viabilidade (sem métrica numérica)",
+      "descricao": "O estudo mostra que o sistema funciona em um cenário simulado, mas não reporta métricas quantitativas.",
+      "metadados": {}
+    },
+    {
+      "id": "met_tempo_busca_usuarios",
+      "tipo": "MetricaAvaliacao",
+      "nome": "Tempo para encontrar a solução, com usuários",
+      "descricao": "Teste com 11 representantes de empresas industriais, comparando o tempo para achar a solução com a documentação e com a plataforma.",
+      "metadados": {}
+    },
+    {
+      "id": "met_acuracia_classificacao",
+      "tipo": "MetricaAvaliacao",
+      "nome": "Acurácia da classificação dos trechos",
+      "descricao": "Comparação entre os rótulos dados pelo classificador zero-shot e os rótulos de um especialista (acurácia de 72,8%).",
+      "metadados": {}
+    },
+    {
+      "id": "met_ndcg_precisao",
+      "tipo": "MetricaAvaliacao",
+      "nome": "NDCG@5 e Precision@5",
+      "descricao": "Qualidade do ranqueamento das recomendações em 20 perfis de usuário, comparada com 5 abordagens de referência.",
+      "metadados": {}
+    },
+    {
+      "id": "met_risco_alucinacao",
+      "tipo": "MetricaAvaliacao",
+      "nome": "Risco de alucinação",
+      "descricao": "Proporção de respostas com informação não verificável: 0,3% no sistema proposto, contra 14,2% de um LLM sem grafo.",
+      "metadados": {}
+    },
+    {
+      "id": "met_f1_acoes",
+      "tipo": "MetricaAvaliacao",
+      "nome": "F1 das ações recomendadas",
+      "descricao": "Compara as ações sugeridas com as ações registradas pelos supervisores (F1 de 0,733, contra 0,650 a 0,657 de outras estruturas de RAG, no tom original).",
+      "metadados": {}
+    },
+    {
+      "id": "met_taxa_fabricacao_acoes",
+      "tipo": "MetricaAvaliacao",
+      "nome": "Taxa de ações sem suporte",
+      "descricao": "Mede quantas ações sugeridas não têm apoio nas evidências recuperadas.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_dados_sinteticos",
+      "tipo": "Limitacao",
+      "nome": "Testado só com dados simulados",
+      "descricao": "O experimento usou dados sintéticos e um único cenário; falta validação com dados reais de obra.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_coordenador_central",
+      "tipo": "Limitacao",
+      "nome": "Coordenador central pode virar gargalo",
+      "descricao": "Concentrar a coordenação em um único agente facilita o controle, mas pode limitar a escala e criar um ponto único de falha.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_erros_extracao_automatica",
+      "tipo": "Limitacao",
+      "nome": "Erros na montagem automática do grafo",
+      "descricao": "Quando o grafo é montado por LLM a partir de textos, parte das classificações sai errada ou incompleta, e esses erros chegam às recomendações.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_manutencao_ontologia",
+      "tipo": "Limitacao",
+      "nome": "Manutenção contínua da ontologia",
+      "descricao": "O GraphRAG é mais complexo que o RAG tradicional e exige atualizar a ontologia e corrigir relações continuamente.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_sem_validacao_real",
+      "tipo": "Limitacao",
+      "nome": "Sem validação clínica",
+      "descricao": "Os perfis de usuário foram construídos pelos autores; os resultados mostram consistência interna, não validação clínica independente.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_custo_chamadas_llm",
+      "tipo": "Limitacao",
+      "nome": "Mais chamadas ao LLM por consulta",
+      "descricao": "A recuperação em várias etapas faz em média 5,6 chamadas ao LLM por consulta, contra 2 de uma alternativa mais simples.",
+      "metadados": {}
+    },
+    {
+      "id": "est_rawat",
       "tipo": "Estudo",
       "nome": "A Conceptual Framework for LLM-Based Multi-Agent Systems in Construction Management",
-      "descricao": "Framework conceitual de sistema multiagente baseado em LLM (LLM-MAS) com Coordenador Central e memória híbrida em Neo4j para gestão de projetos na construção civil e mitigação de atrasos logísticos.",
+      "descricao": "Framework conceitual de sistema multiagente baseado em LLMs para gestão de obras na construção civil, com memória híbrida (grafo de conhecimento em Neo4j e banco vetorial).",
       "metadados": {
         "autores": "Rawat, Witt e Lill",
         "ano": 2025,
-        "instituicao": "Tallinn University of Technology",
-        "doi": "CIB-W78-2025"
+        "veiculo": "European Conference on Computing in Construction (EC3) / CIB W78",
+        "arquivo_pdf": "A CONCEPTUAL FRAMEWORK FOR LLM-BASED MULTI-AGENT SYSTEMS IN CONSTRUCTION MANAGEMENT.pdf"
       }
     },
     {
-      "id": "est_dindukurthi_nutrition",
-      "tipo": "Estudo",
-      "nome": "An Explainable Graph Retrieval Augmented Generation Framework for Personalized Nutrition Recommendation",
-      "descricao": "Sistema de recomendação nutricional explicável no qual o LLM é estritamente restrito à formatação de respostas previamente validadas por um grafo de conhecimento, com ranqueamento determinístico por similaridade de cosseno.",
+      "id": "tec_rawat",
+      "tipo": "Tecnica",
+      "nome": "Sistema multiagente com grafo de dependências da obra",
+      "descricao": "Um coordenador central distribui tarefas entre agentes de LLM. O grafo (Neo4j) guarda entregas de materiais, atividades do cronograma e as dependências entre elas, e é atualizado a cada evento da obra.",
       "metadados": {
-        "autores": "Dindukurthi et al.",
-        "ano": 2024,
-        "instituicao": "Vellore Institute of Technology",
-        "doi": "10.3389/frai.2024.1808444"
+        "ferramentas": "Neo4j, LangGraph, Gemini",
+        "estudo_id": "est_rawat"
       }
     },
     {
-      "id": "est_niederhaus_prescriptive",
+      "id": "cen_rawat",
+      "tipo": "CenarioDecisao",
+      "nome": "Gestão de obras – impacto de atrasos na entrega de materiais",
+      "descricao": "Identificar quais atividades do cronograma de uma obra são afetadas quando a entrega de um material atrasa e avisar o gestor do projeto antes que o atraso se espalhe.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_rawat_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Rawat, Witt e Lill (2025)",
+      "descricao": "We demonstrate feasibility through an experiment simulating logistics delay detection using LangGraph, Neo4j (KG), and Gemini LLMs. The system successfully ingested simulated site data, updated the KG, used graph reasoning to identify the delay's impact on activities, and generated alerts.",
+      "metadados": {
+        "estudo_id": "est_rawat",
+        "pagina": 1,
+        "arquivo_pdf": "A CONCEPTUAL FRAMEWORK FOR LLM-BASED MULTI-AGENT SYSTEMS IN CONSTRUCTION MANAGEMENT.pdf"
+      }
+    },
+    {
+      "id": "tr_rawat_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Rawat, Witt e Lill (2025)",
+      "descricao": "The experiment relied on synthetic data (generated via Imagen 3 and Gemini 2.0 Flash), lacking the noise and complexity of real-world construction data; validation with actual project data is essential.",
+      "metadados": {
+        "estudo_id": "est_rawat",
+        "pagina": 6,
+        "arquivo_pdf": "A CONCEPTUAL FRAMEWORK FOR LLM-BASED MULTI-AGENT SYSTEMS IN CONSTRUCTION MANAGEMENT.pdf"
+      }
+    },
+    {
+      "id": "est_niederhaus",
       "tipo": "Estudo",
       "nome": "Integrating Graph Retrieval-Augmented Generation into Prescriptive Recommender Systems",
-      "descricao": "Plataforma de analytics prescritiva baseada em GraphRAG orientado por ontologia aplicada em ambiente industrial real (smart factory), validada com 11 usuários reais para resolução de falhas técnicas.",
+      "descricao": "Plataforma de análise prescritiva que usa GraphRAG orientado por ontologia para recomendar ações de correção de falhas em uma fábrica inteligente (IoT-Factory), a partir da documentação técnica.",
       "metadados": {
         "autores": "Niederhaus et al.",
-        "ano": 2024,
-        "instituicao": "Bielefeld University of Applied Sciences and Arts / Fraunhofer IEM",
-        "doi": "AppliedSciences-2024"
+        "ano": 2025,
+        "veiculo": "Big Data and Cognitive Computing, v. 9, n. 10",
+        "arquivo_pdf": "Integrating Graph Retrieval-Augmented Generation into Prescriptive Recommender Systems.pdf"
       }
     },
     {
-      "id": "est_ms_graphrag",
-      "tipo": "Estudo",
-      "nome": "From Local to Global: A Graph RAG Approach to Query-Focused Summarization",
-      "descricao": "Abordagem da Microsoft que combina grafos de conhecimento derivados de texto com resumos hierárquicos de comunidades via Leiden e map-reduce para responder a perguntas globais e síntese temática.",
+      "id": "tec_niederhaus",
+      "tipo": "Tecnica",
+      "nome": "GraphRAG orientado por ontologia para recomendação prescritiva",
+      "descricao": "Manuais e documentos técnicos são divididos em trechos, classificados por um LLM como erro, ação ou contexto e guardados como nós em Neo4j. Cada erro é ligado às ações e aos contextos mais parecidos, que viram a base da recomendação.",
       "metadados": {
-        "autores": "Edge et al.",
-        "ano": 2024,
-        "instituicao": "Microsoft Research",
-        "doi": "arXiv:2404.16130"
+        "ferramentas": "Neo4j, classificador zero-shot com LLM",
+        "estudo_id": "est_niederhaus"
+      }
+    },
+    {
+      "id": "cen_niederhaus",
+      "tipo": "CenarioDecisao",
+      "nome": "Indústria – recomendar ações para corrigir falhas em máquinas",
+      "descricao": "Ajudar operadores de fábrica a encontrar rapidamente, nos manuais e na documentação técnica, a ação recomendada para resolver uma falha ou parada de máquina.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_niederhaus_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Niederhaus et al. (2025)",
+      "descricao": "To evaluate the performance of our prescriptive platform, we conducted a customer clinic with n = 11 industrial company representatives.",
+      "metadados": {
+        "estudo_id": "est_niederhaus",
+        "pagina": 16,
+        "arquivo_pdf": "Integrating Graph Retrieval-Augmented Generation into Prescriptive Recommender Systems.pdf"
+      }
+    },
+    {
+      "id": "tr_niederhaus_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Niederhaus et al. (2025)",
+      "descricao": "We performed a benchmark, comparing the labels produced by the zero-shot classifier with the labels assigned by a human expert. The zero-shot classifier achieved an accuracy of 72.80%.",
+      "metadados": {
+        "estudo_id": "est_niederhaus",
+        "pagina": 11,
+        "arquivo_pdf": "Integrating Graph Retrieval-Augmented Generation into Prescriptive Recommender Systems.pdf"
+      }
+    },
+    {
+      "id": "tr_niederhaus_3",
+      "tipo": "Snippet",
+      "nome": "Trecho de Niederhaus et al. (2025)",
+      "descricao": "However, GraphRAG is more complex than traditional RAG, and it requires continuous maintenance beyond document processing and embeddings.",
+      "metadados": {
+        "estudo_id": "est_niederhaus",
+        "pagina": 17,
+        "arquivo_pdf": "Integrating Graph Retrieval-Augmented Generation into Prescriptive Recommender Systems.pdf"
+      }
+    },
+    {
+      "id": "est_dindukurthi",
+      "tipo": "Estudo",
+      "nome": "An explainable graph retrieval augmented generation framework for personalized nutrition recommendation",
+      "descricao": "Framework explicável de GraphRAG para recomendação nutricional personalizada, que relaciona doenças, nutrientes e alimentos em um grafo de conhecimento.",
+      "metadados": {
+        "autores": "Dindukurthi et al.",
+        "ano": 2026,
+        "veiculo": "Frontiers in Artificial Intelligence, v. 9",
+        "arquivo_pdf": "An explainable graph retrieval augmented generation framework for personalized nutrition recommendation.pdf"
+      }
+    },
+    {
+      "id": "tec_dindukurthi",
+      "tipo": "Tecnica",
+      "nome": "GraphRAG com LLM restrito à formatação",
+      "descricao": "O grafo (Neo4j) liga doenças, nutrientes e alimentos, montado a partir de bases nutricionais estruturadas. A escolha e o ranqueamento dos alimentos são feitos por um cálculo determinístico (similaridade de cosseno); o LLM só escreve a resposta final.",
+      "metadados": {
+        "ferramentas": "Neo4j, Gemini",
+        "estudo_id": "est_dindukurthi"
+      }
+    },
+    {
+      "id": "cen_dindukurthi",
+      "tipo": "CenarioDecisao",
+      "nome": "Saúde – recomendação de alimentos para pessoas com uma doença",
+      "descricao": "Indicar alimentos adequados às necessidades nutricionais de uma pessoa com uma condição de saúde, como anemia, hipertensão ou diabetes, explicando o motivo de cada indicação.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_dindukurthi_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Dindukurthi et al. (2026)",
+      "descricao": "At inference time, nutrient requirements are retrieved from the graph and matched with food composition profiles using a deterministic cosine similarity-based ranking algorithm that prioritizes proportional nutrient balance. A language model is restricted to formatting graph-validated outputs.",
+      "metadados": {
+        "estudo_id": "est_dindukurthi",
+        "pagina": 1,
+        "arquivo_pdf": "An explainable graph retrieval augmented generation framework for personalized nutrition recommendation.pdf"
+      }
+    },
+    {
+      "id": "tr_dindukurthi_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Dindukurthi et al. (2026)",
+      "descricao": "Consequently, these results demonstrate the system's internal reasoning and ranking consistency rather than independent clinical validation.",
+      "metadados": {
+        "estudo_id": "est_dindukurthi",
+        "pagina": 14,
+        "arquivo_pdf": "An explainable graph retrieval augmented generation framework for personalized nutrition recommendation.pdf"
       }
     },
     {
       "id": "est_elssa",
       "tipo": "Estudo",
-      "nome": "ELSSA: Explainable Large Language Model-based Decision Support for Public Transit Incident Management",
-      "descricao": "Sistema de apoio à decisão para gestão de incidentes críticos em transporte coletivo, utilizando grafos de conhecimento operacionais para fornecer recomendações táticas com proveniência e trilha de auditoria verificável.",
+      "nome": "ELSSA: Explainable large language model-based decision support for public transit incident management",
+      "descricao": "Sistema explicável de apoio à decisão para supervisores do transporte público durante incidentes, que combina procedimentos formais com a experiência registrada em ocorrências anteriores.",
       "metadados": {
-        "autores": "Wang & Shalaby",
-        "ano": 2024,
-        "instituicao": "University of Toronto",
-        "doi": "Transportation Research Part C (2024)"
+        "autores": "Wang e Shalaby",
+        "ano": 2026,
+        "veiculo": "Transportation Research Part C, v. 193",
+        "arquivo_pdf": "ELSSA Explainable large language model-based decision support for public transit incident management.pdf"
       }
     },
     {
-      "id": "est_hipporag",
-      "tipo": "Estudo",
-      "nome": "HippoRAG: Neurobiologically Inspired Long-Term Memory for Large Language Models",
-      "descricao": "Framework inspirado no circuito hipocampal que utiliza Personalized PageRank (PPR) sobre grafos de conhecimento para recuperar caminhos associativos e apoiar raciocínio multi-hop.",
+      "id": "tec_elssa",
+      "tipo": "Tecnica",
+      "nome": "GraphRAG de incidentes com comunidades e regularização",
+      "descricao": "Um LLM extrai, dos relatórios de ocorrência, entidades e relações seguindo um esquema operacional. O grafo é organizado em comunidades (algoritmo de Leiden) e passa por uma regularização automática para corrigir entidades sem tipo.",
       "metadados": {
-        "autores": "Gutierrez et al.",
-        "ano": 2024,
-        "instituicao": "Ohio State University",
-        "doi": "arXiv:2405.14831"
+        "ferramentas": "LLM para extração, algoritmo de Leiden",
+        "estudo_id": "est_elssa"
       }
     },
     {
-      "id": "est_grag",
-      "tipo": "Estudo",
-      "nome": "GRAG: Graph Retrieval-Augmented Generation",
-      "descricao": "Abordagem que preserva a topologia e a semântica de subgrafos recuperados para enriquecer a geração com relações contextuais explícitas.",
+      "id": "cen_elssa",
+      "tipo": "CenarioDecisao",
+      "nome": "Transporte público – ações durante incidentes",
+      "descricao": "Sugerir a supervisores de ônibus e metrô quais ações tomar durante um incidente operacional, com base nos procedimentos e em ocorrências parecidas do passado.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_elssa_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Wang e Shalaby (2026)",
+      "descricao": "Under the original tone, ELSSA achieves the highest code F1 score of 0.733, compared with 0.650–0.657 for other RAG structure.",
       "metadados": {
-        "autores": "Hu et al.",
-        "ano": 2024,
-        "instituicao": "Tsinghua University",
-        "doi": "arXiv:2405.16506"
+        "estudo_id": "est_elssa",
+        "pagina": 17,
+        "arquivo_pdf": "ELSSA Explainable large language model-based decision support for public transit incident management.pdf"
       }
     },
-
     {
-      "id": "tec_multiagent_construction",
-      "tipo": "Tecnica",
-      "nome": "LLM-MAS com Memória Híbrida em Grafo (Rawat, Witt e Lill)",
-      "descricao": "Arquitetura multiagente com Coordenador Central que combina Grafo de Conhecimento em Neo4j para dependências de tarefas e banco vetorial para simular impactos de atrasos logísticos na construção civil.",
-      "metadados": { "paradigma": "Multi-Agent System (MAS) + Grafo de Dependências Neo4j" }
-    },
-    {
-      "id": "tec_prescriptive_nutrition",
-      "tipo": "Tecnica",
-      "nome": "GraphRAG Prescritivo com LLM Restrito à Formatação (Dindukurthi et al.)",
-      "descricao": "Arquitetura em que o LLM opera apenas como formatador textual de subgrafos validados, com seleção determinística por cosseno para prevenir alucinações em prescrições nutricionais e clínicas.",
-      "metadados": { "paradigma": "LLM Restrito à Formatação + Validação Determinística por Grafo" }
-    },
-    {
-      "id": "tec_ontology_prescriptive_industry",
-      "tipo": "Tecnica",
-      "nome": "GraphRAG Prescritivo Orientado por Ontologia Industrial (Niederhaus et al.)",
-      "descricao": "Plataforma de recomendação prescritiva baseada em ontologia formal de falhas de máquinas e procedimentos operacionais, acelerando a resolução de problemas em chão de fábrica inteligente.",
-      "metadados": { "paradigma": "Ontology-driven Prescriptive GraphRAG" }
-    },
-    {
-      "id": "tec_hierarchical_communities",
-      "tipo": "Tecnica",
-      "nome": "GraphRAG Hierárquico por Comunidades (Edge et al. / Microsoft)",
-      "descricao": "Extração de entidades e relações via LLM, detecção hierárquica de comunidades com algoritmo Leiden e síntese global bottom-up via map-reduce em tempo de consulta.",
-      "metadados": { "paradigma": "Construção em Ingestão + Resumos Hierárquicos de Comunidades" }
-    },
-    {
-      "id": "tec_incident_provenance_kg",
-      "tipo": "Tecnica",
-      "nome": "GraphRAG de Decisão Crítica com Trilha de Auditoria (ELSSA / Wang & Shalaby)",
-      "descricao": "Grafo de conhecimento de restrições operacionais e regras de contingência, gerando recomendações com trilha de proveniência rastreável para auditoria em transporte público.",
-      "metadados": { "paradigma": "Grafo Ontológico Operacional + Trilha de Evidências" }
-    },
-    {
-      "id": "tec_associative_diffusion",
-      "tipo": "Tecnica",
-      "nome": "HippoRAG (Memória Associativa via Personalized PageRank)",
-      "descricao": "Navegação por propagação de ativação sobre grafo semântico para encontrar pontes de conexão multi-hop entre entidades dispersas.",
-      "metadados": { "paradigma": "Memória Associativa de Longo Prazo + Difusão em Grafo" }
-    },
-    {
-      "id": "tec_topological_subgraph",
-      "tipo": "Tecnica",
-      "nome": "GRAG (Recuperação de Subgrafos Topológicos Conexos)",
-      "descricao": "Identificação e extração de subgrafos conexos preservando a topologia e estruturas relacionais para injeção direta no contexto do modelo de linguagem.",
-      "metadados": { "paradigma": "Subgrafos com Relações Estruturadas Preservadas" }
-    },
-
-    {
-      "id": "cen_gestao_projetos_logistica",
-      "tipo": "CenarioDecisao",
-      "nome": "Gestão de Projetos e Detecção de Impactos de Atrasos Logísticos",
-      "descricao": "Cenários de tomada de decisão onde o gestor precisa avaliar como atrasos na entrega de materiais impactam atividades dependentes e prazos críticos em cadeias complexas.",
-      "metadados": { "foco": "Construção Civil / Logística / Dependências Temporais" }
-    },
-    {
-      "id": "cen_prescricao_clinica_nutricional",
-      "tipo": "CenarioDecisao",
-      "nome": "Recomendação e Prescrição Nutricional/Clínica Explicável",
-      "descricao": "Situações em que o profissional necessita prescrever dietas ou planos de cuidados justificados, checando contraindicações médicas e relações entre nutrientes e patologias.",
-      "metadados": { "foco": "Saúde / Nutrição / Checagem de Contraindicações" }
-    },
-    {
-      "id": "cen_resolucao_falhas_industriais",
-      "tipo": "CenarioDecisao",
-      "nome": "Manutenção Prescritiva e Resolução de Problemas Técnicos em Fábrica Inteligente",
-      "descricao": "Ambientes de produção e manufatura inteligente onde operadores precisam diagnosticar paradas de máquina rapidamente e receber ações de reparo recomendadas pela ontologia da planta.",
-      "metadados": { "foco": "Indústria 4.0 / Fábrica Inteligente / Analytics Prescritiva" }
-    },
-    {
-      "id": "cen_sintese_global",
-      "tipo": "CenarioDecisao",
-      "nome": "Síntese Temática e Perguntas Globais sobre Grandes Coleções",
-      "descricao": "Cenários onde o decisor precisa de uma visão panorâmica sobre um grande acervo documental (ex: 'Quais são os principais temas ou riscos mapeados em todos os relatórios?').",
-      "metadados": { "foco": "Visão Macro / Compreensão Global" }
-    },
-    {
-      "id": "cen_multi_hop",
-      "tipo": "CenarioDecisao",
-      "nome": "Raciocínio Multi-hop e Conexões Complexas entre Entidades",
-      "descricao": "Cenários onde a resposta exige conectar múltiplos fatos indiretos que estão distribuídos em fontes ou parágrafos separados (A liga a B, que liga a C).",
-      "metadados": { "foco": "Causalidade / Conexão Indireta" }
-    },
-    {
-      "id": "cen_decisao_critica_explicavel",
-      "tipo": "CenarioDecisao",
-      "nome": "Apoio à Decisão Operacional Crítica com Rastreabilidade Estrita",
-      "descricao": "Situações operacionais em que a escolha entre alternativas exige justificativa transparente, trilha de evidências e auditoria de conformidade.",
-      "metadados": { "foco": "Prescrição / Auditoria / Trilha de Evidências" }
-    },
-
-    {
-      "id": "est_leiden_summarization",
-      "tipo": "EstrategiaRecuperacao",
-      "nome": "Agrupamento de Comunidades (Leiden) + Map-Reduce",
-      "descricao": "Detecção de clusters densamente conectados no grafo e agregação hierárquica de resumos modulares em tempo de indexação e consulta.",
-      "metadados": {}
-    },
-    {
-      "id": "est_ppr_diffusion",
-      "tipo": "EstrategiaRecuperacao",
-      "nome": "Personalized PageRank (PPR) / Difusão em Grafo",
-      "descricao": "Algoritmo de difusão que propaga relevância a partir de nós-semente identificados por busca vetorial sobre a rede de conceitos.",
-      "metadados": {}
-    },
-    {
-      "id": "est_subgraph_expansion",
-      "tipo": "EstrategiaRecuperacao",
-      "nome": "Expansão de Vizinhança k-hop (1 a 2 saltos)",
-      "descricao": "Travessia topológica de 1 a 2 saltos a partir das entidades identificadas, preservando a semântica das arestas.",
-      "metadados": {}
-    },
-    {
-      "id": "est_hybrid_graph_vector",
-      "tipo": "EstrategiaRecuperacao",
-      "nome": "Memória Híbrida (Grafo de Dependências Neo4j + Banco Vetorial)",
-      "descricao": "Integração de busca semântica em documentos vetoriais com travessia de dependências de atividades e materiais em Neo4j.",
-      "metadados": {}
-    },
-    {
-      "id": "est_ontology_causal_traversal",
-      "tipo": "EstrategiaRecuperacao",
-      "nome": "Travessia Ontológica Causal de Falhas e Procedimentos",
-      "descricao": "Navegação por ontologia industrial pré-definida conectando sintomas, causas raízes e ações de reparo recomendadas.",
-      "metadados": {}
-    },
-    {
-      "id": "est_cosine_deterministic_ranking",
-      "tipo": "EstrategiaRecuperacao",
-      "nome": "Ranqueamento Determinístico por Cosseno sobre Subgrafo Filtrado",
-      "descricao": "Cálculo matemático determinístico de adequação nutricional sobre entidades clinicamente autorizadas pelo grafo.",
-      "metadados": {}
-    },
-
-    {
-      "id": "met_ndcg_precision",
-      "tipo": "MetricaAvaliacao",
-      "nome": "NDCG@5 e Precision@5",
-      "descricao": "Métricas de recuperação de informação utilizadas para avaliar a assertividade e relevância do ranqueamento das recomendações frente a baselines (Dindukurthi et al., 2024).",
-      "metadados": { "tipo": "Qualidade do Ranqueamento" }
-    },
-    {
-      "id": "met_tempo_resolucao_problemas",
-      "tipo": "MetricaAvaliacao",
-      "nome": "Tempo de Resolução de Problemas Técnicos (Time-to-Resolution)",
-      "descricao": "Métrica operacional de eficiência avaliada em teste controlado com n = 11 usuários reais em fábrica inteligente, comparando o tempo de reparo com e sem a plataforma (Niederhaus et al., 2024).",
-      "metadados": { "tipo": "Eficiência Operacional Humana" }
-    },
-    {
-      "id": "met_win_rate_abrangencia",
-      "tipo": "MetricaAvaliacao",
-      "nome": "Taxa de Vitória em Abrangência e Diversidade (72% a 83%)",
-      "descricao": "Avaliação comparativa par-a-par demonstrando superioridade de 72% a 83% em comprehensiveness e diversidade de respostas frente ao RAG vetorial, consumindo até 97% menos tokens no nível raiz (Edge et al., 2024).",
-      "metadados": { "tipo": "Comprehensiveness & Diversity" }
-    },
-    {
-      "id": "met_acuracia_alerta_logistico",
-      "tipo": "MetricaAvaliacao",
-      "nome": "Acurácia de Alerta Logístico e Rastreabilidade de Dependências",
-      "descricao": "Medição da precisão na identificação de atividades sucessoras impactadas por atrasos na cadeia de suprimentos e envio de alertas aos gestores (Rawat, Witt e Lill, 2025).",
-      "metadados": { "tipo": "Confiabilidade de Alerta" }
-    },
-    {
-      "id": "met_rastreabilidade_proveniencia",
-      "tipo": "MetricaAvaliacao",
-      "nome": "Rastreabilidade Formal e Auditabilidade de Decisão",
-      "descricao": "Garantia de que 100% das recomendações operacionais possuem proveniência rastreável a regras e nós de infraestrutura cadastrados (Wang & Shalaby, 2024 - ELSSA).",
-      "metadados": { "tipo": "Auditabilidade & Explicabilidade" }
-    },
-    {
-      "id": "met_multi_hop_recall",
-      "tipo": "MetricaAvaliacao",
-      "nome": "Recall Associativo Multi-Hop",
-      "descricao": "Avaliação da capacidade de recuperar pontes semânticas entre conceitos dispersos através de difusão topológica (Gutierrez et al., 2024).",
-      "metadados": { "tipo": "Cobertura Multi-Hop" }
-    },
-
-    {
-      "id": "lim_custo_ingestao",
-      "tipo": "Limitacao",
-      "nome": "Alto Custo de Ingestão e Processamento em Lote",
-      "descricao": "Exige múltiplas chamadas ao LLM para cada chunk de texto durante a criação do grafo e resumos hierárquicos de comunidade.",
-      "metadados": { "tipo": "Custo Computacional" }
-    },
-    {
-      "id": "lim_dificuldade_streaming",
-      "tipo": "Limitacao",
-      "nome": "Baixa Adaptabilidade a Dados de Atualização em Tempo Real",
-      "descricao": "Atualizações contínuas de documentos exigem reconstrução ou recomputação parcial de clusters e resumos hierárquicos.",
-      "metadados": { "tipo": "Manutenção do Grafo" }
-    },
-    {
-      "id": "lim_dependencia_extracao",
-      "tipo": "Limitacao",
-      "nome": "Sensibilidade a Ruídos na Extração Inicial de Triplas",
-      "descricao": "Se o LLM falhar ao identificar entidades ou relações durante a ingestão, nós cruciais ficam ausentes ou desconexos no grafo.",
-      "metadados": { "tipo": "Qualidade do Grafo" }
-    },
-    {
-      "id": "lim_necessidade_ontologia_previa",
-      "tipo": "Limitacao",
-      "nome": "Necessidade de Modelagem ou Ontologia Pré-existente",
-      "descricao": "Exige esforço de engenharia de conhecimento para estruturar as entidades, relações e vocabulário controlado do domínio.",
-      "metadados": { "tipo": "Esforço de Modelagem" }
-    },
-    {
-      "id": "lim_complexidade_multiagente",
-      "tipo": "Limitacao",
-      "nome": "Complexidade de Coordenação de Agentes e Sincronização Híbrida",
-      "descricao": "Necessidade de coordenar múltiplos agentes autônomos e manter consistência entre o banco vetorial e o grafo de conhecimento em Neo4j.",
-      "metadados": { "tipo": "Complexidade Arquitetural" }
-    },
-    {
-      "id": "lim_esforco_modelagem_chao_fabrica",
-      "tipo": "Limitacao",
-      "nome": "Elevado Esforço de Modelagem e Parametrização em Ambientes Industriais",
-      "descricao": "Exige captura manual e validação rigorosa de diagramas de falhas e procedimentos operacionais com especialistas de fábrica.",
-      "metadados": { "tipo": "Engenharia de Conhecimento" }
-    },
-
-    {
-      "id": "snip_rawat_1",
+      "id": "tr_elssa_2",
       "tipo": "Snippet",
-      "nome": "Snippet: Rawat, Witt e Lill (2025) - LLM-MAS na Construção Civil",
-      "descricao": "Rawat, Witt e Lill, 2025, p. 4: 'In construction management, a central coordinator agent combines Neo4j dependency knowledge graphs with vector storage to simulate logistics delays and evaluate cascading effects on successor tasks, alerting project managers before critical paths are breached.'",
-      "metadados": { "estudo_id": "est_rawat_construction", "pagina": 4 }
+      "nome": "Trecho de Wang e Shalaby (2026)",
+      "descricao": "The initial graph contains 106 entities labelled as UNKNOW, reflecting cases where the LLM could not confidently assign a type.",
+      "metadados": {
+        "estudo_id": "est_elssa",
+        "pagina": 15,
+        "arquivo_pdf": "ELSSA Explainable large language model-based decision support for public transit incident management.pdf"
+      }
     },
     {
-      "id": "snip_dindukurthi_1",
+      "id": "tr_elssa_3",
       "tipo": "Snippet",
-      "nome": "Snippet: Dindukurthi et al. (2024) - Recomendação Nutricional Explicável",
-      "descricao": "Dindukurthi et al., 2024, p. 5: 'The LLM is restricted strictly to formatting responses previously validated by a knowledge graph. Ranking of recommendations is performed by a deterministic cosine similarity algorithm, achieving superior NDCG@5 and Precision@5 compared to non-retrieval LLMs.'",
-      "metadados": { "estudo_id": "est_dindukurthi_nutrition", "pagina": 5 }
-    },
-    {
-      "id": "snip_niederhaus_1",
-      "tipo": "Snippet",
-      "nome": "Snippet: Niederhaus et al. (2024) - Prescritivo em Fábrica Inteligente",
-      "descricao": "Niederhaus et al., 2024, p. 8: 'Integrating an ontology-driven GraphRAG platform into a prescriptive recommender system in a real smart factory demonstrated with 11 real users a statistically significant reduction in the time required for machine fault diagnosis and resolution.'",
-      "metadados": { "estudo_id": "est_niederhaus_prescriptive", "pagina": 8 }
-    },
-    {
-      "id": "snip_ms_1",
-      "tipo": "Snippet",
-      "nome": "Snippet: Edge et al. (2024) - Resumos Hierárquicos e Síntese Global",
-      "descricao": "Edge et al., 2024, p. 3: 'Standard RAG struggles when queries require summarizing entire datasets or discovering high-level themes. GraphRAG consistently outperforms naive vector RAG in comprehensiveness and diversity with win rates between 72% and 83%, using up to 97% fewer tokens at root community level.'",
-      "metadados": { "estudo_id": "est_ms_graphrag", "pagina": 3 }
-    },
-    {
-      "id": "snip_elssa_1",
-      "tipo": "Snippet",
-      "nome": "Snippet: Wang & Shalaby (2024) - Explicabilidade em Incidentes de Transporte",
-      "descricao": "Wang & Shalaby, 2024, p. 5: 'In critical incident dispatching, black-box recommendations cannot be audited. ELSSA grounds each tactical recommendation in verified graph relations between line segments and operational protocols, ensuring verifiable provenance.'",
-      "metadados": { "estudo_id": "est_elssa", "pagina": 5 }
-    },
-    {
-      "id": "snip_hippo_1",
-      "tipo": "Snippet",
-      "nome": "Snippet: Gutierrez et al. (2024) - Personalized PageRank e Multi-hop",
-      "descricao": "Gutierrez et al., 2024, p. 2: 'HippoRAG mimics the hippocampal index theory. Using Personalized PageRank over an open-domain knowledge graph, it discovers multi-hop associative paths between seed concepts, achieving superior multi-hop reasoning over standard vector retrieval.'",
-      "metadados": { "estudo_id": "est_hipporag", "pagina": 2 }
-    },
-    {
-      "id": "snip_grag_1",
-      "tipo": "Snippet",
-      "nome": "Snippet: Hu et al. (2024) - Subgrafos Topológicos Preservados",
-      "descricao": "Hu et al., 2024, p. 3: 'GRAG extracts and preserves connected topological subgraphs directly into the LLM context, capturing explicit relational dependencies that vector similarity flattening tends to destroy.'",
-      "metadados": { "estudo_id": "est_grag", "pagina": 3 }
+      "nome": "Trecho de Wang e Shalaby (2026)",
+      "descricao": "On average, ELSSA makes 5.607 LLM calls per query, reflecting its iterative agent-in-the-loop retrieval process, including LLM-based retrieval stopping and final recommendation generation.",
+      "metadados": {
+        "estudo_id": "est_elssa",
+        "pagina": 15,
+        "arquivo_pdf": "ELSSA Explainable large language model-based decision support for public transit incident management.pdf"
+      }
     }
   ],
   "arestas": [
-    { "origem_id": "est_rawat_construction", "destino_id": "tec_multiagent_construction", "tipo": "USA" },
-    { "origem_id": "tec_multiagent_construction", "destino_id": "cen_gestao_projetos_logistica", "tipo": "APLICADO_EM" },
-    { "origem_id": "tec_multiagent_construction", "destino_id": "est_hybrid_graph_vector", "tipo": "UTILIZA_ESTRATEGIA" },
-    { "origem_id": "tec_multiagent_construction", "destino_id": "met_acuracia_alerta_logistico", "tipo": "AVALIADO_POR" },
-    { "origem_id": "tec_multiagent_construction", "destino_id": "lim_complexidade_multiagente", "tipo": "POSSUI_LIMITACAO" },
-    { "origem_id": "est_rawat_construction", "destino_id": "snip_rawat_1", "tipo": "EVIDENCIA_TEXTUAL" },
-
-    { "origem_id": "est_dindukurthi_nutrition", "destino_id": "tec_prescriptive_nutrition", "tipo": "USA" },
-    { "origem_id": "tec_prescriptive_nutrition", "destino_id": "cen_prescricao_clinica_nutricional", "tipo": "APLICADO_EM" },
-    { "origem_id": "tec_prescriptive_nutrition", "destino_id": "est_cosine_deterministic_ranking", "tipo": "UTILIZA_ESTRATEGIA" },
-    { "origem_id": "tec_prescriptive_nutrition", "destino_id": "met_ndcg_precision", "tipo": "AVALIADO_POR" },
-    { "origem_id": "tec_prescriptive_nutrition", "destino_id": "lim_necessidade_ontologia_previa", "tipo": "POSSUI_LIMITACAO" },
-    { "origem_id": "est_dindukurthi_nutrition", "destino_id": "snip_dindukurthi_1", "tipo": "EVIDENCIA_TEXTUAL" },
-
-    { "origem_id": "est_niederhaus_prescriptive", "destino_id": "tec_ontology_prescriptive_industry", "tipo": "USA" },
-    { "origem_id": "tec_ontology_prescriptive_industry", "destino_id": "cen_resolucao_falhas_industriais", "tipo": "APLICADO_EM" },
-    { "origem_id": "tec_ontology_prescriptive_industry", "destino_id": "est_ontology_causal_traversal", "tipo": "UTILIZA_ESTRATEGIA" },
-    { "origem_id": "tec_ontology_prescriptive_industry", "destino_id": "met_tempo_resolucao_problemas", "tipo": "AVALIADO_POR" },
-    { "origem_id": "tec_ontology_prescriptive_industry", "destino_id": "lim_esforco_modelagem_chao_fabrica", "tipo": "POSSUI_LIMITACAO" },
-    { "origem_id": "est_niederhaus_prescriptive", "destino_id": "snip_niederhaus_1", "tipo": "EVIDENCIA_TEXTUAL" },
-
-    { "origem_id": "est_ms_graphrag", "destino_id": "tec_hierarchical_communities", "tipo": "USA" },
-    { "origem_id": "tec_hierarchical_communities", "destino_id": "cen_sintese_global", "tipo": "APLICADO_EM" },
-    { "origem_id": "tec_hierarchical_communities", "destino_id": "est_leiden_summarization", "tipo": "UTILIZA_ESTRATEGIA" },
-    { "origem_id": "tec_hierarchical_communities", "destino_id": "met_win_rate_abrangencia", "tipo": "AVALIADO_POR" },
-    { "origem_id": "tec_hierarchical_communities", "destino_id": "lim_custo_ingestao", "tipo": "POSSUI_LIMITACAO" },
-    { "origem_id": "tec_hierarchical_communities", "destino_id": "lim_dificuldade_streaming", "tipo": "POSSUI_LIMITACAO" },
-    { "origem_id": "est_ms_graphrag", "destino_id": "snip_ms_1", "tipo": "EVIDENCIA_TEXTUAL" },
-
-    { "origem_id": "est_elssa", "destino_id": "tec_incident_provenance_kg", "tipo": "USA" },
-    { "origem_id": "tec_incident_provenance_kg", "destino_id": "cen_decisao_critica_explicavel", "tipo": "APLICADO_EM" },
-    { "origem_id": "tec_incident_provenance_kg", "destino_id": "est_subgraph_expansion", "tipo": "UTILIZA_ESTRATEGIA" },
-    { "origem_id": "tec_incident_provenance_kg", "destino_id": "met_rastreabilidade_proveniencia", "tipo": "AVALIADO_POR" },
-    { "origem_id": "tec_incident_provenance_kg", "destino_id": "lim_necessidade_ontologia_previa", "tipo": "POSSUI_LIMITACAO" },
-    { "origem_id": "est_elssa", "destino_id": "snip_elssa_1", "tipo": "EVIDENCIA_TEXTUAL" },
-
-    { "origem_id": "est_hipporag", "destino_id": "tec_associative_diffusion", "tipo": "USA" },
-    { "origem_id": "tec_associative_diffusion", "destino_id": "cen_multi_hop", "tipo": "APLICADO_EM" },
-    { "origem_id": "tec_associative_diffusion", "destino_id": "est_ppr_diffusion", "tipo": "UTILIZA_ESTRATEGIA" },
-    { "origem_id": "tec_associative_diffusion", "destino_id": "met_multi_hop_recall", "tipo": "AVALIADO_POR" },
-    { "origem_id": "tec_associative_diffusion", "destino_id": "lim_dependencia_extracao", "tipo": "POSSUI_LIMITACAO" },
-    { "origem_id": "est_hipporag", "destino_id": "snip_hippo_1", "tipo": "EVIDENCIA_TEXTUAL" },
-
-    { "origem_id": "est_grag", "destino_id": "tec_topological_subgraph", "tipo": "USA" },
-    { "origem_id": "tec_topological_subgraph", "destino_id": "cen_multi_hop", "tipo": "APLICADO_EM" },
-    { "origem_id": "tec_topological_subgraph", "destino_id": "est_subgraph_expansion", "tipo": "UTILIZA_ESTRATEGIA" },
-    { "origem_id": "tec_topological_subgraph", "destino_id": "met_multi_hop_recall", "tipo": "AVALIADO_POR" },
-    { "origem_id": "tec_topological_subgraph", "destino_id": "lim_dependencia_extracao", "tipo": "POSSUI_LIMITACAO" },
-    { "origem_id": "est_grag", "destino_id": "snip_grag_1", "tipo": "EVIDENCIA_TEXTUAL" }
+    {
+      "origem_id": "est_rawat",
+      "destino_id": "tec_rawat",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_rawat",
+      "destino_id": "cen_rawat",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_rawat",
+      "destino_id": "estr_consulta_cypher",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_rawat",
+      "destino_id": "met_demonstracao_viabilidade",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_rawat",
+      "destino_id": "lim_dados_sinteticos",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_rawat",
+      "destino_id": "lim_coordenador_central",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_rawat",
+      "destino_id": "tr_rawat_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_rawat",
+      "destino_id": "tr_rawat_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_niederhaus",
+      "destino_id": "tec_niederhaus",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_niederhaus",
+      "destino_id": "cen_niederhaus",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_niederhaus",
+      "destino_id": "estr_ligacoes_precomputadas",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_niederhaus",
+      "destino_id": "met_tempo_busca_usuarios",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_niederhaus",
+      "destino_id": "met_acuracia_classificacao",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_niederhaus",
+      "destino_id": "lim_erros_extracao_automatica",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_niederhaus",
+      "destino_id": "lim_manutencao_ontologia",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_niederhaus",
+      "destino_id": "tr_niederhaus_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_niederhaus",
+      "destino_id": "tr_niederhaus_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_niederhaus",
+      "destino_id": "tr_niederhaus_3",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_dindukurthi",
+      "destino_id": "tec_dindukurthi",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_dindukurthi",
+      "destino_id": "cen_dindukurthi",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_dindukurthi",
+      "destino_id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_dindukurthi",
+      "destino_id": "met_ndcg_precisao",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_dindukurthi",
+      "destino_id": "met_risco_alucinacao",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_dindukurthi",
+      "destino_id": "lim_sem_validacao_real",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_dindukurthi",
+      "destino_id": "tr_dindukurthi_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_dindukurthi",
+      "destino_id": "tr_dindukurthi_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_elssa",
+      "destino_id": "tec_elssa",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_elssa",
+      "destino_id": "cen_elssa",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_elssa",
+      "destino_id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_elssa",
+      "destino_id": "estr_resumos_comunidades",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_elssa",
+      "destino_id": "met_f1_acoes",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_elssa",
+      "destino_id": "met_taxa_fabricacao_acoes",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_elssa",
+      "destino_id": "lim_erros_extracao_automatica",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_elssa",
+      "destino_id": "lim_custo_chamadas_llm",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_elssa",
+      "destino_id": "tr_elssa_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_elssa",
+      "destino_id": "tr_elssa_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_elssa",
+      "destino_id": "tr_elssa_3",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    }
   ]
 }

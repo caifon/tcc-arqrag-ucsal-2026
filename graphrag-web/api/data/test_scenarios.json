@@ -1,142 +1,165 @@
 [
   {
     "id": "q01",
-    "pergunta": "Preciso realizar uma síntese temática ampla sobre um grande acervo de relatórios técnicos, respondendo perguntas globais sobre toda a coleção.",
-    "estudos_esperados": ["est_ms_graphrag"],
-    "tecnicas_esperadas": ["tec_hierarchical_communities"],
-    "estrategias_esperadas": ["est_leiden_summarization"]
+    "tipo": "direta",
+    "pergunta": "Preciso avisar o gestor de uma obra quando um atraso na entrega de material afetar outras atividades do cronograma.",
+    "estudos_esperados": [
+      "est_rawat"
+    ]
   },
   {
     "id": "q02",
-    "pergunta": "Como responder perguntas que exigem raciocínio multi-hop conectando entidades distantes e fatos que não estão no mesmo documento?",
-    "estudos_esperados": ["est_hipporag", "est_grag"],
-    "tecnicas_esperadas": ["tec_associative_diffusion", "tec_topological_subgraph"],
-    "estrategias_esperadas": ["est_ppr_diffusion", "est_subgraph_expansion"]
+    "tipo": "direta",
+    "pergunta": "Quero um sistema que recomende ações para corrigir falhas em máquinas usando os manuais técnicos da fábrica.",
+    "estudos_esperados": [
+      "est_niederhaus"
+    ]
   },
   {
     "id": "q03",
-    "pergunta": "Preciso de um sistema para apoiar a decisão na gestão de incidentes operacionais de transporte público com trilha de auditoria verificável.",
-    "estudos_esperados": ["est_elssa"],
-    "tecnicas_esperadas": ["tec_incident_provenance_kg"],
-    "estrategias_esperadas": ["est_subgraph_expansion"]
+    "tipo": "direta",
+    "pergunta": "Como recomendar alimentos para uma pessoa com uma doença específica, explicando o motivo de cada indicação?",
+    "estudos_esperados": [
+      "est_dindukurthi"
+    ]
   },
   {
     "id": "q04",
-    "pergunta": "Qual abordagem de GraphRAG permite fazer recomendações nutricionais e prescrições clínicas justificáveis evitando contraindicações com LLM restrito à formatação?",
-    "estudos_esperados": ["est_dindukurthi_nutrition"],
-    "tecnicas_esperadas": ["tec_prescriptive_nutrition"],
-    "estrategias_esperadas": ["est_cosine_deterministic_ranking"]
+    "tipo": "direta",
+    "pergunta": "Preciso apoiar supervisores na escolha de ações durante um incidente no transporte público.",
+    "estudos_esperados": [
+      "est_elssa"
+    ]
   },
   {
     "id": "q05",
-    "pergunta": "Como utilizar um framework multiagente com Coordenador Central e grafo Neo4j para simular atrasos logísticos na entrega de materiais de construção?",
-    "estudos_esperados": ["est_rawat_construction"],
-    "tecnicas_esperadas": ["tec_multiagent_construction"],
-    "estrategias_esperadas": ["est_hybrid_graph_vector"]
+    "tipo": "parafrase",
+    "pergunta": "Cronograma de construção com risco de fornecedor entregar material atrasado.",
+    "estudos_esperados": [
+      "est_rawat"
+    ]
   },
   {
     "id": "q06",
-    "pergunta": "Como apoiar operadores de fábrica inteligente (smart factory) com analytics prescritiva orientada por ontologia para reduzir o tempo de resolução de falhas técnicas?",
-    "estudos_esperados": ["est_niederhaus_prescriptive"],
-    "tecnicas_esperadas": ["tec_ontology_prescriptive_industry"],
-    "estrategias_esperadas": ["est_ontology_causal_traversal"]
+    "tipo": "parafrase",
+    "pergunta": "Manutenção de equipamentos industriais quando uma máquina para.",
+    "estudos_esperados": [
+      "est_niederhaus"
+    ]
   },
   {
     "id": "q07",
-    "pergunta": "Como utilizar algoritmos de difusão como Personalized PageRank sobre memória de longo prazo para conectar conceitos de forma associativa?",
-    "estudos_esperados": ["est_hipporag"],
-    "tecnicas_esperadas": ["tec_associative_diffusion"],
-    "estrategias_esperadas": ["est_ppr_diffusion"]
+    "tipo": "parafrase",
+    "pergunta": "Dieta personalizada para pacientes com diabetes ou hipertensão.",
+    "estudos_esperados": [
+      "est_dindukurthi"
+    ]
   },
   {
     "id": "q08",
-    "pergunta": "Quais são as limitações de custo computacional ao construir grafos a partir de documentos textuais e gerar resumos hierárquicos de comunidades?",
-    "estudos_esperados": ["est_ms_graphrag"],
-    "tecnicas_esperadas": ["tec_hierarchical_communities"],
-    "estrategias_esperadas": ["est_leiden_summarization"]
+    "tipo": "parafrase",
+    "pergunta": "O ônibus quebrou na rota e o controle precisa decidir o que fazer.",
+    "estudos_esperados": [
+      "est_elssa"
+    ]
   },
   {
     "id": "q09",
-    "pergunta": "Quais abordagens preservam a topologia estrutural de subgrafos conexos para enriquecer o contexto do modelo de linguagem em raciocínio complexo?",
-    "estudos_esperados": ["est_grag"],
-    "tecnicas_esperadas": ["tec_topological_subgraph"],
-    "estrategias_esperadas": ["est_subgraph_expansion"]
+    "tipo": "cruzada",
+    "pergunta": "Quais abordagens restringem o LLM para que ele não invente informações?",
+    "estudos_esperados": [
+      "est_dindukurthi",
+      "est_elssa"
+    ]
   },
   {
     "id": "q10",
-    "pergunta": "Quais técnicas utilizam grafos de conhecimento de domínio pré-existentes para apoiar decisões operacionais críticas com justificativa causal em transporte ou indústria?",
-    "estudos_esperados": ["est_elssa", "est_niederhaus_prescriptive"],
-    "tecnicas_esperadas": ["tec_incident_provenance_kg", "tec_ontology_prescriptive_industry"],
-    "estrategias_esperadas": ["est_subgraph_expansion", "est_ontology_causal_traversal"]
+    "tipo": "cruzada",
+    "pergunta": "Quais abordagens montam o grafo a partir de documentos de texto usando um LLM?",
+    "estudos_esperados": [
+      "est_niederhaus",
+      "est_elssa"
+    ]
   },
   {
     "id": "q11",
-    "pergunta": "Preciso comparar abordagens para sumarização orientada por consulta (Query-Focused Summarization) em larga escala.",
-    "estudos_esperados": ["est_ms_graphrag"],
-    "tecnicas_esperadas": ["tec_hierarchical_communities"],
-    "estrategias_esperadas": ["est_leiden_summarization"]
+    "tipo": "cruzada",
+    "pergunta": "Quais abordagens foram testadas com usuários reais?",
+    "estudos_esperados": [
+      "est_niederhaus"
+    ]
   },
   {
     "id": "q12",
-    "pergunta": "Como avaliar a qualidade de um sistema de recomendação nutricional baseado em GraphRAG utilizando métricas de recuperação como NDCG@5 e Precision@5?",
-    "estudos_esperados": ["est_dindukurthi_nutrition"],
-    "tecnicas_esperadas": ["tec_prescriptive_nutrition"],
-    "estrategias_esperadas": ["est_cosine_deterministic_ranking"]
+    "tipo": "cruzada",
+    "pergunta": "Quais limitações aparecem quando o grafo é construído automaticamente?",
+    "estudos_esperados": [
+      "est_niederhaus",
+      "est_elssa"
+    ]
   },
   {
     "id": "q13",
-    "pergunta": "Qual técnica integra um Grafo de Dependências de tarefas e materiais com banco de dados vetorial para emitir alertas preditivos de atraso a gestores de obras?",
-    "estudos_esperados": ["est_rawat_construction"],
-    "tecnicas_esperadas": ["tec_multiagent_construction"],
-    "estrategias_esperadas": ["est_hybrid_graph_vector"]
+    "tipo": "cruzada",
+    "pergunta": "Quais estudos usam a similaridade apenas como porta de entrada e depois percorrem o grafo?",
+    "estudos_esperados": [
+      "est_dindukurthi",
+      "est_elssa"
+    ]
   },
   {
     "id": "q14",
-    "pergunta": "Como validar uma plataforma prescritiva de chão de fábrica com usuários reais medindo o tempo de resolução de falhas de máquinas?",
-    "estudos_esperados": ["est_niederhaus_prescriptive"],
-    "tecnicas_esperadas": ["tec_ontology_prescriptive_industry"],
-    "estrategias_esperadas": ["est_ontology_causal_traversal"]
+    "tipo": "cruzada",
+    "pergunta": "Quais abordagens usam sistemas multiagentes com um coordenador central?",
+    "estudos_esperados": [
+      "est_rawat"
+    ]
   },
   {
     "id": "q15",
-    "pergunta": "Quais são as limitações de adaptabilidade a fluxos de dados em tempo real (streaming) nas técnicas baseadas em indexação hierárquica por comunidades?",
-    "estudos_esperados": ["est_ms_graphrag"],
-    "tecnicas_esperadas": ["tec_hierarchical_communities"],
-    "estrategias_esperadas": ["est_leiden_summarization"]
+    "tipo": "cruzada",
+    "pergunta": "Quais estudos dividem o grafo em comunidades?",
+    "estudos_esperados": [
+      "est_elssa"
+    ]
   },
   {
     "id": "q16",
-    "pergunta": "Como recuperar caminhos associativos entre sintomas, patologias e nutrientes de forma clinicamente controlada e determinística?",
-    "estudos_esperados": ["est_dindukurthi_nutrition"],
-    "tecnicas_esperadas": ["tec_prescriptive_nutrition"],
-    "estrategias_esperadas": ["est_cosine_deterministic_ranking"]
+    "tipo": "cruzada",
+    "pergunta": "Quais estudos foram avaliados apenas com dados simulados?",
+    "estudos_esperados": [
+      "est_rawat",
+      "est_dindukurthi"
+    ]
   },
   {
     "id": "q17",
-    "pergunta": "Quais sistemas utilizam grafos ontológicos com restrições e regras formais para orientar a atuação de fiscais e equipes operacionais de campo?",
-    "estudos_esperados": ["est_elssa"],
-    "tecnicas_esperadas": ["tec_incident_provenance_kg"],
-    "estrategias_esperadas": ["est_subgraph_expansion"]
+    "tipo": "fora_do_escopo",
+    "pergunta": "Como usar GraphRAG para prever o preço de ações na bolsa de valores?",
+    "estudos_esperados": []
   },
   {
     "id": "q18",
-    "pergunta": "Como mitigar o risco de perda de recall em tarefas de raciocínio relacional complexo distribuído em múltiplos documentos técnicos?",
-    "estudos_esperados": ["est_hipporag", "est_grag"],
-    "tecnicas_esperadas": ["tec_associative_diffusion", "tec_topological_subgraph"],
-    "estrategias_esperadas": ["est_ppr_diffusion", "est_subgraph_expansion"]
+    "tipo": "fora_do_escopo",
+    "pergunta": "Qual é a melhor receita de bolo de chocolate?",
+    "estudos_esperados": []
   },
   {
     "id": "q19",
-    "pergunta": "Quais trabalhos abordam sistemas multiagentes com LLMs (LLM-MAS) orquestrados por Coordenador Central para resolução de dependências em engenharia?",
-    "estudos_esperados": ["est_rawat_construction"],
-    "tecnicas_esperadas": ["tec_multiagent_construction"],
-    "estrategias_esperadas": ["est_hybrid_graph_vector"]
+    "tipo": "fora_do_escopo",
+    "pergunta": "Como recomendar filmes para assinantes de uma plataforma de streaming?",
+    "estudos_esperados": []
   },
   {
     "id": "q20",
-    "pergunta": "Quais são os principais trade-offs e métricas de eficácia (comprehensiveness e diversity) comprovados na comparação entre GraphRAG e o RAG vetorial comum?",
-    "estudos_esperados": ["est_ms_graphrag"],
-    "tecnicas_esperadas": ["tec_hierarchical_communities"],
-    "estrategias_esperadas": ["est_leiden_summarization"]
+    "tipo": "fora_do_escopo",
+    "pergunta": "Como detectar fraudes em transações de cartão de crédito?",
+    "estudos_esperados": []
+  },
+  {
+    "id": "q21",
+    "tipo": "fora_do_escopo",
+    "pergunta": "Qual será a previsão do tempo para Salvador amanhã?",
+    "estudos_esperados": []
   }
 ]

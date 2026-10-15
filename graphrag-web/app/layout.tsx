@@ -1,35 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "GraphRAG | Apoio à Tomada de Decisão",
-  description: "Sistema de Apoio à Tomada de Decisão com GraphRAG e Modelos de Linguagem - UCSAL 2026",
+  title: "GraphRAG para apoio à decisão | TCC UCSal",
+  description: "Consulta aos estudos selecionados no mapeamento sistemático sobre GraphRAG para apoio à tomada de decisão (UCSal, 2026).",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-        {children}
-      </body>
+    <html lang="pt-BR" className="h-full antialiased">
+      <body className="min-h-full bg-stone-50 text-stone-900">{children}</body>
     </html>
   );
 }

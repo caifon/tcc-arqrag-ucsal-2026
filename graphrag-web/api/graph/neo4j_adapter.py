@@ -1,10 +1,22 @@
 import os
+import json
 import logging
 from typing import List, Optional
 from api.graph.base import BaseGraphRepository
 from api.ontology import NoGrafo, ArestaGrafo, SubgrafoEvidencia, TipoNo
 
 logger = logging.getLogger(__name__)
+
+
+def _ler_metadados(n) -> dict:
+    """Os metadados ficam gravados no Neo4j como texto JSON; aqui voltam a ser dicionário."""
+    bruto = n.get("metadados")
+    if not bruto:
+        return {}
+    try:
+        return json.loads(bruto)
+    except (TypeError, ValueError):
+        return {}
 
 
 class Neo4jGraphRepository(BaseGraphRepository):
@@ -41,19 +53,23 @@ class Neo4jGraphRepository(BaseGraphRepository):
     def is_connected(self) -> bool:
         return self._conectado
 
-    def carregar_dados(self, nos: List[NoGrafo], arestas: List[ArestaGrafo]) -> None:
+    def carregar_dados(self, nos: List[NoGrafo], arestas: List[ArestaGrafo], versao: str = "") -> None:
+        """
+        Carrega o acervo no Neo4j. Se a versão gravada no banco for diferente da versão do
+        arquivo seed_corpus.json, o banco é APAGADO e recarregado, para que mudanças no
+        acervo (estudos removidos ou corrigidos) cheguem de fato ao Neo4j.
+        """
         if not self._conectado:
             return
 
         with self._session() as session:
-            try:
-                count_res = session.run("MATCH (n) RETURN count(n) as total")
-                rec = count_res.single()
-                if rec and rec["total"] >= len(nos):
-                    logger.info(f"Neo4j já populado com {rec['total']} nós. Carga inicial pulada.")
-                    return
-            except Exception:
-                pass
+            rec = session.run("MATCH (m:_VersaoCorpus) RETURN m.versao AS v").single()
+            if rec and versao and rec["v"] == versao:
+                logger.info(f"Neo4j já está na versão {versao} do acervo. Carga pulada.")
+                return
+
+            logger.info("Recarregando o acervo no Neo4j (versão nova).")
+            session.run("MATCH (n) DETACH DELETE n")
 
             for no in nos:
                 session.run(
@@ -64,7 +80,7 @@ class Neo4jGraphRepository(BaseGraphRepository):
                     id=no.id,
                     nome=no.nome,
                     descricao=no.descricao,
-                    metadados=str(no.metadados)
+                    metadados=json.dumps(no.metadados, ensure_ascii=False),
                 )
 
             for aresta in arestas:
@@ -76,15 +92,18 @@ class Neo4jGraphRepository(BaseGraphRepository):
                     """,
                     origem_id=aresta.origem_id,
                     destino_id=aresta.destino_id,
-                    peso=aresta.peso
+                    peso=aresta.peso,
                 )
+
+            session.run("MERGE (m:_VersaoCorpus) SET m.versao = $v", v=versao)
 
     def obter_todos_nos(self, tipo: Optional[TipoNo] = None) -> List[NoGrafo]:
         if not self._conectado:
             return []
         nos = []
         with self._session() as session:
-            query = f"MATCH (n:{tipo.value}) RETURN n" if tipo else "MATCH (n) RETURN n, labels(n) as lbls"
+            query = (f"MATCH (n:{tipo.value}) RETURN n" if tipo
+                     else "MATCH (n) WHERE NOT n:_VersaoCorpus RETURN n, labels(n) as lbls")
             result = session.run(query)
             for record in result:
                 n = record["n"]
@@ -93,7 +112,8 @@ class Neo4jGraphRepository(BaseGraphRepository):
                     id=n["id"],
                     tipo=tipo_no,
                     nome=n.get("nome", ""),
-                    descricao=n.get("descricao", "")
+                    descricao=n.get("descricao", ""),
+                    metadados=_ler_metadados(n)
                 ))
         return nos
 
@@ -109,7 +129,8 @@ class Neo4jGraphRepository(BaseGraphRepository):
                     id=n["id"],
                     tipo=TipoNo(record["lbls"][0]),
                     nome=n.get("nome", ""),
-                    descricao=n.get("descricao", "")
+                    descricao=n.get("descricao", ""),
+                    metadados=_ler_metadados(n)
                 )
         return None
 
@@ -147,7 +168,8 @@ class Neo4jGraphRepository(BaseGraphRepository):
                         id=nid,
                         tipo=tipo_enum,
                         nome=n.get("nome", ""),
-                        descricao=n.get("descricao", "")
+                        descricao=n.get("descricao", ""),
+                        metadados=_ler_metadados(n)
                     )
                     nos_recuperados[nid] = no_obj
                     if tipo_enum == TipoNo.SNIPPET:
@@ -155,7 +177,8 @@ class Neo4jGraphRepository(BaseGraphRepository):
                             "id": nid,
                             "titulo": n.get("nome", ""),
                             "texto": n.get("descricao", ""),
-                            "estudo_id": n.get("estudo_id", "")
+                            "estudo_id": no_obj.metadados.get("estudo_id", ""),
+                            "pagina": no_obj.metadados.get("pagina", "")
                         })
 
                 oid = record.get("o_id")

@@ -16,7 +16,7 @@ class InMemoryGraphRepository(BaseGraphRepository):
     def is_connected(self) -> bool:
         return False
 
-    def carregar_dados(self, nos: List[NoGrafo], arestas: List[ArestaGrafo]) -> None:
+    def carregar_dados(self, nos: List[NoGrafo], arestas: List[ArestaGrafo], versao: str = "") -> None:
         self.grafo.clear()
         self.nos_dict.clear()
         self.arestas_lista.clear()

@@ -5,8 +5,6 @@
 [![UCSAL](https://img.shields.io/badge/Institui%C3%A7%C3%A3o-UCSAL-blue.svg)](https://ucsal.br)
 [![Curso](https://img.shields.io/badge/Curso-Engenharia%20de%20Software-brightgreen.svg)]()
 [![Ano](https://img.shields.io/badge/Ano-2026-orange.svg)]()
-[![Hit Rate](https://img.shields.io/badge/Hit%20Rate-97.5%25-success.svg)]()
-[![Taxa de Alucinação](https://img.shields.io/badge/Taxa%20de%20Fabrica%C3%A7%C3%A3o-0.0%25-informational.svg)]()
 
 > **Trabalho de Conclusão de Curso (TCC)** apresentado à Universidade Católica do Salvador (UCSAL) como requisito parcial para a obtenção do título de Bacharel em Engenharia de Software.  
 > **Orientadora:** Profª. Angela Peixoto.  
@@ -15,6 +13,8 @@
 > **Código Fonte:** 🐙 [https://github.com/caifon/tcc-arqrag-ucsal-2026](https://github.com/caifon/tcc-arqrag-ucsal-2026)
 
 ---
+
+> **Atualização (out/2026):** o acervo agora contém **somente os 4 estudos incluídos no mapeamento (Scopus)**, com trechos copiados dos PDFs e conferidos por `graphrag-web/scripts/verificar_trechos.py`. As métricas deixaram de ser valores fixos e são calculadas na aba "Como avaliamos". Os textos em `docs/` foram escritos antes dessa mudança e **não devem ser copiados para a monografia** sem revisão (citam RQ1–RQ6, 97,5% e 0,0%, que não valem mais).
 
 ## 💡 Sobre o Projeto
 
@@ -25,8 +25,8 @@ Enquanto sistemas de busca vetorial convencionais (*Naive RAG*) fatiam documento
 ### 🎯 Decisão Arquitetural: Por que focar no Corpus PRISMA em vez de "Upload Genérico de PDFs"?
 Uma das perguntas metodológicas mais relevantes do projeto é: *"Por que não focar o MVP em uma ferramenta genérica de upload e análise de PDFs anexados na hora?"*
 1. **Diferença Científica entre "ChatPDF" e GraphRAG:** Fazer upload de um arquivo e buscar por palavras-chave é o que qualquer ferramenta comercial de RAG vetorial básico faz. O mérito de Engenharia de Software desta tese é transformar uma **Revisão Sistemática da Literatura (protocolo PRISMA 2020)** — tradicionalmente uma tabela estática e esquecida — em um **banco de conhecimento vivo, navegável e auditável em Grafo**.
-2. **Eliminação de Alucinações por Design (Taxa 0.0%):** A literatura (Gao et al., 2023; Edge et al., 2024) comprova que extrair grafos abertos (*Open Information Extraction*) de PDFs arbitrários em tempo de execução introduz entidades falsas, sinônimos duplicados e ruído. A ontologia rígida pré-qualificada garante que o modelo **não fabrique nenhuma relação causal**.
-3. **Validade Experimental e Benchmarking:** Um banco formal de 20 cenários de teste com gabarito formal (*Ground Truth*) só é matematicamente validável sobre um corpus controlado com *Hit Rate* auditável (97.5%).
+2. **Menos risco de informação inventada:** A literatura (Gao et al., 2023; Edge et al., 2024) comprova que extrair grafos abertos (*Open Information Extraction*) de PDFs arbitrários em tempo de execução introduz entidades falsas, sinônimos duplicados e ruído. Com uma ontologia fixa preenchida pelo grupo, cada informação exibida tem origem conferível; a taxa de fabricação é medida a cada avaliação (ver aba "Como avaliamos").
+3. **Avaliação possível:** um banco de perguntas com resposta conhecida (incluindo perguntas fora do escopo) só pode ser conferido sobre um acervo controlado.
 4. **Viabilidade e Latência em Produção:** Extrair nós e arestas de um artigo acadêmico completo via LLM em tempo de upload exigiria minutos e causaria *timeouts* em ambientes serverless. No modelo adotado, a consulta responde em menos de 2 segundos.
 *(A ingestão dinâmica assistida é mapeada como Trabalho Futuro no Capítulo 5 da monografia e estruturada no [02_GUIA_INGESTAO_E_CORPUS.md](docs/02_GUIA_INGESTAO_E_CORPUS.md)).*
 
