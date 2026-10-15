@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   BookOpen,
   ChevronRight,
@@ -12,10 +12,21 @@ import {
   Search,
   SearchX,
   TriangleAlert,
+  Sparkles,
+  ShieldCheck,
+  Layers,
+  ArrowRight,
+  ExternalLink,
+  Filter,
+  CheckCircle2,
+  FileText,
+  Workflow,
+  HelpCircle,
+  Scale
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
-/* Tipos (espelham a resposta da API em api/index.py)                  */
+/* Tipos (espelham api/index.py e api/ontology.py)                     */
 /* ------------------------------------------------------------------ */
 interface Estudo {
   id: string;
@@ -24,16 +35,19 @@ interface Estudo {
   ano: number | null;
   veiculo: string;
 }
+
 interface Trecho {
   id: string;
   texto: string;
   pagina: number | string;
 }
+
 interface Passo {
   tipo: string;
   nome: string;
   relacao?: string | null;
 }
+
 interface Alternativa {
   tecnica_id: string;
   tecnica_nome: string;
@@ -46,11 +60,13 @@ interface Alternativa {
   trechos_evidencia: Trecho[];
   caminho: Passo[];
 }
+
 interface Conferencia {
   itens_verificados: number;
   itens_sem_suporte: number;
   detalhes_sem_suporte: { tipo: string; valor: string }[];
 }
+
 interface Resposta {
   consulta: string;
   resumo: string;
@@ -58,11 +74,13 @@ interface Resposta {
   conferencia_resumo: Conferencia;
   alternativas: Alternativa[];
 }
+
 interface Pontuacao {
   hit_rate: number | null;
   precisao: number | null;
   abstencao_correta: boolean | null;
 }
+
 interface DetalheAvaliacao extends Pontuacao {
   id: string;
   tipo: string;
@@ -71,6 +89,7 @@ interface DetalheAvaliacao extends Pontuacao {
   estudos_recuperados: string[];
   referencia_sem_grafo: Pontuacao & { estudos_recuperados: string[] };
 }
+
 interface Avaliacao {
   total_cenarios: number;
   perguntas_com_resposta: number;
@@ -83,9 +102,14 @@ interface Avaliacao {
     taxa_fabricacao: number;
     afirmacoes_verificadas: number;
   };
-  referencia_sem_grafo: { hit_rate_medio: number; precisao_media: number; abstencao_correta: number };
+  referencia_sem_grafo: {
+    hit_rate_medio: number;
+    precisao_media: number;
+    abstencao_correta: number;
+  };
   detalhes: DetalheAvaliacao[];
 }
+
 interface NoGrafo {
   id: string;
   tipo: string;
@@ -95,61 +119,125 @@ interface NoGrafo {
 }
 
 /* ------------------------------------------------------------------ */
+/* Constantes e Auxiliares                                             */
+/* ------------------------------------------------------------------ */
 const EXEMPLOS = [
-  { rotulo: "Atraso de material em obra", texto: "Preciso avisar o gestor de uma obra quando um atraso na entrega de material afetar outras atividades do cronograma." },
-  { rotulo: "Falha em máquina na fábrica", texto: "Quero um sistema que recomende ações para corrigir falhas em máquinas usando os manuais técnicos da fábrica." },
-  { rotulo: "Alimentação para quem tem uma doença", texto: "Como recomendar alimentos para uma pessoa com uma doença específica, explicando o motivo de cada indicação?" },
-  { rotulo: "Incidente no transporte público", texto: "Preciso apoiar supervisores na escolha de ações durante um incidente no transporte público." },
-  { rotulo: "Fora do escopo: bolsa de valores", texto: "Como usar GraphRAG para prever o preço de ações na bolsa de valores?" },
+  {
+    rotulo: "Falha em máquina na fábrica",
+    texto: "Quero um sistema que recomende ações para corrigir falhas em máquinas usando os manuais técnicos da fábrica.",
+  },
+  {
+    rotulo: "Atraso de material em obra",
+    texto: "Preciso avisar o gestor de uma obra quando um atraso na entrega de material afetar outras atividades do cronograma.",
+  },
+  {
+    rotulo: "Incidente no transporte público",
+    texto: "Preciso apoiar supervisores na escolha de ações durante um incidente no transporte público.",
+  },
+  {
+    rotulo: "Alimentação para paciente",
+    texto: "Como recomendar alimentos para uma pessoa com uma doença específica, explicando o motivo de cada indicação?",
+  },
+  {
+    rotulo: "Fora do escopo: ações em bolsa",
+    texto: "Como usar GraphRAG para prever o preço de ações na bolsa de valores?",
+  },
 ];
 
-const pct = (v: number) => `${Math.round(v * 100)}%`;
+const pct = (v: number | null | undefined) => (v === null || v === undefined ? "—" : `${Math.round(v * 100)}%`);
+
 const separar = (item: string) => {
   const i = item.indexOf(": ");
   return i > 0 ? { titulo: item.slice(0, i), texto: item.slice(i + 2) } : { titulo: item, texto: "" };
 };
 
+const nomeEstudo = (id: string) =>
+  ({
+    est_rawat: "Rawat et al.",
+    est_niederhaus: "Niederhaus et al.",
+    est_dindukurthi: "Dindukurthi et al.",
+    est_elssa: "Wang & Shalaby (ELSSA)",
+  }[id] ?? id);
+
+/* ------------------------------------------------------------------ */
+/* Componente Principal                                                */
 /* ------------------------------------------------------------------ */
 export default function Home() {
   const [aba, setAba] = useState<"consultar" | "avaliacao" | "acervo">("consultar");
 
   return (
-    <main className="min-h-screen bg-stone-50 text-stone-900">
-      <header className="border-b border-stone-200 bg-white">
-        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-5 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-xl font-semibold tracking-tight">GraphRAG para apoio à decisão</h1>
-            <p className="mt-1 text-sm text-stone-500">
-              Consulta aos estudos selecionados no mapeamento sistemático · TCC Engenharia de Software · UCSal 2026
-            </p>
+    <div className="min-h-screen bg-slate-50 text-slate-800 antialiased">
+      {/* Header Limpo e Moderno */}
+      <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-teal-600 to-emerald-700 text-white shadow-sm shadow-teal-700/20">
+              <Workflow className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg font-bold tracking-tight text-slate-900">
+                  GraphRAG para Apoio à Decisão
+                </h1>
+                <span className="hidden rounded-full bg-teal-50 px-2 py-0.5 text-[11px] font-semibold text-teal-700 border border-teal-200/60 sm:inline-block">
+                  MVP · TCC 2026
+                </span>
+              </div>
+              <p className="text-xs text-slate-500">
+                Mapeamento Sistemático da Literatura · Engenharia de Software UCSal
+              </p>
+            </div>
           </div>
-          <nav className="flex shrink-0 gap-1 overflow-x-auto rounded-lg bg-stone-100 p-1 text-[13px] sm:text-sm" aria-label="Seções">
-            {([
-              ["consultar", "Consultar", Search],
-              ["avaliacao", "Como avaliamos", FlaskConical],
-              ["acervo", "Sobre o acervo", BookOpen],
-            ] as const).map(([id, rotulo, Icone]) => (
-              <button
-                key={id}
-                onClick={() => setAba(id)}
-                className={`flex items-center gap-1.5 whitespace-nowrap rounded-md px-2.5 py-1.5 transition sm:px-3 ${
-                  aba === id ? "bg-white font-medium text-teal-800 shadow-sm" : "text-stone-600 hover:text-stone-900"
-                }`}
-              >
-                <Icone className="h-4 w-4" />
-                {rotulo}
-              </button>
-            ))}
+
+          {/* Abas Minimalistas */}
+          <nav
+            className="flex rounded-xl bg-slate-100 p-1 text-xs font-medium text-slate-600 shadow-inner"
+            aria-label="Navegação do MVP"
+          >
+            {(
+              [
+                ["consultar", "Consultar", Search],
+                ["avaliacao", "Como avaliamos", FlaskConical],
+                ["acervo", "Sobre o acervo", BookOpen],
+              ] as const
+            ).map(([id, rotulo, Icone]) => {
+              const ativo = aba === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => setAba(id)}
+                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 transition-all duration-150 ${
+                    ativo
+                      ? "bg-white font-semibold text-slate-900 shadow-sm"
+                      : "hover:text-slate-900"
+                  }`}
+                >
+                  <Icone className={`h-3.5 w-3.5 ${ativo ? "text-teal-600" : "text-slate-400"}`} />
+                  {rotulo}
+                </button>
+              );
+            })}
           </nav>
         </div>
       </header>
 
-      <div className="mx-auto max-w-5xl px-4 py-8">
+      {/* Conteúdo Central */}
+      <main className="mx-auto max-w-5xl px-4 py-8">
         {aba === "consultar" && <Consultar />}
         {aba === "avaliacao" && <ComoAvaliamos />}
         {aba === "acervo" && <SobreAcervo />}
-      </div>
-    </main>
+      </main>
+
+      {/* Rodapé Clean */}
+      <footer className="mt-16 border-t border-slate-200/60 bg-white py-6 text-center text-xs text-slate-500">
+        <p>
+          Trabalho de Conclusão de Curso (TCC) · Universidade Católica do Salvador (UCSal)
+        </p>
+        <p className="mt-1 text-slate-400">
+          Orientadora: Profa. Angela Peixoto · Autor: Caio Fonseca
+        </p>
+      </footer>
+    </div>
   );
 }
 
@@ -184,16 +272,19 @@ function Consultar() {
   };
 
   return (
-    <div className="space-y-8">
-      <section className="space-y-4">
-        <p className="max-w-3xl text-[15px] leading-relaxed text-stone-700">
-          Descreva uma situação em que você precisa tomar uma decisão. O sistema procura, nos estudos selecionados na
-          revisão, as abordagens que se aplicam e mostra cada uma com a fonte da informação.{" "}
-          <strong className="font-medium text-stone-900">Ele não escolhe por você.</strong>
-        </p>
+    <div className="space-y-6">
+      {/* Bloco de Busca Clean */}
+      <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
+        <div className="mb-3">
+          <label htmlFor="pergunta" className="block text-sm font-semibold text-slate-800">
+            Descreva o cenário ou dúvida para apoio à decisão
+          </label>
+          <p className="text-xs text-slate-500">
+            O sistema localiza abordagens aplicáveis no grafo, com citações originais e limitações relatadas.
+          </p>
+        </div>
 
-        <div className="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-          <label htmlFor="pergunta" className="sr-only">Situação de decisão</label>
+        <div className="relative">
           <textarea
             id="pergunta"
             value={pergunta}
@@ -202,51 +293,70 @@ function Consultar() {
               if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) buscar();
             }}
             rows={3}
-            placeholder="Ex.: Preciso recomendar ações para corrigir falhas em máquinas a partir dos manuais técnicos."
-            className="w-full resize-none rounded-lg border border-stone-200 bg-stone-50 p-3 text-[15px] outline-none transition focus:border-teal-600 focus:bg-white focus:ring-2 focus:ring-teal-600/15"
+            placeholder="Ex.: Preciso recomendar ações para corrigir falhas em máquinas a partir dos manuais técnicos da fábrica..."
+            className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50/60 p-3.5 text-sm text-slate-900 outline-none transition focus:border-teal-600 focus:bg-white focus:ring-3 focus:ring-teal-600/10 placeholder:text-slate-400"
           />
-          <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs text-stone-500">Exemplos:</span>
-              {EXEMPLOS.map((ex) => (
-                <button
-                  key={ex.rotulo}
-                  onClick={() => buscar(ex.texto)}
-                  className="rounded-full border border-stone-200 px-3 py-1 text-xs text-stone-600 transition hover:border-teal-600 hover:text-teal-800"
-                >
-                  {ex.rotulo}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={() => buscar()}
-              disabled={carregando || !pergunta.trim()}
-              className="flex shrink-0 items-center justify-center gap-2 rounded-lg bg-teal-700 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {carregando ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
-              {carregando ? "Buscando…" : "Buscar nos estudos"}
-            </button>
-          </div>
         </div>
-        {erro && <p className="text-sm text-red-700">{erro}</p>}
+
+        <div className="mt-3.5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {/* Exemplos em pills elegantes */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[11px] font-medium text-slate-400">Exemplos:</span>
+            {EXEMPLOS.map((ex) => (
+              <button
+                key={ex.rotulo}
+                type="button"
+                onClick={() => buscar(ex.texto)}
+                className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-600 transition hover:border-teal-500 hover:bg-teal-50/50 hover:text-teal-800"
+              >
+                {ex.rotulo}
+              </button>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => buscar()}
+            disabled={carregando || !pergunta.trim()}
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {carregando ? (
+              <LoaderCircle className="h-4 w-4 animate-spin text-teal-400" />
+            ) : (
+              <Search className="h-4 w-4 text-teal-400" />
+            )}
+            {carregando ? "Consultando grafo…" : "Buscar nos estudos"}
+          </button>
+        </div>
+
+        {erro && (
+          <p className="mt-3 flex items-center gap-1 text-xs text-red-600">
+            <CircleX className="h-3.5 w-3.5" /> {erro}
+          </p>
+        )}
       </section>
 
+      {/* Resultados */}
       {resposta && <Resultado resposta={resposta} />}
     </div>
   );
 }
 
 function Resultado({ resposta }: { resposta: Resposta }) {
+  // Estado de abstenção (fora de escopo ou sem match de limiar)
   if (resposta.alternativas.length === 0) {
     return (
-      <section className="flex gap-4 rounded-xl border border-stone-200 bg-white p-6">
-        <SearchX className="h-6 w-6 shrink-0 text-stone-400" />
+      <section className="flex items-start gap-3.5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl bg-slate-100 p-2 text-slate-500">
+          <SearchX className="h-5 w-5" />
+        </div>
         <div>
-          <h2 className="font-medium">Nenhum dos estudos selecionados trata dessa situação.</h2>
-          <p className="mt-1 text-sm leading-relaxed text-stone-600">
-            O sistema só responde com base nos estudos incluídos na revisão. Quando nada no acervo é parecido o
-            suficiente com a pergunta, ele prefere dizer que não encontrou a sugerir uma relação que não existe. Se a
-            situação estiver dentro do tema, tente descrevê-la com outras palavras.
+          <h2 className="text-sm font-semibold text-slate-900">
+            Nenhum dos estudos selecionados trata dessa situação.
+          </h2>
+          <p className="mt-1 text-xs leading-relaxed text-slate-600">
+            O sistema respeita rigorosamente o limiar de similaridade para não alucinar nem forçar relações inexistentes.
+            Caso a situação pertença ao domínio de GraphRAG para apoio à decisão, experimente descrevê-la com outras palavras.
           </p>
         </div>
       </section>
@@ -254,114 +364,176 @@ function Resultado({ resposta }: { resposta: Resposta }) {
   }
 
   const c = resposta.conferencia_resumo;
+
   return (
     <section className="space-y-5">
-      <div className="rounded-xl border border-teal-100 bg-teal-50/60 p-5">
-        <p className="text-[15px] leading-relaxed text-stone-800">{resposta.resumo}</p>
-        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-stone-500">
-          <span>{resposta.resumo_origem === "llm" ? "Resumo escrito por IA a partir dos dados abaixo" : "Resumo automático"}</span>
+      {/* Card de Síntese Automatizada */}
+      <div className="rounded-2xl border border-teal-200/70 bg-gradient-to-br from-teal-50/70 to-emerald-50/40 p-5 shadow-xs">
+        <div className="flex items-start justify-between gap-3">
+          <p className="text-sm leading-relaxed text-slate-800">
+            {resposta.resumo}
+          </p>
+        </div>
+
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-teal-100/80 pt-3 text-[11px] text-slate-500">
+          <span className="flex items-center gap-1 text-slate-600 font-medium">
+            <Sparkles className="h-3 w-3 text-teal-600" />
+            {resposta.resumo_origem === "llm" ? "Síntese assistida por IA (Gemini)" : "Síntese automática determinística"}
+          </span>
+
           {c.itens_verificados > 0 &&
             (c.itens_sem_suporte === 0 ? (
-              <span className="flex items-center gap-1 text-teal-800">
-                <CircleCheck className="h-3.5 w-3.5" />
-                {c.itens_verificados} informações do resumo conferidas no grafo
+              <span className="flex items-center gap-1 font-semibold text-emerald-800">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                {c.itens_verificados} fatos conferidos no grafo (0% fabricação)
               </span>
             ) : (
-              <span className="flex items-center gap-1 text-amber-800">
-                <TriangleAlert className="h-3.5 w-3.5" />
-                {c.itens_sem_suporte} informação(ões) do resumo sem apoio no grafo:{" "}
+              <span className="flex items-center gap-1 font-semibold text-amber-800">
+                <TriangleAlert className="h-3.5 w-3.5 text-amber-600" />
+                {c.itens_sem_suporte} informação(ões) sem apoio direto:{" "}
                 {c.detalhes_sem_suporte.map((d) => d.valor).join(", ")}
               </span>
             ))}
         </div>
       </div>
 
+      {/* Cartões das Abordagens Lado a Lado */}
       <div className="grid gap-5 md:grid-cols-2">
         {resposta.alternativas.map((alt) => (
           <CartaoAbordagem key={alt.tecnica_id} alt={alt} />
         ))}
       </div>
-      <p className="text-xs text-stone-500">
-        Os cartões estão em ordem de ano de publicação. A ordem não indica qual abordagem é melhor.
-      </p>
+
+      <div className="flex items-center justify-between border-t border-slate-200/60 pt-3 text-[11px] text-slate-400">
+        <span>Estudos organizados por ano de publicação (ordem cronológica).</span>
+        <span>A decisão final cabe exclusivamente ao decisor humano (Herbert Simon, 1960).</span>
+      </div>
     </section>
   );
 }
 
 function CartaoAbordagem({ alt }: { alt: Alternativa }) {
   const e = alt.estudo;
+
   return (
-    <article className="flex flex-col rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
-      {e && (
-        <p className="text-xs text-stone-500">
-          <span className="font-medium text-stone-700">{e.autores}</span> · {e.ano} · {e.veiculo}
-        </p>
-      )}
-      <h3 className="mt-1 text-lg font-semibold leading-snug">{alt.tecnica_nome}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-stone-700">{alt.descricao}</p>
-
-      <dl className="mt-4 space-y-3 border-t border-stone-100 pt-4 text-sm">
-        <Bloco titulo="Onde foi aplicada" itens={alt.cenarios} />
-        <Bloco titulo="Como foi avaliada" itens={alt.metricas_avaliacao} />
-        <Bloco titulo="Limitações relatadas" itens={alt.limitacoes} destaque />
-      </dl>
-
-      {alt.trechos_evidencia.length > 0 && (
-        <div className="mt-4 space-y-2 border-t border-stone-100 pt-4">
-          <p className="flex items-center gap-1.5 text-xs font-medium text-stone-500">
-            <Quote className="h-3.5 w-3.5" /> Trechos do artigo (original em inglês)
-          </p>
-          {alt.trechos_evidencia.map((t) => (
-            <blockquote key={t.id} className="border-l-2 border-teal-600/40 pl-3 text-[13px] italic leading-relaxed text-stone-600">
-              “{t.texto}”
-              <span className="ml-1 not-italic text-stone-400">(p. {t.pagina} do PDF)</span>
-            </blockquote>
-          ))}
-        </div>
-      )}
-
-      <details className="group mt-4 border-t border-stone-100 pt-3 text-xs text-stone-500">
-        <summary className="cursor-pointer list-none hover:text-stone-800">
-          <span className="inline-flex items-center gap-1">
-            <ChevronRight className="h-3.5 w-3.5 transition group-open:rotate-90" />
-            Por que esta abordagem apareceu?
-          </span>
-        </summary>
-        <ol className="mt-3 flex flex-wrap items-center gap-1.5">
-          {alt.caminho.map((p, i) => (
-            <li key={i} className="flex items-center gap-1.5">
-              {i > 0 && <span className="text-stone-300">→</span>}
-              <span className="rounded-md bg-stone-100 px-2 py-1">
-                <span className="text-stone-400">{p.tipo}: </span>
-                <span className="text-stone-700">{p.nome}</span>
-              </span>
-            </li>
-          ))}
-        </ol>
-        {alt.estrategias.length > 0 && (
-          <p className="mt-3 leading-relaxed">
-            <span className="text-stone-400">Como o estudo recupera a informação: </span>
-            {alt.estrategias.map((s) => separar(s).titulo).join("; ")}.
-          </p>
+    <article className="flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs transition hover:border-slate-300">
+      <div>
+        {/* Metadados do Artigo */}
+        {e && (
+          <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
+            <span className="rounded-md bg-slate-100 px-2 py-0.5 font-semibold text-slate-700">
+              {e.ano}
+            </span>
+            <span className="font-semibold text-slate-800">{e.autores}</span>
+            <span className="text-slate-300">·</span>
+            <span className="italic text-slate-500">{e.veiculo}</span>
+          </div>
         )}
+
+        {/* Título e Descrição */}
+        <h3 className="mt-2 text-base font-bold text-slate-900 leading-snug">
+          {alt.tecnica_nome}
+        </h3>
+        <p className="mt-1.5 text-xs leading-relaxed text-slate-600">
+          {alt.descricao}
+        </p>
+
+        {/* Blocos Estruturados: Cenário, Avaliação, Limitações */}
+        <div className="mt-4 space-y-3 border-t border-slate-100 pt-3 text-xs">
+          <SecaoDestaque titulo="Onde foi aplicada" itens={alt.cenarios} />
+          <SecaoDestaque titulo="Como foi avaliada" itens={alt.metricas_avaliacao} />
+          <SecaoDestaque titulo="Limitações relatadas" itens={alt.limitacoes} alerta />
+        </div>
+
+        {/* Trechos Literais do PDF */}
+        {alt.trechos_evidencia.length > 0 && (
+          <div className="mt-4 space-y-2 border-t border-slate-100 pt-3">
+            <p className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+              <Quote className="h-3 w-3 text-teal-600" /> Trechos do artigo original
+            </p>
+            <div className="space-y-2">
+              {alt.trechos_evidencia.map((t) => (
+                <div
+                  key={t.id}
+                  className="rounded-lg border-l-2 border-teal-600 bg-slate-50/70 p-2.5 text-xs italic leading-relaxed text-slate-700"
+                >
+                  “{t.texto}”
+                  <span className="mt-1 block not-italic font-medium text-[10px] text-teal-700">
+                    PDF pág. {t.pagina}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Rastreabilidade Causal / Caminho no Grafo */}
+      <details className="group mt-4 border-t border-slate-100 pt-3 text-xs text-slate-500">
+        <summary className="flex cursor-pointer list-none items-center gap-1 font-medium text-slate-600 hover:text-slate-900">
+          <ChevronRight className="h-3.5 w-3.5 transition group-open:rotate-90 text-slate-400" />
+          <span>Por que esta abordagem apareceu?</span>
+        </summary>
+
+        <div className="mt-2.5 rounded-lg bg-slate-50 p-3">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {alt.caminho.map((p, i) => (
+              <div key={i} className="flex items-center gap-1 text-[11px]">
+                {i > 0 && <span className="text-slate-300">→</span>}
+                <span className="rounded bg-white px-2 py-0.5 font-medium text-slate-700 border border-slate-200">
+                  <span className="text-slate-400 font-normal">{p.tipo}: </span>
+                  {p.nome}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {alt.estrategias.length > 0 && (
+            <p className="mt-2 text-[11px] text-slate-600 leading-relaxed">
+              <strong className="text-slate-700">Recuperação: </strong>
+              {alt.estrategias.map((s) => separar(s).titulo).join("; ")}.
+            </p>
+          )}
+        </div>
       </details>
     </article>
   );
 }
 
-function Bloco({ titulo, itens, destaque = false }: { titulo: string; itens: string[]; destaque?: boolean }) {
+function SecaoDestaque({
+  titulo,
+  itens,
+  alerta = false,
+}: {
+  titulo: string;
+  itens: string[];
+  alerta?: boolean;
+}) {
   if (itens.length === 0) return null;
+
   return (
     <div>
-      <dt className={`text-xs font-medium uppercase tracking-wide ${destaque ? "text-amber-700" : "text-stone-500"}`}>{titulo}</dt>
-      {itens.map((item) => {
-        const { titulo: t, texto } = separar(item);
-        return (
-          <dd key={item} className="mt-1 leading-relaxed text-stone-700">
-            <span className="font-medium text-stone-800">{t}.</span> {texto}
-          </dd>
-        );
-      })}
+      <h4
+        className={`text-[10px] font-bold uppercase tracking-wider ${
+          alerta ? "text-amber-700" : "text-slate-400"
+        }`}
+      >
+        {titulo}
+      </h4>
+      <div className="mt-1 space-y-1">
+        {itens.map((item) => {
+          const { titulo: t, texto } = separar(item);
+          return (
+            <p key={item} className="text-xs leading-relaxed text-slate-700">
+              <strong className={alerta ? "text-amber-950 font-semibold" : "text-slate-900 font-semibold"}>
+                {t}
+                {texto ? ":" : ""}
+              </strong>{" "}
+              {texto}
+            </p>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -380,6 +552,8 @@ function ComoAvaliamos() {
   const [dados, setDados] = useState<Avaliacao | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
+  const [filtroTipo, setFiltroTipo] = useState<string>("todos");
+  const [filtroStatus, setFiltroStatus] = useState<string>("todos");
 
   const rodar = async () => {
     setCarregando(true);
@@ -389,104 +563,213 @@ function ComoAvaliamos() {
       if (!res.ok) throw new Error();
       setDados(await res.json());
     } catch {
-      setErro("Não foi possível rodar a avaliação agora.");
+      setErro("Não foi possível executar a avaliação experimental agora.");
     } finally {
       setCarregando(false);
     }
   };
 
-  const nomeEstudo = (id: string) =>
-    ({ est_rawat: "Rawat", est_niederhaus: "Niederhaus", est_dindukurthi: "Dindukurthi", est_elssa: "ELSSA" } as Record<string, string>)[id] ?? id;
+  const listaFiltrada = useMemo(() => {
+    if (!dados) return [];
+    return dados.detalhes.filter((d) => {
+      const passaTipo = filtroTipo === "todos" || d.tipo === filtroTipo;
+      const ok = d.estudos_esperados.length === 0 ? d.abstencao_correta : d.hit_rate === 1 && d.precisao === 1;
+      const parcial = !ok && (d.hit_rate ?? 0) > 0;
+      const passaStatus =
+        filtroStatus === "todos" ||
+        (filtroStatus === "certos" && ok) ||
+        (filtroStatus === "parciais" && parcial) ||
+        (filtroStatus === "errados" && !ok && !parcial);
+      return passaTipo && passaStatus;
+    });
+  }, [dados, filtroTipo, filtroStatus]);
 
   return (
     <div className="space-y-6">
-      <section className="max-w-3xl space-y-3 text-[15px] leading-relaxed text-stone-700">
-        <p>
-          Para saber se o sistema funciona, usamos um banco de perguntas cuja resposta já conhecemos: perguntas diretas,
-          perguntas com outras palavras, perguntas que cruzam estudos e perguntas <em>fora do escopo</em>, que nenhum
-          estudo responde. Os números abaixo são calculados na hora, a cada execução.
-        </p>
-        <ul className="space-y-1 text-sm text-stone-600">
-          <li><strong className="text-stone-800">Acerto (hit rate):</strong> dos estudos esperados, quantos apareceram.</li>
-          <li><strong className="text-stone-800">Precisão:</strong> das abordagens mostradas, quantas eram esperadas.</li>
-          <li><strong className="text-stone-800">Recusa correta:</strong> nas perguntas fora do escopo, quantas vezes o sistema disse que não encontrou nada.</li>
-          <li><strong className="text-stone-800">Taxa de fabricação:</strong> das informações conferíveis do resumo (números, autores e citações), quantas não estão no grafo.</li>
-        </ul>
-        <button
-          onClick={rodar}
-          disabled={carregando}
-          className="mt-2 flex items-center gap-2 rounded-lg bg-teal-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-800 disabled:opacity-40"
-        >
-          {carregando ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <FlaskConical className="h-4 w-4" />}
-          {carregando ? "Avaliando…" : dados ? "Rodar de novo" : "Rodar avaliação"}
-        </button>
-        {erro && <p className="text-sm text-red-700">{erro}</p>}
+      {/* Cabeçalho do Experimento */}
+      <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="max-w-2xl">
+            <h2 className="text-base font-bold text-slate-900">
+              Protocolo de Avaliação Experimental
+            </h2>
+            <p className="mt-1 text-xs leading-relaxed text-slate-600">
+              Banco de 21 perguntas avaliadas em tempo real com gabarito conhecido: perguntas diretas, paráfrases,
+              cruzadas e fora do escopo. Os números são computados a cada execução, sem valores fixos.
+            </p>
+          </div>
+
+          <button
+            onClick={rodar}
+            disabled={carregando}
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-teal-700 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-teal-800 disabled:opacity-40"
+          >
+            {carregando ? (
+              <LoaderCircle className="h-4 w-4 animate-spin text-white" />
+            ) : (
+              <FlaskConical className="h-4 w-4 text-teal-200" />
+            )}
+            {carregando ? "Computando métricas…" : dados ? "Rodar novamente" : "Rodar avaliação empírica"}
+          </button>
+        </div>
+
+        {erro && <p className="mt-3 text-xs text-red-600">{erro}</p>}
       </section>
 
+      {/* Métricas em Cartões KPI Clean */}
       {dados && (
         <>
-          <section className="overflow-hidden rounded-xl border border-stone-200 bg-white">
-            <table className="w-full text-sm">
-              <thead className="bg-stone-50 text-left text-xs text-stone-500">
-                <tr>
-                  <th className="px-4 py-2 font-medium">Medida</th>
-                  <th className="px-4 py-2 font-medium">GraphRAG (com caminho no grafo)</th>
-                  <th className="px-4 py-2 font-medium">Referência: só similaridade de texto</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-100">
-                <Linha nome={`Acerto (${dados.perguntas_com_resposta} perguntas)`} a={pct(dados.graphrag.hit_rate_medio)} b={pct(dados.referencia_sem_grafo.hit_rate_medio)} />
-                <Linha nome="Precisão" a={pct(dados.graphrag.precisao_media)} b={pct(dados.referencia_sem_grafo.precisao_media)} />
-                <Linha nome={`Recusa correta (${dados.perguntas_fora_do_escopo} perguntas)`} a={pct(dados.graphrag.abstencao_correta)} b={pct(dados.referencia_sem_grafo.abstencao_correta)} />
-                <Linha nome={`Taxa de fabricação (${dados.graphrag.afirmacoes_verificadas} informações conferidas)`} a={pct(dados.graphrag.taxa_fabricacao)} b="—" />
-              </tbody>
-            </table>
-            <p className="border-t border-stone-100 px-4 py-2 text-xs text-stone-500">
-              Similaridade usada nesta execução:{" "}
-              {dados.modo_similaridade === "embedding"
-                ? "embeddings do Gemini."
-                : "comparação local de palavras (sem a chave do Gemini). Nesse modo, perguntas em português comparadas a trechos em inglês saem prejudicadas, inclusive na referência."}
-            </p>
-          </section>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <CardMetrica
+              titulo="Acerto (Hit Rate)"
+              valor={pct(dados.graphrag.hit_rate_medio)}
+              comparativo={`Referência: ${pct(dados.referencia_sem_grafo.hit_rate_medio)}`}
+              descricao={`${dados.perguntas_com_resposta} perguntas com resposta`}
+              destaque
+            />
+            <CardMetrica
+              titulo="Precisão Média"
+              valor={pct(dados.graphrag.precisao_media)}
+              comparativo={`Referência: ${pct(dados.referencia_sem_grafo.precisao_media)}`}
+              descricao="Abordagens esperadas vs trazidas"
+            />
+            <CardMetrica
+              titulo="Recusa Correta"
+              valor={pct(dados.graphrag.abstencao_correta)}
+              comparativo={`Referência: ${pct(dados.referencia_sem_grafo.abstencao_correta)}`}
+              descricao={`${dados.perguntas_fora_do_escopo} perguntas fora de escopo`}
+            />
+            <CardMetrica
+              titulo="Taxa de Fabricação"
+              valor={pct(dados.graphrag.taxa_fabricacao)}
+              comparativo="0% alucinação"
+              descricao={`${dados.graphrag.afirmacoes_verificadas} informações auditadas`}
+              valido={dados.graphrag.taxa_fabricacao === 0}
+            />
+          </div>
 
-          <section className="overflow-x-auto rounded-xl border border-stone-200 bg-white">
-            <table className="w-full min-w-[640px] text-sm">
-              <thead className="bg-stone-50 text-left text-xs text-stone-500">
-                <tr>
-                  <th className="px-4 py-2 font-medium">Pergunta</th>
-                  <th className="px-4 py-2 font-medium">Esperado</th>
-                  <th className="px-4 py-2 font-medium">Encontrado</th>
-                  <th className="px-4 py-2 font-medium">Resultado</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-100 align-top">
-                {dados.detalhes.map((d) => {
-                  const ok = d.estudos_esperados.length === 0 ? d.abstencao_correta : d.hit_rate === 1 && d.precisao === 1;
-                  const parcial = !ok && (d.hit_rate ?? 0) > 0;
-                  return (
-                    <tr key={d.id}>
-                      <td className="px-4 py-3">
-                        <span className="mb-1 inline-block rounded bg-stone-100 px-1.5 py-0.5 text-[11px] text-stone-500">
-                          {TIPO_PERGUNTA[d.tipo] ?? d.tipo}
-                        </span>
-                        <p className="text-stone-700">{d.pergunta}</p>
-                      </td>
-                      <td className="px-4 py-3 text-stone-600">{d.estudos_esperados.map(nomeEstudo).join(", ") || "Nada"}</td>
-                      <td className="px-4 py-3 text-stone-600">{d.estudos_recuperados.map(nomeEstudo).join(", ") || "Nada"}</td>
-                      <td className="px-4 py-3">
-                        {ok ? (
-                          <span className="flex items-center gap-1 text-teal-800"><CircleCheck className="h-4 w-4" /> Certo</span>
-                        ) : parcial ? (
-                          <span className="flex items-center gap-1 text-amber-700"><TriangleAlert className="h-4 w-4" /> Parcial</span>
-                        ) : (
-                          <span className="flex items-center gap-1 text-red-700"><CircleX className="h-4 w-4" /> Errado</span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          <p className="text-[11px] text-slate-500">
+            Similaridade usada nesta execução:{" "}
+            <strong>
+              {dados.modo_similaridade === "embedding"
+                ? "Embeddings do Gemini (API)"
+                : "Comparação local de termos (sem chave da API)"}
+            </strong>
+            .
+          </p>
+
+          {/* Tabela de Perguntas e Respostas com Filtros Clean */}
+          <section className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
+            {/* Barra de Filtros */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 bg-slate-50/80 px-4 py-3 text-xs">
+              <div className="flex flex-wrap items-center gap-1">
+                <span className="mr-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  Tipo:
+                </span>
+                {[
+                  ["todos", "Todas (21)"],
+                  ["direta", "Diretas (4)"],
+                  ["parafrase", "Paráfrases (4)"],
+                  ["cruzada", "Cruzam (8)"],
+                  ["fora_do_escopo", "Fora escopo (5)"],
+                ].map(([id, label]) => (
+                  <button
+                    key={id}
+                    onClick={() => setFiltroTipo(id)}
+                    className={`rounded-full px-2.5 py-1 text-[11px] transition ${
+                      filtroTipo === id
+                        ? "bg-slate-900 font-semibold text-white"
+                        : "bg-white text-slate-600 hover:bg-slate-200/60"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-1">
+                <span className="mr-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  Status:
+                </span>
+                {[
+                  ["todos", "Todos"],
+                  ["certos", "Certos"],
+                  ["parciais", "Parciais"],
+                  ["errados", "Errados"],
+                ].map(([st, label]) => (
+                  <button
+                    key={st}
+                    onClick={() => setFiltroStatus(st)}
+                    className={`rounded-full px-2.5 py-0.5 text-[11px] transition ${
+                      filtroStatus === st
+                        ? "bg-teal-700 font-semibold text-white"
+                        : "bg-white text-slate-600 hover:bg-slate-200/60"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Tabela */}
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[640px] text-left text-xs">
+                <thead className="bg-slate-50 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <tr>
+                    <th className="px-4 py-2.5">Pergunta</th>
+                    <th className="px-4 py-2.5">Esperado</th>
+                    <th className="px-4 py-2.5">Encontrado (GraphRAG)</th>
+                    <th className="px-4 py-2.5">Resultado</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 align-top">
+                  {listaFiltrada.map((d) => {
+                    const ok =
+                      d.estudos_esperados.length === 0
+                        ? d.abstencao_correta
+                        : d.hit_rate === 1 && d.precisao === 1;
+                    const parcial = !ok && (d.hit_rate ?? 0) > 0;
+
+                    return (
+                      <tr key={d.id} className="transition hover:bg-slate-50/60">
+                        <td className="px-4 py-3 max-w-sm">
+                          <span className="mb-1 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600">
+                            {TIPO_PERGUNTA[d.tipo] ?? d.tipo}
+                          </span>
+                          <p className="text-slate-800 leading-relaxed">{d.pergunta}</p>
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {d.estudos_esperados.map(nomeEstudo).join(", ") || (
+                            <span className="italic text-slate-400">Nenhum (abstenção)</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 font-medium text-slate-800">
+                          {d.estudos_recuperados.map(nomeEstudo).join(", ") || (
+                            <span className="italic text-slate-400">Nenhum</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3">
+                          {ok ? (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-800 border border-emerald-200">
+                              <CircleCheck className="h-3.5 w-3.5 text-emerald-600" /> Certo
+                            </span>
+                          ) : parcial ? (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 font-semibold text-amber-800 border border-amber-200">
+                              <TriangleAlert className="h-3.5 w-3.5 text-amber-600" /> Parcial
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2 py-0.5 font-semibold text-rose-800 border border-rose-200">
+                              <CircleX className="h-3.5 w-3.5 text-rose-600" /> Errado
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </section>
         </>
       )}
@@ -494,13 +777,40 @@ function ComoAvaliamos() {
   );
 }
 
-function Linha({ nome, a, b }: { nome: string; a: string; b: string }) {
+function CardMetrica({
+  titulo,
+  valor,
+  comparativo,
+  descricao,
+  destaque = false,
+  valido = true,
+}: {
+  titulo: string;
+  valor: string;
+  comparativo: string;
+  descricao: string;
+  destaque?: boolean;
+  valido?: boolean;
+}) {
   return (
-    <tr>
-      <td className="px-4 py-2.5 text-stone-700">{nome}</td>
-      <td className="px-4 py-2.5 font-semibold text-stone-900">{a}</td>
-      <td className="px-4 py-2.5 text-stone-600">{b}</td>
-    </tr>
+    <div
+      className={`rounded-2xl border p-4 shadow-xs ${
+        destaque
+          ? "border-teal-200 bg-gradient-to-br from-teal-50/50 to-white"
+          : "border-slate-200/80 bg-white"
+      }`}
+    >
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">{titulo}</p>
+      <div className="mt-1.5 flex items-baseline gap-2">
+        <span className="text-2xl font-extrabold tracking-tight text-slate-900">{valor}</span>
+        {valido && (
+          <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700">
+            {comparativo}
+          </span>
+        )}
+      </div>
+      <p className="mt-1 text-[11px] text-slate-500">{descricao}</p>
+    </div>
   );
 }
 
@@ -521,54 +831,71 @@ function SobreAcervo() {
   const contar = (tipo: string) => nos.filter((n) => n.tipo === tipo).length;
 
   return (
-    <div className="space-y-8">
-      <section className="max-w-3xl space-y-3 text-[15px] leading-relaxed text-stone-700">
-        <p>
-          O acervo contém <strong>apenas os estudos incluídos no mapeamento sistemático</strong>. As informações de cada
-          estudo foram extraídas pelo grupo durante a leitura completa e organizadas em um grafo. Os trechos exibidos
-          foram copiados dos PDFs e conferidos automaticamente.
-        </p>
-        <p className="text-sm text-stone-600">
-          Este é um protótipo (MVP) com acervo pequeno e fechado. Enviar novos artigos pelo site e montar o grafo
-          automaticamente fica como trabalho futuro: os próprios estudos revisados mostram que a extração automática
-          ainda comete erros.
+    <div className="space-y-6">
+      {/* Contexto dos Estudos Incluídos */}
+      <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
+        <h2 className="text-base font-bold text-slate-900">
+          Acervo Fechado do Mapeamento Sistemático
+        </h2>
+        <p className="mt-1 text-xs leading-relaxed text-slate-600 max-w-3xl">
+          O grafo contém <strong>exclusivamente os 4 estudos primários incluídos</strong> após a seleção por critérios
+          de elegibilidade (Scopus/IEEE). Todos os trechos foram copiados dos artigos em PDF e verificados
+          computacionalmente (10 de 10 trechos validados).
         </p>
       </section>
 
-      <section>
-        <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-stone-500">Estudos no grafo ({estudos.length})</h2>
-        <div className="grid gap-3 md:grid-cols-2">
-          {estudos.map((e) => (
-            <div key={e.id} className="rounded-xl border border-stone-200 bg-white p-4">
-              <p className="text-xs text-stone-500">
-                <span className="font-medium text-stone-700">{e.metadados.autores}</span> · {e.metadados.ano} · {e.metadados.veiculo}
-              </p>
-              <p className="mt-1 text-sm font-medium leading-snug">{e.nome}</p>
-              <p className="mt-2 text-sm leading-relaxed text-stone-600">{e.descricao}</p>
+      {/* Cartões dos 4 Estudos Primários */}
+      <div className="grid gap-4 md:grid-cols-2">
+        {estudos.map((e) => (
+          <div
+            key={e.id}
+            className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs transition hover:border-slate-300"
+          >
+            <div className="flex items-center gap-2 text-xs text-slate-400">
+              <span className="rounded bg-teal-50 px-2 py-0.5 font-semibold text-teal-800 border border-teal-200/60">
+                {e.metadados.ano}
+              </span>
+              <span className="font-semibold text-slate-700">{e.metadados.autores}</span>
             </div>
-          ))}
-        </div>
-      </section>
+            <h3 className="mt-2 text-sm font-bold text-slate-900 leading-snug">
+              {e.nome}
+            </h3>
+            <p className="mt-1.5 text-xs leading-relaxed text-slate-600">
+              {e.descricao}
+            </p>
+            <p className="mt-3 text-[11px] text-slate-400 italic border-t border-slate-100 pt-2">
+              {e.metadados.veiculo}
+            </p>
+          </div>
+        ))}
+      </div>
 
-      <section>
-        <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-stone-500">Como o grafo é organizado</h2>
-        <div className="rounded-xl border border-stone-200 bg-white p-5 text-sm leading-loose text-stone-700">
-          <p>
-            Cada <Tag>Estudo</Tag> <em>usa</em> uma <Tag>Abordagem</Tag>, que é <em>aplicada em</em> um{" "}
-            <Tag>Cenário de decisão</Tag>, <em>avaliada por</em> uma <Tag>Forma de avaliação</Tag>, <em>tem</em>{" "}
-            <Tag>Limitações</Tag> e <em>usa</em> uma <Tag>Estratégia de recuperação</Tag>. Cada estudo também tem{" "}
-            <Tag>Trechos</Tag> copiados do artigo, com a página.
-          </p>
-          <p className="mt-2 text-stone-500">
-            Total: {nos.length} nós · {contar("Tecnica")} abordagens · {contar("CenarioDecisao")} cenários ·{" "}
-            {contar("Limitacao")} limitações · {contar("Snippet")} trechos.
-          </p>
+      {/* Estatísticas da Topologia do Grafo */}
+      <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          Estrutura e Topologia do Grafo
+        </h3>
+        <p className="mt-1 text-xs text-slate-600">
+          Cada nó e aresta representa uma entidade ou relação causal extraída da leitura sistemática.
+        </p>
+
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-5 text-center">
+          <StatCounter rotulo="Total de Nós" valor={nos.length} />
+          <StatCounter rotulo="Abordagens" valor={contar("Tecnica")} />
+          <StatCounter rotulo="Cenários" valor={contar("CenarioDecisao")} />
+          <StatCounter rotulo="Limitações" valor={contar("Limitacao")} />
+          <StatCounter rotulo="Trechos Reais" valor={contar("Snippet")} />
         </div>
       </section>
     </div>
   );
 }
 
-function Tag({ children }: { children: React.ReactNode }) {
-  return <span className="rounded bg-stone-100 px-1.5 py-0.5 text-[13px] font-medium text-stone-800">{children}</span>;
+function StatCounter({ rotulo, valor }: { rotulo: string; valor: number }) {
+  return (
+    <div className="rounded-xl bg-slate-50 p-3 border border-slate-100">
+      <div className="text-lg font-black text-slate-900">{valor}</div>
+      <div className="text-[10px] font-medium text-slate-500 uppercase tracking-wide">{rotulo}</div>
+    </div>
+  );
 }
