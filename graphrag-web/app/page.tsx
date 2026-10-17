@@ -234,7 +234,7 @@ export default function Home() {
           Trabalho de Conclusão de Curso (TCC) · Universidade Católica do Salvador (UCSal)
         </p>
         <p className="mt-1 text-slate-400">
-          Orientadora: Profa. Angela Peixoto · Autor: Caio Fonseca
+          Orientadora: Profa. Angela Peixoto · Autores: Adriano Abreu de Almeida, Alison Andrade Rocha, Caio Roldão de Almeida Fonseca, Lívia Alves de Souza e Wendel Campos Bezerra
         </p>
       </footer>
     </div>
@@ -385,7 +385,7 @@ function Resultado({ resposta }: { resposta: Resposta }) {
             (c.itens_sem_suporte === 0 ? (
               <span className="flex items-center gap-1 font-semibold text-emerald-800">
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-                {c.itens_verificados} fatos conferidos no grafo (0% fabricação)
+                {c.itens_verificados} {c.itens_verificados === 1 ? "informação conferida" : "informações conferidas"} no grafo
               </span>
             ) : (
               <span className="flex items-center gap-1 font-semibold text-amber-800">
@@ -554,6 +554,8 @@ function ComoAvaliamos() {
   const [erro, setErro] = useState("");
   const [filtroTipo, setFiltroTipo] = useState<string>("todos");
   const [filtroStatus, setFiltroStatus] = useState<string>("todos");
+  const contar = (tipo?: string) =>
+    (dados?.detalhes ?? []).filter((d) => !tipo || d.tipo === tipo).length;
 
   const rodar = async () => {
     setCarregando(true);
@@ -594,7 +596,7 @@ function ComoAvaliamos() {
               Protocolo de Avaliação Experimental
             </h2>
             <p className="mt-1 text-xs leading-relaxed text-slate-600">
-              Banco de 21 perguntas avaliadas em tempo real com gabarito conhecido: perguntas diretas, paráfrases,
+              Banco de perguntas avaliadas em tempo real com gabarito conhecido: perguntas diretas, paráfrases,
               cruzadas e fora do escopo. Os números são computados a cada execução, sem valores fixos.
             </p>
           </div>
@@ -642,7 +644,7 @@ function ComoAvaliamos() {
             <CardMetrica
               titulo="Taxa de Fabricação"
               valor={pct(dados.graphrag.taxa_fabricacao)}
-              comparativo="0% alucinação"
+              comparativo="Medida a cada execução"
               descricao={`${dados.graphrag.afirmacoes_verificadas} informações auditadas`}
               valido={dados.graphrag.taxa_fabricacao === 0}
             />
@@ -667,11 +669,11 @@ function ComoAvaliamos() {
                   Tipo:
                 </span>
                 {[
-                  ["todos", "Todas (21)"],
-                  ["direta", "Diretas (4)"],
-                  ["parafrase", "Paráfrases (4)"],
-                  ["cruzada", "Cruzam (8)"],
-                  ["fora_do_escopo", "Fora escopo (5)"],
+                  ["todos", `Todas (${contar()})`],
+                  ["direta", `Diretas (${contar("direta")})`],
+                  ["parafrase", `Paráfrases (${contar("parafrase")})`],
+                  ["cruzada", `Cruzam (${contar("cruzada")})`],
+                  ["fora_do_escopo", `Fora escopo (${contar("fora_do_escopo")})`],
                 ].map(([id, label]) => (
                   <button
                     key={id}

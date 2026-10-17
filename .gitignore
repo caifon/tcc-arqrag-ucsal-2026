@@ -33,6 +33,8 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # OS and IDE files
+*.zip
+
 .DS_Store
 Thumbs.db
 .vscode/

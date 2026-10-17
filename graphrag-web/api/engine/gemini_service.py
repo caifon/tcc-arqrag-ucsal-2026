@@ -86,7 +86,7 @@ class GeminiService:
                         for t in chunk
                     ]
                 }
-                resp = requests.post(url, json=payload, timeout=8)
+                resp = requests.post(url, json=payload, timeout=30)
                 if resp.status_code == 200:
                     data = resp.json()
                     embs = data.get("embeddings", [])
@@ -127,8 +127,8 @@ class GeminiService:
         modelo de similaridade, por isso há dois limiares. Calibre com scripts/calibrar_limiar.py.
         """
         if self.api_key:
-            return float(os.getenv("LIMIAR_SIMILARIDADE", "0.62"))
-        return float(os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.35"))
+            return float(os.getenv("LIMIAR_SIMILARIDADE", "0.72"))
+        return float(os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.60"))
 
     def encontrar_nos_entrada(self, query: str, nos: List[NoGrafo], top_k: int = 3,
                               threshold: Optional[float] = None) -> List[Tuple[NoGrafo, float]]:
@@ -136,8 +136,13 @@ class GeminiService:
         pontuados = self.pontuar_nos(query, nos)
         if threshold is None:
             threshold = self.limiar_padrao() if self.ultimo_modo == "embedding" else float(
-                os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.35"))
-        return [(n, s) for n, s in pontuados if s >= threshold][:top_k]
+                os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.60"))
+        if not pontuados or pontuados[0][1] < threshold:
+            return []
+        # Só entram nós quase tão parecidos com a pergunta quanto o melhor (evita "puxar" estudos por ligações fracas)
+        margem = float(os.getenv("MARGEM_SIMILARIDADE", "0.05"))
+        corte = max(threshold, pontuados[0][1] - margem)
+        return [(n, s) for n, s in pontuados if s >= corte][:top_k]
 
     def pontuar_nos(self, query: str, nos: List[NoGrafo]) -> List[Tuple[NoGrafo, float]]:
         """Similaridade entre a pergunta e cada nó, em ordem decrescente. Registra o modo usado."""
@@ -212,7 +217,12 @@ Regras:
 5. Não use títulos, listas nem markdown."""
         payload = {
             "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {"temperature": 0.0, "maxOutputTokens": 400},
+            "generationConfig": {
+                "temperature": 0.0,
+                "maxOutputTokens": 1024,
+                # sem "raciocínio" interno: senão ele consome o limite e o resumo sai cortado
+                "thinkingConfig": {"thinkingBudget": 0},
+            },
         }
         resp = requests.post(url, json=payload, timeout=12)
         if resp.status_code == 200:
