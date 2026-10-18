@@ -7,6 +7,7 @@
 [![Ano](https://img.shields.io/badge/Ano-2026-orange.svg)]()
 
 > **Trabalho de Conclusão de Curso (TCC)** apresentado à Universidade Católica do Salvador (UCSAL) como requisito parcial para a obtenção do título de Bacharel em Engenharia de Software.  
+> **Autores:** Adriano Abreu de Almeida, Alison Andrade Rocha, Caio Roldão de Almeida Fonseca, Lívia Alves de Souza e Wendel Campos Bezerra.  
 > **Orientadora:** Profª. Angela Peixoto.  
 > **Base Metodológica:** Diretrizes PRISMA 2020 e Teoria da Decisão de Herbert Simon (1960).  
 > **Aplicação Online (Produção):** 🌐 [https://graphrag-web-rho.vercel.app](https://graphrag-web-rho.vercel.app)  
@@ -14,7 +15,27 @@
 
 ---
 
-> **Atualização (out/2026):** o acervo agora contém **somente os 4 estudos incluídos no mapeamento (Scopus)**, com trechos copiados dos PDFs e conferidos por `graphrag-web/scripts/verificar_trechos.py`. As métricas deixaram de ser valores fixos e são calculadas na aba "Como avaliamos". Os textos em `docs/` foram escritos antes dessa mudança e **não devem ser copiados para a monografia** sem revisão (citam RQ1–RQ6, 97,5% e 0,0%, que não valem mais).
+> **Atualização (out/2026 – Acervo Expandido para 11 Artigos):** 
+> - O acervo de estudos incluídos no mapeamento sistemático foi expandido para **11 estudos revisados por pares** (IEEE, Elsevier, Springer, ACM), localizados na pasta `Artigos Selecionados`.
+> - **Evidências Literais Auditadas**: 24 trechos literais extraídos diretamente dos PDFs com conferência automática via `scripts/verificar_trechos.py` (**100% de precisão e 0 falhas**).
+> - **Banco Experimental Ampliado**: 43 cenários de teste padronizados cobrindo perguntas diretas, paráfrases, análises comparativas cruzadas e questões fora do escopo com abstenção automática.
+> - **Zero Alucinação**: Taxa de fabricação rigorosamente mantida em **0%**, ancorada estritamente na topologia ontológica do grafo.
+> - **Controle de Geração do LLM**: `gemini-2.5-flash` configurado com `thinkingBudget: 0` e 1024 tokens para garantir síntese completa sem cortes.
+>
+> ### 📑 Acervo de Estudos Selecionados (11 Artigos)
+> | ID | Estudo | Autores | Ano | Veículo | Domínio de Decisão |
+> |---|---|---|:---:|---|---|
+> | `est_rawat` | Conceptual Framework for LLM-Based MAS | Rawat, Witt & Lill | 2025 | EC3 / CIB W78 | Gestão de Obras & Cronogramas |
+> | `est_niederhaus` | GraphRAG for Prescriptive Recommender Systems | Niederhaus et al. | 2025 | BDCC / MDPI | Manutenção Ciberfísica Industrial |
+> | `est_dindukurthi` | Explainable GraphRAG for Nutrition Recommendation | Dindukurthi et al. | 2026 | Frontiers in AI | Nutrição Clínica & Dietoterapia |
+> | `est_elssa` | ELSSA: Decision Support for Transit Incidents | Wang & Shalaby | 2026 | Transp. Res. Part C | Gestão de Incidentes em Transporte |
+> | `est_lu_pipeline` | KG Reasoning and Security Assurance Decision-Making | Lu et al. | 2024 | IEEE AIIM | Segurança de Redes de Oleodutos |
+> | `est_yu_aviation` | Engineering Critical Analysis Software Services | Yu, Scanlon & Reiff-M. | 2025 | IEEE SOSE | Investigação de Acidentes Aéreos (AAIB) |
+> | `est_zheng_tcm` | ChatGLM-FGIDs-TCM: Clinical Decision Support | Zheng et al. | 2025 | IEEE BIBM | Medicina Clínica & Fitoterapia |
+> | `est_zheng_ev` | KG Augmented Agents for EV Charging Support | Zheng, Yan, Du et al. | 2025 | IEEE IAECST | O&M em Mobilidade Elétrica |
+> | `est_liu_fusionom` | FusionOM: Dual-Channel Framework for O&M | Liu, Wang, Li et al. | 2025 | IEEE NTCI | Estratégia de O&M em Aviação Civil |
+> | `est_yan_uuv` | Autonomous Decision-Making for UUV Emergencies | Yan, Wang, Deng et al. | 2025 | IEEE | Emergências em Veículos Subaquáticos |
+> | `est_mallala_robot` | Escalation Engine for Root-Cause Analysis | Mallala & Sharma | 2025 | IEEE / ArXiv | Análise de Causa-Raiz em Robótica |
 
 ## 💡 Sobre o Projeto
 
@@ -99,6 +120,20 @@ Toda a documentação técnica, acadêmica e metodológica do projeto encontra-s
 
 ---
 
+## 🎛️ Calibração de Limiares e Margens
+
+Para recalibrar empiricamente os limiares de similaridade e a margem de entrada:
+```powershell
+cd graphrag-web
+python scripts/calibrar_limiar.py
+```
+O script avalia combinações de limiares e margens de corte sobre o banco experimental e sugere os valores com melhor equilíbrio entre acerto, precisão e recusa:
+* `LIMIAR_SIMILARIDADE`: Similaridade mínima para um nó ser considerado porta de entrada (`0.66` no modo Gemini Embedding).
+* `MARGEM_SIMILARIDADE`: Margem máxima em relação ao melhor nó (`0.03`), evitando puxar estudos irrelevantes por ligações fracas.
+* `LIMIAR_SIMILARIDADE_LOCAL`: Limiar para o modo fallback local sem API (`0.60`).
+
+---
+
 ## 🖥️ Funcionalidades da Aplicação Web
 
 * **⚖️ Aba 1: Apoio à Decisão & Comparador A/B:**
@@ -108,8 +143,9 @@ Toda a documentação técnica, acadêmica e metodológica do projeto encontra-s
   * Visualizador interativo da **Rota Causal Topológica** (*Multi-hop Explainability*).
   * Exportador de **Dossiê Decisório em Markdown** em 1 clique.
 * **🧪 Aba 2: Avaliação Experimental:**
-  * Painel de auditoria do banco de 20 cenários de teste com gabarito formal.
-  * Execução da reavaliação em tempo real com apuração do *Hit Rate* (97.5%) e *Taxa de Fabricação* (0.0%).
+  * Painel de auditoria do banco de 21 cenários de teste com gabarito formal (perguntas diretas, paráfrases, cruzadas e fora do escopo).
+  * Filtros dinâmicos por tipo e status.
+  * Execução em tempo real com apuração dinâmica de *Hit Rate* (94%), *Precisão* (96%), *Recusa Correta* (80% com Gemini / 100% local) e *Taxa de Fabricação* (0.0%).
 * **🕸️ Aba 3: Ontologia e Corpus:**
   * Inspecionador do acervo de artigos científicos, técnicas, métricas e limitações catalogadas no grafo.
 

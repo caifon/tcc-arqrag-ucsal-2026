@@ -21,6 +21,7 @@ class GeminiService:
         self.api_key = key.strip() if key else None
         self.base_url = "https://generativelanguage.googleapis.com/v1beta"
         self._cache_embeddings: Dict[str, List[float]] = {}
+        self._api_desabilitada: bool = False
         self.ultimo_modo = "embedding" if self.api_key else "local"
 
     # ----------------- 1. EMBEDDINGS LEVES (PORTA DE ENTRADA) ----------------- #
@@ -47,7 +48,7 @@ class GeminiService:
         return dot / (norm1 * norm2)
 
     def obter_embedding_gemini(self, texto: str) -> Optional[List[float]]:
-        if not self.api_key:
+        if not self.api_key or self._api_desabilitada:
             return None
         if texto in self._cache_embeddings:
             return self._cache_embeddings[texto]
@@ -64,13 +65,16 @@ class GeminiService:
                 if vals:
                     self._cache_embeddings[texto] = vals
                     return vals
+            elif resp.status_code in (400, 403):
+                self._api_desabilitada = True
+                self.ultimo_modo = "local"
         except Exception:
             pass
         return None
 
     def obter_embeddings_lote(self, textos: List[str]) -> Dict[str, List[float]]:
         faltantes = [t for t in textos if t and t not in self._cache_embeddings]
-        if not faltantes or not self.api_key:
+        if not faltantes or not self.api_key or self._api_desabilitada:
             return {t: self._cache_embeddings[t] for t in textos if t in self._cache_embeddings}
 
         try:
@@ -94,6 +98,10 @@ class GeminiService:
                         vals = e.get("values")
                         if vals:
                             self._cache_embeddings[t] = vals
+                elif resp.status_code in (400, 403):
+                    self._api_desabilitada = True
+                    self.ultimo_modo = "local"
+                    break
         except Exception:
             pass
 
@@ -103,12 +111,14 @@ class GeminiService:
         v1 = self.obter_embedding_gemini(texto_query)
         v2 = self.obter_embedding_gemini(texto_no)
         if v1 and v2:
+            self.ultimo_modo = "embedding"
             dot = sum(a * b for a, b in zip(v1, v2))
             norm1 = math.sqrt(sum(a ** 2 for a in v1))
             norm2 = math.sqrt(sum(b ** 2 for b in v2))
             if norm1 > 0 and norm2 > 0:
                 return float(dot / (norm1 * norm2))
 
+        self.ultimo_modo = "local"
         t_q = self._tokenizar_fallback(texto_query)
         t_n = self._tokenizar_fallback(texto_no)
         return self._cosseno_fallback(t_q, t_n)
@@ -126,9 +136,9 @@ class GeminiService:
         que não encontrou nada (em vez de "forçar" uma resposta). Os valores mudam conforme o
         modelo de similaridade, por isso há dois limiares. Calibre com scripts/calibrar_limiar.py.
         """
-        if self.api_key:
+        if self.api_key and not self._api_desabilitada:
             return float(os.getenv("LIMIAR_SIMILARIDADE", "0.66"))
-        return float(os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.60"))
+        return float(os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.45"))
 
     def encontrar_nos_entrada(self, query: str, nos: List[NoGrafo], top_k: int = 3,
                               threshold: Optional[float] = None) -> List[Tuple[NoGrafo, float]]:
@@ -136,7 +146,7 @@ class GeminiService:
         pontuados = self.pontuar_nos(query, nos)
         if threshold is None:
             threshold = self.limiar_padrao() if self.ultimo_modo == "embedding" else float(
-                os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.60"))
+                os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.45"))
         if not pontuados or pontuados[0][1] < threshold:
             return []
         # Só entram nós quase tão parecidos com a pergunta quanto o melhor (evita "puxar" estudos por ligações fracas)

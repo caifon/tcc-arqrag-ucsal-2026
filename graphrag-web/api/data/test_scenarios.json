@@ -69,7 +69,8 @@
     "pergunta": "Quais abordagens restringem o LLM para que ele não invente informações?",
     "estudos_esperados": [
       "est_dindukurthi",
-      "est_elssa"
+      "est_elssa",
+      "est_zheng_ev"
     ]
   },
   {
@@ -78,7 +79,8 @@
     "pergunta": "Quais abordagens montam o grafo a partir de documentos de texto usando um LLM?",
     "estudos_esperados": [
       "est_niederhaus",
-      "est_elssa"
+      "est_elssa",
+      "est_yu_aviation"
     ]
   },
   {
@@ -104,7 +106,14 @@
     "pergunta": "Quais estudos usam a similaridade apenas como porta de entrada e depois percorrem o grafo?",
     "estudos_esperados": [
       "est_dindukurthi",
-      "est_elssa"
+      "est_elssa",
+      "est_lu_pipeline",
+      "est_yu_aviation",
+      "est_zheng_tcm",
+      "est_zheng_ev",
+      "est_liu_fusionom",
+      "est_yan_uuv",
+      "est_mallala_robot"
     ]
   },
   {
@@ -120,7 +129,8 @@
     "tipo": "cruzada",
     "pergunta": "Quais estudos dividem o grafo em comunidades?",
     "estudos_esperados": [
-      "est_elssa"
+      "est_elssa",
+      "est_yan_uuv"
     ]
   },
   {
@@ -160,6 +170,183 @@
     "id": "q21",
     "tipo": "fora_do_escopo",
     "pergunta": "Qual será a previsão do tempo para Salvador amanhã?",
+    "estudos_esperados": []
+  },
+  {
+    "id": "q22",
+    "tipo": "direta",
+    "pergunta": "Preciso avaliar a segurança física, cibernética e riscos geopolíticos em infraestruturas de oleodutos.",
+    "estudos_esperados": [
+      "est_lu_pipeline"
+    ]
+  },
+  {
+    "id": "q23",
+    "tipo": "direta",
+    "pergunta": "Como apoiar investigadores na reconstrução da cadeia causal de acidentes aeronáuticos a partir de relatórios do AAIB sem atribuir culpa?",
+    "estudos_esperados": [
+      "est_yu_aviation"
+    ]
+  },
+  {
+    "id": "q24",
+    "tipo": "direta",
+    "pergunta": "Como auxiliar médicos no diagnóstico de distúrbios gastrointestinais funcionais e na recomendação de tratamentos usando ontologia e grafo clínico?",
+    "estudos_esperados": [
+      "est_zheng_tcm"
+    ]
+  },
+  {
+    "id": "q25",
+    "tipo": "direta",
+    "pergunta": "Preciso diagnosticar falhas operacionais em estações de recarga de veículos elétricos e despachar ordens de manutenção usando grafo hierárquico.",
+    "estudos_esperados": [
+      "est_zheng_ev"
+    ]
+  },
+  {
+    "id": "q26",
+    "tipo": "direta",
+    "pergunta": "Como formular estratégias de manutenção preventiva e corretiva para componentes críticos integrando busca semântica e raciocínio em grafos?",
+    "estudos_esperados": [
+      "est_liu_fusionom"
+    ]
+  },
+  {
+    "id": "q27",
+    "tipo": "direta",
+    "pergunta": "Como tomar decisões autônomas de emergência em veículos subaquáticos não tripulados (UUV) sob falhas de subsistemas?",
+    "estudos_esperados": [
+      "est_yan_uuv"
+    ]
+  },
+  {
+    "id": "q28",
+    "tipo": "direta",
+    "pergunta": "Como correlacionar dados de telemetria e histórico de incidentes em um grafo para identificar a causa-raiz de falhas em robôs avançados?",
+    "estudos_esperados": [
+      "est_mallala_robot"
+    ]
+  },
+  {
+    "id": "q29",
+    "tipo": "parafrase",
+    "pergunta": "Vulnerabilidades em dutos de petróleo sob ameaça de ataques cibernéticos ou tensões geopolíticas.",
+    "estudos_esperados": [
+      "est_lu_pipeline"
+    ]
+  },
+  {
+    "id": "q30",
+    "tipo": "parafrase",
+    "pergunta": "Investigação técnica de falhas em aeronaves com análise estruturada de relatórios de incidentes.",
+    "estudos_esperados": [
+      "est_yu_aviation"
+    ]
+  },
+  {
+    "id": "q31",
+    "tipo": "parafrase",
+    "pergunta": "Prescrição e diagnóstico de sintomas gástricos complexos com apoio de grafo de conhecimento médico.",
+    "estudos_esperados": [
+      "est_zheng_tcm"
+    ]
+  },
+  {
+    "id": "q32",
+    "tipo": "parafrase",
+    "pergunta": "Eletroposto apresentando travamento no carregamento de carros elétricos com necessidade de envio de técnico.",
+    "estudos_esperados": [
+      "est_zheng_ev"
+    ]
+  },
+  {
+    "id": "q33",
+    "tipo": "parafrase",
+    "pergunta": "Geração rápida de planos de O&M para engenharia com canal duplo e garantia contra alucinações.",
+    "estudos_esperados": [
+      "est_liu_fusionom"
+    ]
+  },
+  {
+    "id": "q34",
+    "tipo": "parafrase",
+    "pergunta": "Submarino autônomo com leme travado ou vazamento no fundo do mar precisando de manobra imediata.",
+    "estudos_esperados": [
+      "est_yan_uuv"
+    ]
+  },
+  {
+    "id": "q35",
+    "tipo": "parafrase",
+    "pergunta": "Robô na linha de produção com superaquecimento de motor e histórico de falhas semelhantes.",
+    "estudos_esperados": [
+      "est_mallala_robot"
+    ]
+  },
+  {
+    "id": "q36",
+    "tipo": "cruzada",
+    "pergunta": "Quais abordagens utilizam recuperação em canal duplo ou combinam busca vetorial densa com fecho ou travessia no grafo?",
+    "estudos_esperados": [
+      "est_liu_fusionom",
+      "est_dindukurthi",
+      "est_elssa"
+    ]
+  },
+  {
+    "id": "q37",
+    "tipo": "cruzada",
+    "pergunta": "Quais estudos são voltados para o setor aeroespacial ou investigação de incidentes aeronáuticos?",
+    "estudos_esperados": [
+      "est_yu_aviation",
+      "est_liu_fusionom"
+    ]
+  },
+  {
+    "id": "q38",
+    "tipo": "cruzada",
+    "pergunta": "Quais estudos aplicam GraphRAG na área de saúde e medicina clínica?",
+    "estudos_esperados": [
+      "est_dindukurthi",
+      "est_zheng_tcm"
+    ]
+  },
+  {
+    "id": "q39",
+    "tipo": "cruzada",
+    "pergunta": "Quais abordagens usam agentes autônomos ou sistemas multiagentes com grafos de conhecimento?",
+    "estudos_esperados": [
+      "est_rawat",
+      "est_yu_aviation",
+      "est_zheng_ev"
+    ]
+  },
+  {
+    "id": "q40",
+    "tipo": "cruzada",
+    "pergunta": "Quais estudos projetaram soluções voltadas para execução na borda (edge computing) com restrições severas de hardware?",
+    "estudos_esperados": [
+      "est_yu_aviation",
+      "est_yan_uuv"
+    ]
+  },
+  {
+    "id": "q41",
+    "tipo": "fora_do_escopo",
+    "pergunta": "Como usar GraphRAG para otimizar a rotação de culturas e adubação na agricultura de precisão?",
+    "estudos_esperados": []
+  },
+  {
+    "id": "q42",
+    "tipo": "fora_do_escopo",
+    "pergunta": "Como programar um algoritmo de xadrez usando inteligência artificial generativa?",
+    "estudos_esperados": []
+  },
+  {
+    "id": "q43",
+    "tipo": "fora_do_escopo",
+    "pergunta": "Como calcular a rescisão trabalhista de um funcionário contratado sob o regime CLT?",
     "estudos_esperados": []
   }
 ]

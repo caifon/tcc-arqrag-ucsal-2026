@@ -1,5 +1,5 @@
 {
-  "versao": "2026-10-15-v3",
+  "versao": "2026-10-18-v4",
   "nos": [
     {
       "id": "estr_consulta_cypher",
@@ -27,6 +27,27 @@
       "tipo": "EstrategiaRecuperacao",
       "nome": "Resumos de comunidades do grafo",
       "descricao": "O grafo é dividido em comunidades de entidades relacionadas, e os resumos dessas comunidades complementam o contexto entregue ao LLM.",
+      "metadados": {}
+    },
+    {
+      "id": "estr_recuperacao_canal_duplo",
+      "tipo": "EstrategiaRecuperacao",
+      "nome": "Recuperação em canal duplo (vetorial e grafo em paralelo)",
+      "descricao": "Combina recuperação semântica vetorial densa com expansão de subgrafo estruturado em paralelo para fundir evidências.",
+      "metadados": {}
+    },
+    {
+      "id": "estr_travessia_hierarquica",
+      "tipo": "EstrategiaRecuperacao",
+      "nome": "Travessia hierárquica ascendente no grafo",
+      "descricao": "Percorre o grafo de conhecimento através de ponteiros ascendentes de nós-filhos para nós-pais, garantindo validação estrita em árvores conceituais.",
+      "metadados": {}
+    },
+    {
+      "id": "estr_embeddings_grafo",
+      "tipo": "EstrategiaRecuperacao",
+      "nome": "Embeddings e raciocínio de grafo (KGE/TransE)",
+      "descricao": "Projeta entidades e relações em espaços vetoriais contínuos para prever elos latentes e avaliar cenários contrafactuais.",
       "metadados": {}
     },
     {
@@ -79,6 +100,27 @@
       "metadados": {}
     },
     {
+      "id": "met_acuracia_diagnostica",
+      "tipo": "MetricaAvaliacao",
+      "nome": "Acurácia diagnóstica e F1 clínico",
+      "descricao": "Mede a concordância entre os diagnósticos/prescrições gerados pelo sistema e a avaliação cega de especialistas médicos.",
+      "metadados": {}
+    },
+    {
+      "id": "met_taxa_sucesso_emergencia",
+      "tipo": "MetricaAvaliacao",
+      "nome": "Taxa de sucesso e tempo de resposta sob falha",
+      "descricao": "Mede a porcentagem de emergências contornadas com sucesso em tempo hábil sob restrições severas de latência.",
+      "metadados": {}
+    },
+    {
+      "id": "met_acuracia_causa_raiz",
+      "tipo": "MetricaAvaliacao",
+      "nome": "Acurácia na identificação de causa-raiz (Hit@K)",
+      "descricao": "Mede a proporção de incidentes técnicos em que a causa-raiz real constava entre as K primeiras alternativas sugeridas.",
+      "metadados": {}
+    },
+    {
       "id": "lim_dados_sinteticos",
       "tipo": "Limitacao",
       "nome": "Testado só com dados simulados",
@@ -118,6 +160,34 @@
       "tipo": "Limitacao",
       "nome": "Mais chamadas ao LLM por consulta",
       "descricao": "A recuperação em várias etapas faz em média 5,6 chamadas ao LLM por consulta, contra 2 de uma alternativa mais simples.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_consumo_memoria_borda",
+      "tipo": "Limitacao",
+      "nome": "Alto consumo de memória na borda (edge computing)",
+      "descricao": "Executar LLMs e grafos em hardware embarcado exige quantização agressiva e impõe restrições de memória de trabalho.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_dependencia_qualidade_logs",
+      "tipo": "Limitacao",
+      "nome": "Dependência da qualidade e completude dos logs",
+      "descricao": "Registros operacionais incompletos ou informais comprometem a correlação precisa no grafo de anomalias.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_latencia_streaming",
+      "tipo": "Limitacao",
+      "nome": "Dependência de streaming contínuo de dados externos",
+      "descricao": "O raciocínio online depende de fluxo ininterrupto de eventos e telemetria, elevando custos de conectividade e inferência.",
+      "metadados": {}
+    },
+    {
+      "id": "lim_falta_suporte_multimodal",
+      "tipo": "Limitacao",
+      "nome": "Ausência de suporte a evidências visuais/multimodais",
+      "descricao": "O sistema opera apenas sobre texto e grafos simbólicos, não interpretando fotos ou diagramas de componentes danificados.",
       "metadados": {}
     },
     {
@@ -345,6 +415,363 @@
         "pagina": 15,
         "arquivo_pdf": "ELSSA Explainable large language model-based decision support for public transit incident management.pdf"
       }
+    },
+    {
+      "id": "est_lu_pipeline",
+      "tipo": "Estudo",
+      "nome": "Knowledge Graph Reasoning and Security Assurance Decision-Making Based on Online Retrieval Augment Generation",
+      "descricao": "Framework online de raciocínio em grafos de conhecimento e RAG para tomada de decisão em segurança e avaliação de riscos geopolíticos e cibernéticos em infraestruturas de oleodutos.",
+      "metadados": {
+        "autores": "Lu et al.",
+        "ano": 2024,
+        "veiculo": "IEEE AIIM",
+        "arquivo_pdf": "Knowledge_Graph_Reasoning_and_Security_Assurance_Decision-Making_Based_on_Online_Retrieval_Augment_Generation.pdf"
+      }
+    },
+    {
+      "id": "tec_lu_pipeline",
+      "tipo": "Tecnica",
+      "nome": "Online KG-RAG com raciocínio de grafo (TransE)",
+      "descricao": "Combina representação vetorial de grafos (TransE) com RAG online para projetar cenários contrafactuais de ameaça e embasar planos de contingência em tempo de execução.",
+      "metadados": {
+        "ferramentas": "TransE, Neo4j, LLM",
+        "estudo_id": "est_lu_pipeline"
+      }
+    },
+    {
+      "id": "cen_lu_pipeline",
+      "tipo": "CenarioDecisao",
+      "nome": "Infraestrutura crítica – segurança e gestão de riscos em oleodutos",
+      "descricao": "Avaliar a segurança física, cibernética e geopolítica de dutos de transporte de energia e propor medidas defensivas imediatas a partir de dados em tempo real.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_lu_pipeline_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Lu et al. (2024)",
+      "descricao": "This paper proposes a novel framework leveraging Knowledge Graph (KG) reasoning and online Retrieval Augmented Generation (RAG)",
+      "metadados": {
+        "estudo_id": "est_lu_pipeline",
+        "pagina": 1,
+        "arquivo_pdf": "Knowledge_Graph_Reasoning_and_Security_Assurance_Decision-Making_Based_on_Online_Retrieval_Augment_Generation.pdf"
+      }
+    },
+    {
+      "id": "tr_lu_pipeline_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Lu et al. (2024)",
+      "descricao": "Risks R are modeled as a function of geopolitical factors (G), economic conditions (E), and pipeline vulnerabilities (P)",
+      "metadados": {
+        "estudo_id": "est_lu_pipeline",
+        "pagina": 3,
+        "arquivo_pdf": "Knowledge_Graph_Reasoning_and_Security_Assurance_Decision-Making_Based_on_Online_Retrieval_Augment_Generation.pdf"
+      }
+    },
+    {
+      "id": "est_yu_aviation",
+      "tipo": "Estudo",
+      "nome": "Engineering Critical Analysis Software Services: A Graph-RAG and Self-Learning LLM-Based Agent Services Approach",
+      "descricao": "Framework de agentes com GraphRAG e autoaprendizado para análise de relatórios do AAIB (Air Accidents Investigation Branch), extraindo causalidades sem atribuir culpas.",
+      "metadados": {
+        "autores": "Yu, Scanlon e Reiff-Marganiec",
+        "ano": 2025,
+        "veiculo": "IEEE SOSE",
+        "arquivo_pdf": "Engineering_Critical_Analysis_Software_Services_a_Graph-Rag_and_Self-Learning_Large_Language_Model_Agent_Services_Approach.pdf"
+      }
+    },
+    {
+      "id": "tec_yu_aviation",
+      "tipo": "Tecnica",
+      "nome": "GraphRAG com grafo de chunks e agentes com autoaprendizado",
+      "descricao": "Converte relatórios aeronáuticos em um grafo de conhecimento onde cada chunk textual vira nó conectado por relações semânticas e causais, permitindo raciocínio estruturado.",
+      "metadados": {
+        "ferramentas": "CKGM, LLM Agents",
+        "estudo_id": "est_yu_aviation"
+      }
+    },
+    {
+      "id": "cen_yu_aviation",
+      "tipo": "CenarioDecisao",
+      "nome": "Aviação – investigação de acidentes aeronáuticos e prevenção de falhas",
+      "descricao": "Apoiar investigadores aeronáuticos a reconstruir a cadeia causal de falhas e incidentes para propor recomendações de segurança operacional sem apontar culpados.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_yu_aviation_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Yu, Scanlon e Reiff-Marganiec (2025)",
+      "descricao": "This paper presents Graph-RAG and Self-learning LLM-based Agent Services Framework for structured reasoning and knowledge-driven analysis",
+      "metadados": {
+        "estudo_id": "est_yu_aviation",
+        "pagina": 1,
+        "arquivo_pdf": "Engineering_Critical_Analysis_Software_Services_a_Graph-Rag_and_Self-Learning_Large_Language_Model_Agent_Services_Approach.pdf"
+      }
+    },
+    {
+      "id": "tr_yu_aviation_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Yu, Scanlon e Reiff-Marganiec (2025)",
+      "descricao": "The sole objective of an AAIB investigation is the prevention of future accidents and incidents. The AAIB reports do not apportion blame",
+      "metadados": {
+        "estudo_id": "est_yu_aviation",
+        "pagina": 5,
+        "arquivo_pdf": "Engineering_Critical_Analysis_Software_Services_a_Graph-Rag_and_Self-Learning_Large_Language_Model_Agent_Services_Approach.pdf"
+      }
+    },
+    {
+      "id": "est_zheng_tcm",
+      "tipo": "Estudo",
+      "nome": "ChatGLM-FGIDs-TCM: A Knowledge-Integrated Large Language Model for Clinical Decision Support in Traditional Chinese Medicine",
+      "descricao": "Sistema de apoio à decisão clínica para distúrbios gastrointestinais funcionais (FGIDs), integrando ontologia médica e grafo de conhecimento como esqueleto lógico de raciocínio.",
+      "metadados": {
+        "autores": "Zheng et al.",
+        "ano": 2025,
+        "veiculo": "IEEE BIBM",
+        "arquivo_pdf": "ChatGLM-FGIDs-TCM_A_Knowledge_Integrated_Large_Language_Model_for_Clinical_Decision_Support_in_Traditional_Chinese_Medicine.pdf"
+      }
+    },
+    {
+      "id": "tec_zheng_tcm",
+      "tipo": "Tecnica",
+      "nome": "Dual-Layer GraphRAG com normalização terminológica e feedback de triplas",
+      "descricao": "Normaliza termos médicos e queixas de pacientes mapeando para entidades do grafo, que fornece o esqueleto lógico conectando sintomas a diagnósticos e prescrições validadas.",
+      "metadados": {
+        "ferramentas": "ChatGLM-6B, Medical KG, WordNet",
+        "estudo_id": "est_zheng_tcm"
+      }
+    },
+    {
+      "id": "cen_zheng_tcm",
+      "tipo": "CenarioDecisao",
+      "nome": "Medicina clínica – diagnóstico diferencial e recomendação terapêutica",
+      "descricao": "Auxiliar médicos no diagnóstico de distúrbios gastrointestinais complexos e na seleção de intervenções terapêuticas fundamentadas em evidências ontológicas.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_zheng_tcm_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Zheng et al. (2025)",
+      "descricao": "This study presents ChatGLM-FGIDs-TCM, a domain-adapted large language model based on the open-source ChatGLM-6B framework",
+      "metadados": {
+        "estudo_id": "est_zheng_tcm",
+        "pagina": 1,
+        "arquivo_pdf": "ChatGLM-FGIDs-TCM_A_Knowledge_Integrated_Large_Language_Model_for_Clinical_Decision_Support_in_Traditional_Chinese_Medicine.pdf"
+      }
+    },
+    {
+      "id": "tr_zheng_tcm_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Zheng et al. (2025)",
+      "descricao": "The knowledge graph, on the other hand, provides the skeleton of clinical reasoning the explicit logical pathways that connect symptoms to treatments",
+      "metadados": {
+        "estudo_id": "est_zheng_tcm",
+        "pagina": 5,
+        "arquivo_pdf": "ChatGLM-FGIDs-TCM_A_Knowledge_Integrated_Large_Language_Model_for_Clinical_Decision_Support_in_Traditional_Chinese_Medicine.pdf"
+      }
+    },
+    {
+      "id": "est_zheng_ev",
+      "tipo": "Estudo",
+      "nome": "Knowledge Graph Augmented Autonomous Agents for Intelligent Customer Service in Electric Vehicle Charging Infrastructure",
+      "descricao": "Agente autônomo baseado em grafo hierárquico de conhecimento para diagnóstico de anomalias e despacho de operações de manutenção em estações de recarga de veículos elétricos.",
+      "metadados": {
+        "autores": "Zheng, Yan, Du et al.",
+        "ano": 2025,
+        "veiculo": "IEEE IAECST",
+        "arquivo_pdf": "Knowledge_Graph_Augmented_Autonomous_Agents_for_Intelligent_Customer_Service_in_Electric_Vehicle_Charging_Infrastructure.pdf"
+      }
+    },
+    {
+      "id": "tec_zheng_ev",
+      "tipo": "Tecnica",
+      "nome": "Grafo de Conhecimento Hierárquico (HKG) com verificação estrita",
+      "descricao": "Usa o grafo hierárquico como mecanismo estrito de validação das respostas do agente, garantindo que as soluções geradas sejam subconjuntos de regras operacionais históricas.",
+      "metadados": {
+        "ferramentas": "Hierarchical KG, Hybrid Search, Autonomous Agent",
+        "estudo_id": "est_zheng_ev"
+      }
+    },
+    {
+      "id": "cen_zheng_ev",
+      "tipo": "CenarioDecisao",
+      "nome": "Mobilidade elétrica – triagem de falhas e despacho de O&M em eletropostos",
+      "descricao": "Identificar a causa de falhas operacionais em estações de recarga a partir do relato do motorista e emitir ordens de serviço precisas para as equipes de campo.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_zheng_ev_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Zheng, Yan, Du et al. (2025)",
+      "descricao": "To address these issues, this paper proposes a novel framework that integrates a Hierarchical Knowledge Graph (HKG) with an Autonomous Agent",
+      "metadados": {
+        "estudo_id": "est_zheng_ev",
+        "pagina": 1,
+        "arquivo_pdf": "Knowledge_Graph_Augmented_Autonomous_Agents_for_Intelligent_Customer_Service_in_Electric_Vehicle_Charging_Infrastructure.pdf"
+      }
+    },
+    {
+      "id": "tr_zheng_ev_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Zheng, Yan, Du et al. (2025)",
+      "descricao": "Our approach diverges from standard GraphRAG by utilizing the KG structure as a strict verification mechanism",
+      "metadados": {
+        "estudo_id": "est_zheng_ev",
+        "pagina": 2,
+        "arquivo_pdf": "Knowledge_Graph_Augmented_Autonomous_Agents_for_Intelligent_Customer_Service_in_Electric_Vehicle_Charging_Infrastructure.pdf"
+      }
+    },
+    {
+      "id": "est_liu_fusionom",
+      "tipo": "Estudo",
+      "nome": "FusionOM: A Dual-Channel LLM-KG Framework for Intelligent Operations and Maintenance Strategy Generation",
+      "descricao": "Framework de canal duplo que integra recuperação semântica vetorial e GraphRAG estruturado para geração automatizada de estratégias de manutenção e operação.",
+      "metadados": {
+        "autores": "Liu, Wang, Li et al.",
+        "ano": 2025,
+        "veiculo": "IEEE NTCI",
+        "arquivo_pdf": "FusionOM_A_Dual-Channel_LLM-KG_Framework_for_Intelligent_Operations_and_Maintenance_Strategy_Generation.pdf"
+      }
+    },
+    {
+      "id": "tec_liu_fusionom",
+      "tipo": "Tecnica",
+      "nome": "Recuperação em canal duplo (FusionOM: vetorial + fecho de subgrafo)",
+      "descricao": "Combina recuperação semântica densa de textos com expansão topológica no grafo de conhecimento (fecho de subgrafo), acelerando a inferência e reduzindo alucinações.",
+      "metadados": {
+        "ferramentas": "Dual-Channel Engine, Subgraph Closure, Qwen-32B",
+        "estudo_id": "est_liu_fusionom"
+      }
+    },
+    {
+      "id": "cen_liu_fusionom",
+      "tipo": "CenarioDecisao",
+      "nome": "Engenharia de manutenção – geração de planos de O&M em sistemas críticos",
+      "descricao": "Formular procedimentos e planos de ação de manutenção preventiva e corretiva para componentes industriais complexos sob tolerância zero a falhas.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_liu_fusionom_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Liu, Wang, Li et al. (2025)",
+      "descricao": "Operations and Maintenance (O&M) strategies in safety-critical systems often rely on manual workflows that are time-consuming and error-prone",
+      "metadados": {
+        "estudo_id": "est_liu_fusionom",
+        "pagina": 1,
+        "arquivo_pdf": "FusionOM_A_Dual-Channel_LLM-KG_Framework_for_Intelligent_Operations_and_Maintenance_Strategy_Generation.pdf"
+      }
+    },
+    {
+      "id": "tr_liu_fusionom_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Liu, Wang, Li et al. (2025)",
+      "descricao": "The dual-channel retrieval module consists of semantic retrieval and knowledge graph reasoning",
+      "metadados": {
+        "estudo_id": "est_liu_fusionom",
+        "pagina": 2,
+        "arquivo_pdf": "FusionOM_A_Dual-Channel_LLM-KG_Framework_for_Intelligent_Operations_and_Maintenance_Strategy_Generation.pdf"
+      }
+    },
+    {
+      "id": "est_yan_uuv",
+      "tipo": "Estudo",
+      "nome": "Autonomous Decision-Making Method for UUV Emergency Management Based on Graph Retrieval-Augmented Generation Large Language Model",
+      "descricao": "Método de tomada de decisão autônoma para gerenciamento de emergências em Veículos Subaquáticos Não Tripulados (UUV) via GraphRAG baseado em agrupamento e LLM na borda.",
+      "metadados": {
+        "autores": "Yan, Wang, Deng et al.",
+        "ano": 2025,
+        "veiculo": "IEEE",
+        "arquivo_pdf": "Autonomous_Decision-Making_Method_for_UUV_Emergency_Management_Based_on_Graph_Retrieval-Augmented_Generation_Large_Language_Model.pdf"
+      }
+    },
+    {
+      "id": "tec_yan_uuv",
+      "tipo": "Tecnica",
+      "nome": "GraphRAG baseado em clusters com LLM embarcado ajustado por LoRA",
+      "descricao": "Agrupa nós do grafo de emergência em clusters conceituais para recuperação ultrarrápida na borda, acoplada a um LLM refinado com LoRA para planos de resposta imediata.",
+      "metadados": {
+        "ferramentas": "Cluster-GraphRAG, LoRA, Edge Computing",
+        "estudo_id": "est_yan_uuv"
+      }
+    },
+    {
+      "id": "cen_yan_uuv",
+      "tipo": "CenarioDecisao",
+      "nome": "Robótica subaquática – gerenciamento autônomo de emergências em UUVs",
+      "descricao": "Decidir manobras de evasão, reconfiguração de lemes ou aborto de missão quando ocorrem falhas críticas de hardware em submarinos autônomos sem comunicação humana.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_yan_uuv_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Yan, Wang, Deng et al. (2025)",
+      "descricao": "we propose an autonomous emergency-management framework that couples a domain knowledge graph with a retrieval-augmented generative large language model",
+      "metadados": {
+        "estudo_id": "est_yan_uuv",
+        "pagina": 1,
+        "arquivo_pdf": "Autonomous_Decision-Making_Method_for_UUV_Emergency_Management_Based_on_Graph_Retrieval-Augmented_Generation_Large_Language_Model.pdf"
+      }
+    },
+    {
+      "id": "tr_yan_uuv_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Yan, Wang, Deng et al. (2025)",
+      "descricao": "In UUV emergency-management scenarios, this capability promises greater autonomy and smarter decisions",
+      "metadados": {
+        "estudo_id": "est_yan_uuv",
+        "pagina": 2,
+        "arquivo_pdf": "Autonomous_Decision-Making_Method_for_UUV_Emergency_Management_Based_on_Graph_Retrieval-Augmented_Generation_Large_Language_Model.pdf"
+      }
+    },
+    {
+      "id": "est_mallala_robot",
+      "tipo": "Estudo",
+      "nome": "An LLM and Knowledge-Graph Based Escalation Engine for Root-Cause Analysis in Advanced Robotics Systems",
+      "descricao": "Mecanismo de escalonamento baseado em LLM e grafo de conhecimento para análise de causa-raiz e suporte à decisão em frotas de robôs autônomos avançados.",
+      "metadados": {
+        "autores": "Mallala e Sharma",
+        "ano": 2025,
+        "veiculo": "IEEE / ArXiv",
+        "arquivo_pdf": "An_LLM_and_Knowledge-Graph_Based_Escalation_Engine_for_Root-Cause_Analysis_in_Advanced_Robotics_Systems.pdf"
+      }
+    },
+    {
+      "id": "tec_mallala_robot",
+      "tipo": "Tecnica",
+      "nome": "Mecanismo de escalonamento fundamentado em grafo de telemetria e incidentes",
+      "descricao": "Conecta telemetria de sensores, históricos de ordens de serviço e topologia de componentes em um grafo de causa-raiz, recuperando casos precedentes para orientar engenheiros.",
+      "metadados": {
+        "ferramentas": "Escalation Engine, Telemetry KG, LLM",
+        "estudo_id": "est_mallala_robot"
+      }
+    },
+    {
+      "id": "cen_mallala_robot",
+      "tipo": "CenarioDecisao",
+      "nome": "Robótica avançada – análise de causa-raiz e escalonamento de engenharia",
+      "descricao": "Isolar anomalias intermitentes em robôs industriais e guiar os engenheiros de campo na decisão de reparo local ou escalonamento para o time de desenvolvimento.",
+      "metadados": {}
+    },
+    {
+      "id": "tr_mallala_robot_1",
+      "tipo": "Snippet",
+      "nome": "Trecho de Mallala e Sharma (2025)",
+      "descricao": "To resolve this issue, this paper presents a knowledge-grounded escalation engine",
+      "metadados": {
+        "estudo_id": "est_mallala_robot",
+        "pagina": 1,
+        "arquivo_pdf": "An_LLM_and_Knowledge-Graph_Based_Escalation_Engine_for_Root-Cause_Analysis_in_Advanced_Robotics_Systems.pdf"
+      }
+    },
+    {
+      "id": "tr_mallala_robot_2",
+      "tipo": "Snippet",
+      "nome": "Trecho de Mallala e Sharma (2025)",
+      "descricao": "it introduces an escalation workflow that integrates graph-based retrieval of historical cases with retrieval-augmented LLM generation",
+      "metadados": {
+        "estudo_id": "est_mallala_robot",
+        "pagina": 2,
+        "arquivo_pdf": "An_LLM_and_Knowledge-Graph_Based_Escalation_Engine_for_Root-Cause_Analysis_in_Advanced_Robotics_Systems.pdf"
+      }
     }
   ],
   "arestas": [
@@ -567,6 +994,336 @@
     {
       "origem_id": "est_elssa",
       "destino_id": "tr_elssa_3",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_lu_pipeline",
+      "destino_id": "tec_lu_pipeline",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_lu_pipeline",
+      "destino_id": "cen_lu_pipeline",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_lu_pipeline",
+      "destino_id": "estr_embeddings_grafo",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_lu_pipeline",
+      "destino_id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_lu_pipeline",
+      "destino_id": "met_demonstracao_viabilidade",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_lu_pipeline",
+      "destino_id": "lim_latencia_streaming",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_lu_pipeline",
+      "destino_id": "tr_lu_pipeline_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_lu_pipeline",
+      "destino_id": "tr_lu_pipeline_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_yu_aviation",
+      "destino_id": "tec_yu_aviation",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_yu_aviation",
+      "destino_id": "cen_yu_aviation",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_yu_aviation",
+      "destino_id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_yu_aviation",
+      "destino_id": "met_demonstracao_viabilidade",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_yu_aviation",
+      "destino_id": "lim_consumo_memoria_borda",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_yu_aviation",
+      "destino_id": "tr_yu_aviation_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_yu_aviation",
+      "destino_id": "tr_yu_aviation_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_zheng_tcm",
+      "destino_id": "tec_zheng_tcm",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_zheng_tcm",
+      "destino_id": "cen_zheng_tcm",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_zheng_tcm",
+      "destino_id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_zheng_tcm",
+      "destino_id": "met_acuracia_diagnostica",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_zheng_tcm",
+      "destino_id": "lim_sem_validacao_real",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_zheng_tcm",
+      "destino_id": "tr_zheng_tcm_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_zheng_tcm",
+      "destino_id": "tr_zheng_tcm_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_zheng_ev",
+      "destino_id": "tec_zheng_ev",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_zheng_ev",
+      "destino_id": "cen_zheng_ev",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_zheng_ev",
+      "destino_id": "estr_travessia_hierarquica",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_zheng_ev",
+      "destino_id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_zheng_ev",
+      "destino_id": "met_acuracia_classificacao",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_zheng_ev",
+      "destino_id": "lim_falta_suporte_multimodal",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_zheng_ev",
+      "destino_id": "tr_zheng_ev_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_zheng_ev",
+      "destino_id": "tr_zheng_ev_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_liu_fusionom",
+      "destino_id": "tec_liu_fusionom",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_liu_fusionom",
+      "destino_id": "cen_liu_fusionom",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_liu_fusionom",
+      "destino_id": "estr_recuperacao_canal_duplo",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_liu_fusionom",
+      "destino_id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_liu_fusionom",
+      "destino_id": "met_f1_acoes",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_liu_fusionom",
+      "destino_id": "met_risco_alucinacao",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_liu_fusionom",
+      "destino_id": "lim_manutencao_ontologia",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_liu_fusionom",
+      "destino_id": "tr_liu_fusionom_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_liu_fusionom",
+      "destino_id": "tr_liu_fusionom_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_yan_uuv",
+      "destino_id": "tec_yan_uuv",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_yan_uuv",
+      "destino_id": "cen_yan_uuv",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_yan_uuv",
+      "destino_id": "estr_resumos_comunidades",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_yan_uuv",
+      "destino_id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_yan_uuv",
+      "destino_id": "met_taxa_sucesso_emergencia",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_yan_uuv",
+      "destino_id": "lim_consumo_memoria_borda",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_yan_uuv",
+      "destino_id": "tr_yan_uuv_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_yan_uuv",
+      "destino_id": "tr_yan_uuv_2",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_mallala_robot",
+      "destino_id": "tec_mallala_robot",
+      "tipo": "USA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_mallala_robot",
+      "destino_id": "cen_mallala_robot",
+      "tipo": "APLICADO_EM",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_mallala_robot",
+      "destino_id": "estr_ligacoes_precomputadas",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_mallala_robot",
+      "destino_id": "estr_entrada_por_similaridade_e_travessia",
+      "tipo": "UTILIZA_ESTRATEGIA",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_mallala_robot",
+      "destino_id": "met_acuracia_causa_raiz",
+      "tipo": "AVALIADO_POR",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "tec_mallala_robot",
+      "destino_id": "lim_dependencia_qualidade_logs",
+      "tipo": "POSSUI_LIMITACAO",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_mallala_robot",
+      "destino_id": "tr_mallala_robot_1",
+      "tipo": "EVIDENCIA_TEXTUAL",
+      "peso": 1.0
+    },
+    {
+      "origem_id": "est_mallala_robot",
+      "destino_id": "tr_mallala_robot_2",
       "tipo": "EVIDENCIA_TEXTUAL",
       "peso": 1.0
     }

@@ -17,7 +17,19 @@ def estudos(pergunta):
 
 def test_acervo_so_tem_estudos_incluidos():
     ids = {n.id for n in nos_iniciais if n.tipo == TipoNo.ESTUDO}
-    assert ids == {"est_rawat", "est_niederhaus", "est_dindukurthi", "est_elssa"}
+    assert ids == {
+        "est_rawat",
+        "est_niederhaus",
+        "est_dindukurthi",
+        "est_elssa",
+        "est_lu_pipeline",
+        "est_yu_aviation",
+        "est_zheng_tcm",
+        "est_zheng_ev",
+        "est_liu_fusionom",
+        "est_yan_uuv",
+        "est_mallala_robot",
+    }
 
 
 def test_pergunta_direta_traz_estudo_certo():

@@ -62,6 +62,16 @@ print(f"Menor similaridade entre perguntas COM resposta: {min(dentro):.3f}")
 print(f"Maior similaridade entre perguntas FORA do escopo: {max(fora):.3f}")
 
 # 2. Varredura de limiar e margem
+# Cache de pontuação de nós para não recalcular similaridades a cada iteração
+_cache_pontuados = {}
+_orig_pontuar = gemini_service.pontuar_nos
+def _fast_pontuar(query, nos):
+    chave = (query, id(nos))
+    if chave not in _cache_pontuados:
+        _cache_pontuados[chave] = _orig_pontuar(query, nos)
+    return _cache_pontuados[chave]
+gemini_service.pontuar_nos = _fast_pontuar
+
 # Desativa chamadas de geração LLM na calibração (a síntese não afeta a recuperação, que usa os embeddings em cache)
 gemini_service._chamar_gemini_formatador = lambda *args, **kwargs: None
 
@@ -92,9 +102,9 @@ def _fast_busca_so(engine, pergunta, top_k=3):
     return _cache_busca_so[chave]
 Evaluator.busca_so_similaridade = _fast_busca_so
 
-base = min(fora + dentro)
-limiares = sorted({round(base + i * 0.01, 2) for i in range(0, int((max(fora + dentro) - base) / 0.01) + 2)})
-margens = [0.02, 0.03, 0.05, 0.08]
+base = max(0.25, round(min(fora + dentro), 2))
+limiares = sorted({round(base + i * 0.03, 2) for i in range(0, int((max(fora + dentro) - base) / 0.03) + 2)})
+margens = [0.03, 0.05, 0.08]
 
 print(f"\n{'limiar':>7} {'margem':>7} {'acerto':>7} {'precisão':>9} {'recusa':>7}", flush=True)
 resultados = []

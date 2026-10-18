@@ -40,6 +40,10 @@ def main() -> int:
     trechos = [n for n in corpus["nos"] if n["tipo"] == "Snippet"]
     for n in trechos:
         arquivo = os.path.join(args.pdfs, n["metadados"]["arquivo_pdf"])
+        if not os.path.exists(arquivo):
+            alt = os.path.join(args.pdfs, "Artigos Selecionados", n["metadados"]["arquivo_pdf"])
+            if os.path.exists(alt):
+                arquivo = alt
         pagina = int(n["metadados"]["pagina"])
         if arquivo not in cache:
             if not os.path.exists(arquivo):

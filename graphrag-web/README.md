@@ -5,10 +5,12 @@
 
 **Link de Produção:** 🌐 [https://graphrag-web-rho.vercel.app](https://graphrag-web-rho.vercel.app)  
 **Repositório Oficial:** 🐙 [https://github.com/caifon/tcc-arqrag-ucsal-2026](https://github.com/caifon/tcc-arqrag-ucsal-2026)  
+**Autores:** Adriano Abreu de Almeida, Alison Andrade Rocha, Caio Roldão de Almeida Fonseca, Lívia Alves de Souza e Wendel Campos Bezerra  
+**Orientadora:** Profª. Angela Peixoto (UCSAL)  
 **Frontend:** Next.js 16 (App Router, TypeScript, Tailwind CSS, Lucide Icons)  
 **Backend:** FastAPI / Python 3.12 Serverless (`api/index.py`)  
-**Mecanismo de Grafo:** Neo4j AuraDB Cloud (`40baf46b.databases.neo4j.io`) + NetworkX (Fallback in-memory)  
-**Provedor de IA:** Google Gemini API (`gemini-embedding-001` neurais de 3072D e `gemini-2.5-flash` para síntese estrita)
+**Mecanismo de Grafo:** Neo4j AuraDB Cloud + NetworkX (Fallback in-memory)  
+**Provedor de IA:** Google Gemini API (`gemini-embedding-001` neurais e `gemini-2.5-flash` com `thinkingBudget: 0` para formatação estrita)
 
 ---
 
@@ -24,7 +26,10 @@
 3. **Exportador de Dossiê Decisório em 1 Clique:**
    * Geração automática de parecer técnico formal estruturado em Markdown (`.md`).
 4. **Painel de Avaliação Experimental Automático:**
-   * Bateria com 20 cenários com gabarito formal (*Ground Truth*), apurando em tempo real o *Hit Rate* (97.5%) e *Taxa de Fabricação* (0.0%).
+   * Bateria com 43 cenários de teste com gabarito formal cobrindo os 11 estudos selecionados (perguntas diretas, paráfrases, cruzadas e fora do escopo), apurando em tempo real *Hit Rate*, *Precisão*, *Recusa Correta* e *Taxa de Fabricação* (rigorosamente 0.0%).
+5. **Auditoria de Evidências Literais e Calibração:**
+   * Script `scripts/verificar_trechos.py` confere automaticamente os 24 trechos literais nos PDFs (100% de precisão).
+   * Script `scripts/calibrar_limiar.py` para ajuste fino de `LIMIAR_SIMILARIDADE` e `MARGEM_SIMILARIDADE`.
 
 ### 1. Instalação das Dependências
 
