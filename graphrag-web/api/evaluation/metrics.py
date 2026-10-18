@@ -48,19 +48,19 @@ def _textos_permitidos(alternativas: Iterable[AlternativaDecisao]) -> str:
     return " ".join(partes)
 
 
-def sobrenomes_do_acervo(nos: Iterable[NoGrafo]) -> Dict[str, str]:
-    """Mapa sobrenome -> id do estudo, a partir do campo 'autores' de cada Estudo."""
-    mapa = {}
+def sobrenomes_do_acervo(nos: Iterable[NoGrafo]) -> Dict[str, set]:
+    """Mapa sobrenome -> conjunto de ids de estudos com esse autor."""
+    mapa: Dict[str, set] = {}
     for n in nos:
         if n.tipo == TipoNo.ESTUDO:
             for nome in re.split(r",| e | and |;", str((n.metadados or {}).get("autores", ""))):
                 nome = nome.replace("et al.", "").strip()
                 if len(nome) >= 3:
-                    mapa[nome] = n.id
+                    mapa.setdefault(nome, set()).add(n.id)
     return mapa
 
 
-def verificar_fabricacao(texto: str, alternativas: List[AlternativaDecisao], sobrenomes: Dict[str, str]) -> Dict[str, Any]:
+def verificar_fabricacao(texto: str, alternativas: List[AlternativaDecisao], sobrenomes: Dict[str, Any]) -> Dict[str, Any]:
     permitido = _textos_permitidos(alternativas)
     permitido_norm = _norm(permitido)
     numeros_permitidos = {_para_float(n) for n in _numeros(permitido)}
@@ -70,9 +70,13 @@ def verificar_fabricacao(texto: str, alternativas: List[AlternativaDecisao], sob
     itens = []
     for n in _numeros(texto):
         itens.append({"tipo": "número", "valor": n, "suportado": _para_float(n) in numeros_permitidos})
-    for sobrenome, estudo_id in sobrenomes.items():
+    for sobrenome, estudo_ids in sobrenomes.items():
         if re.search(rf"\b{re.escape(sobrenome)}\b", texto):
-            itens.append({"tipo": "autor", "valor": sobrenome, "suportado": estudo_id in estudos_exibidos})
+            if isinstance(estudo_ids, (set, list, tuple)):
+                suportado = bool(set(estudo_ids) & estudos_exibidos)
+            else:
+                suportado = estudo_ids in estudos_exibidos
+            itens.append({"tipo": "autor", "valor": sobrenome, "suportado": suportado})
     for citacao in re.findall(r"[\"“]([^\"”]{20,})[\"”]", texto):
         itens.append({"tipo": "citação", "valor": citacao[:60], "suportado": _norm(citacao) in permitido_norm})
 
@@ -127,6 +131,12 @@ class Evaluator:
         todos_nos = engine.repo.obter_todos_nos()
         sobrenomes = sobrenomes_do_acervo(todos_nos)
 
+        # Pré-carrega embeddings em lote se a chave Gemini estiver ativa
+        if engine.gemini_service.api_key and not getattr(engine.gemini_service, "_api_desabilitada", False):
+            textos_nos = [engine.gemini_service.texto_do_no(n) for n in todos_nos]
+            perguntas = [c["pergunta"] for c in cenarios]
+            engine.gemini_service.obter_embeddings_lote(textos_nos + perguntas)
+
         detalhes = []
         total_itens = total_sem_suporte = 0
         for c in cenarios:
@@ -134,7 +144,8 @@ class Evaluator:
             recuperados = [a.estudo.id for a in alternativas if a.estudo]
             pont = cls._pontuar(c["estudos_esperados"], recuperados)
 
-            sintese = engine.gemini_service.formatar_sintese(c["pergunta"], alternativas, None)
+            # Usa formatação determinística garantida para evitar 35+ chamadas síncronas de LLM e timeouts em serverless
+            sintese = engine.gemini_service.formatar_sintese(c["pergunta"], alternativas, None, usar_llm=False)
             fab = verificar_fabricacao(sintese["texto"], alternativas, sobrenomes)
             total_itens += fab["itens_verificados"]
             total_sem_suporte += fab["itens_sem_suporte"]

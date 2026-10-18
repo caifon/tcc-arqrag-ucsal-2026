@@ -179,7 +179,9 @@ class GeminiService:
 
     # ----------------- 2. LLM APENAS FORMATADOR ----------------- #
 
-    def formatar_sintese(self, query: str, alternativas: List[AlternativaDecisao], subgrafo: SubgrafoEvidencia) -> Dict[str, str]:
+    def formatar_sintese(self, query: str, alternativas: List[AlternativaDecisao],
+                         subgrafo: Optional[SubgrafoEvidencia] = None,
+                         usar_llm: bool = True) -> Dict[str, str]:
         """Devolve {"texto": ..., "origem": "llm" | "modelo_fixo"}."""
         if not alternativas:
             return {
@@ -188,7 +190,7 @@ class GeminiService:
                 "origem": "modelo_fixo",
             }
 
-        if self.api_key:
+        if self.api_key and not self._api_desabilitada and usar_llm:
             try:
                 sintese_llm = self._chamar_gemini_formatador(query, alternativas)
                 if sintese_llm:
