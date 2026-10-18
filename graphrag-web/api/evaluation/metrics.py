@@ -131,38 +131,39 @@ class Evaluator:
         todos_nos = engine.repo.obter_todos_nos()
         sobrenomes = sobrenomes_do_acervo(todos_nos)
 
-        # Pré-carrega embeddings em lote se a chave Gemini estiver ativa
-        if engine.gemini_service.api_key and not getattr(engine.gemini_service, "_api_desabilitada", False):
-            textos_nos = [engine.gemini_service.texto_do_no(n) for n in todos_nos]
-            perguntas = [c["pergunta"] for c in cenarios]
-            engine.gemini_service.obter_embeddings_lote(textos_nos + perguntas)
+        # Executa a bateria de 43 cenários de forma determinística e ultrarrápida (< 1.5s)
+        # sem depender de dezenas de chamadas HTTP externas que estouram o limite serverless da Vercel
+        api_anterior = engine.gemini_service.api_key
+        engine.gemini_service.api_key = None
+        try:
+            detalhes = []
+            total_itens = total_sem_suporte = 0
+            for c in cenarios:
+                _, alternativas = engine.executar_recuperacao(c["pergunta"])
+                recuperados = [a.estudo.id for a in alternativas if a.estudo]
+                pont = cls._pontuar(c["estudos_esperados"], recuperados)
 
-        detalhes = []
-        total_itens = total_sem_suporte = 0
-        for c in cenarios:
-            _, alternativas = engine.executar_recuperacao(c["pergunta"])
-            recuperados = [a.estudo.id for a in alternativas if a.estudo]
-            pont = cls._pontuar(c["estudos_esperados"], recuperados)
+                # Usa formatação determinística garantida para evitar 35+ chamadas síncronas de LLM e timeouts em serverless
+                sintese = engine.gemini_service.formatar_sintese(c["pergunta"], alternativas, None, usar_llm=False)
+                fab = verificar_fabricacao(sintese["texto"], alternativas, sobrenomes)
+                total_itens += fab["itens_verificados"]
+                total_sem_suporte += fab["itens_sem_suporte"]
 
-            # Usa formatação determinística garantida para evitar 35+ chamadas síncronas de LLM e timeouts em serverless
-            sintese = engine.gemini_service.formatar_sintese(c["pergunta"], alternativas, None, usar_llm=False)
-            fab = verificar_fabricacao(sintese["texto"], alternativas, sobrenomes)
-            total_itens += fab["itens_verificados"]
-            total_sem_suporte += fab["itens_sem_suporte"]
+                base_rec = cls.busca_so_similaridade(engine, c["pergunta"])
+                pont_base = cls._pontuar(c["estudos_esperados"], base_rec)
 
-            base_rec = cls.busca_so_similaridade(engine, c["pergunta"])
-            pont_base = cls._pontuar(c["estudos_esperados"], base_rec)
-
-            detalhes.append({
-                "id": c["id"],
-                "tipo": c.get("tipo", ""),
-                "pergunta": c["pergunta"],
-                "estudos_esperados": c["estudos_esperados"],
-                "estudos_recuperados": recuperados,
-                **pont,
-                "fabricacao": {k: fab[k] for k in ("itens_verificados", "itens_sem_suporte", "detalhes_sem_suporte")},
-                "referencia_sem_grafo": {"estudos_recuperados": base_rec, **pont_base},
-            })
+                detalhes.append({
+                    "id": c["id"],
+                    "tipo": c.get("tipo", ""),
+                    "pergunta": c["pergunta"],
+                    "estudos_esperados": c["estudos_esperados"],
+                    "estudos_recuperados": recuperados,
+                    **pont,
+                    "fabricacao": {k: fab[k] for k in ("itens_verificados", "itens_sem_suporte", "detalhes_sem_suporte")},
+                    "referencia_sem_grafo": {"estudos_recuperados": base_rec, **pont_base},
+                })
+        finally:
+            engine.gemini_service.api_key = api_anterior
 
         com_resposta = [d for d in detalhes if d["estudos_esperados"]]
         fora_escopo = [d for d in detalhes if not d["estudos_esperados"]]
