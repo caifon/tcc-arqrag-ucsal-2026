@@ -49,6 +49,7 @@ repo_ativo = repo_neo4j if neo4j_conectado else repo_inmemory
 
 gemini_service = GeminiService()
 traversal_engine = GraphTraversalEngine(repo_ativo, gemini_service)
+traversal_engine_inmemory = GraphTraversalEngine(repo_inmemory, gemini_service)
 sobrenomes = sobrenomes_do_acervo(nos_iniciais)
 
 
@@ -109,4 +110,4 @@ def execute_query(req: QueryRequest):
 
 @app.post("/api/evaluate")
 def run_evaluation():
-    return Evaluator.avaliar_banco_completo(traversal_engine, caminho_testes)
+    return Evaluator.avaliar_banco_completo(traversal_engine_inmemory, caminho_testes)

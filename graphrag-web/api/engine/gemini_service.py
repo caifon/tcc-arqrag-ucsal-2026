@@ -137,8 +137,8 @@ class GeminiService:
         modelo de similaridade, por isso há dois limiares. Calibre com scripts/calibrar_limiar.py.
         """
         if self.api_key and not self._api_desabilitada:
-            return float(os.getenv("LIMIAR_SIMILARIDADE", "0.68"))
-        return float(os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.32"))
+            return float(os.getenv("LIMIAR_SIMILARIDADE", "0.66"))
+        return float(os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.45"))
 
     def encontrar_nos_entrada(self, query: str, nos: List[NoGrafo], top_k: int = 3,
                               threshold: Optional[float] = None) -> List[Tuple[NoGrafo, float]]:
@@ -146,7 +146,7 @@ class GeminiService:
         pontuados = self.pontuar_nos(query, nos)
         if threshold is None:
             threshold = self.limiar_padrao() if self.ultimo_modo == "embedding" else float(
-                os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.32"))
+                os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.45"))
         if not pontuados or pontuados[0][1] < threshold:
             return []
         # Só entram nós quase tão parecidos com a pergunta quanto o melhor (evita "puxar" estudos por ligações fracas)
@@ -190,7 +190,7 @@ class GeminiService:
                 "origem": "modelo_fixo",
             }
 
-        if self.api_key and not self._api_desabilitada and usar_llm:
+        if self.api_key and usar_llm:
             try:
                 sintese_llm = self._chamar_gemini_formatador(query, alternativas)
                 if sintese_llm:
