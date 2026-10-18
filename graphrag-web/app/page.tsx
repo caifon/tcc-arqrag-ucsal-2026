@@ -840,13 +840,13 @@ function SobreAcervo() {
           Acervo Fechado do Mapeamento Sistemático
         </h2>
         <p className="mt-1 text-xs leading-relaxed text-slate-600 max-w-3xl">
-          O grafo contém <strong>exclusivamente os 4 estudos primários incluídos</strong> após a seleção por critérios
+          O grafo contém <strong>exclusivamente os 11 estudos primários incluídos</strong> após a seleção por critérios
           de elegibilidade (Scopus/IEEE). Todos os trechos foram copiados dos artigos em PDF e verificados
-          computacionalmente (10 de 10 trechos validados).
+          computacionalmente (24 de 24 trechos validados).
         </p>
       </section>
 
-      {/* Cartões dos 4 Estudos Primários */}
+      {/* Cartões dos 11 Estudos Primários */}
       <div className="grid gap-4 md:grid-cols-2">
         {estudos.map((e) => (
           <div

@@ -10,7 +10,23 @@
 
 O objetivo deste guia é fornecer o procedimento padronizado para transformar os artigos científicos selecionados na Revisão Sistemática da Literatura (PRISMA 2020) em **conhecimento estruturado no Grafo (Neo4j / JSON)**.
 
-Atualmente, o sistema opera com um *Seed Corpus* calibrado de **7 estudos de referência** (incluindo todos os citados na monografia). À medida que a triagem dos **34 artigos finais** for concluída pela equipe teórica, seus dados deverão ser inseridos seguindo este protocolo para manter a integridade ontológica e o cálculo automático de métricas.
+Atualmente, o sistema opera com um *Corpus Calibrado* de **11 estudos primários rigorosamente extraídos** (84 nós, 92 arestas e 24 trechos literais auditados). À medida que novos artigos forem adicionados pela equipe, seus dados deverão ser inseridos seguindo este protocolo para manter a integridade ontológica e o cálculo automático de métricas.
+
+### 1.1 Catálogo dos 11 Estudos Primários Ativos no Acervo
+
+| ID | Estudo / Autores | Domínio Decisório | Abordagem GraphRAG |
+| :---: | :--- | :--- | :--- |
+| **E01** | Rawat, Witt e Lill (2025) | Gestão de Obras / Construção Civil | LLM-MAS com Memória Híbrida Neo4j |
+| **E02** | Dindukurthi et al. (2024) | Nutrição Clínica Personalizada | Subgrafo Clínico e Filtragem Determinística |
+| **E03** | Niederhaus et al. (2024) | Manufatura Inteligente / O&M | Ontologia Industrial Prescritiva |
+| **E04** | Wang & Shalaby / ELSSA (2024) | Transporte Público Urbano | Grafo com Trilha de Auditoria e Proveniência |
+| **E05** | Lu et al. (2024) | Oleodutos e Infraestrutura Crítica | Avaliação de Riscos Físicos, Cibernéticos e Geopolíticos |
+| **E06** | Yu et al. (2024) | Aviação Civil / Relatórios AAIB | Análise Estruturada de Acidentes sem Atribuição de Culpa |
+| **E07** | Zheng et al. (2024 TCM) | Medicina / Clínica Gastrointestinal | Ontologia e Grafo Clínico com Validação Médica |
+| **E08** | Zheng et al. (2024 EV) | Eletropostos e Recarga de VEs | Grafo Hierárquico de Falhas e Despacho de Técnicos |
+| **E09** | Liu et al. (2024 FusionOM) | O&M em Componentes Industriais | Integração de Busca Semântica e Raciocínio em Grafos |
+| **E10** | Yan et al. (2024) | Robótica Submarina / UUVs | Decisão de Emergência sob Falhas de Subsistemas |
+| **E11** | Mallala et al. (2024) | Robôs Autônomos Móveis (AMR) | Correlação de Telemetria e Logs para Causa-Raiz |
 
 ---
 

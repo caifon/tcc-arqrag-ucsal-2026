@@ -3,6 +3,7 @@
 **Projeto:** GraphRAG para Apoio à Tomada de Decisão: Um Mapeamento Sistemático da Literatura  
 **Instituição:** Universidade Católica do Salvador (UCSAL) — Bacharelado em Engenharia de Software (2026)  
 **Orientadora:** Profª Angela Peixoto  
+**Autores:** Adriano Abreu de Almeida, Alison Andrade Rocha, Caio Roldão de Almeida Fonseca, Lívia Alves de Souza e Wendel Campos Bezerra  
 **Público-Alvo:** Integrantes do Grupo na Apresentação de TCC
 
 ---
@@ -12,9 +13,9 @@
 | Bloco | Tempo | Foco da Fala | Slide / Demonstração |
 | :---: | :---: | :--- | :--- |
 | **1. Introdução & O Problema** | 3 min | Limitações dos LLMs (alucinações) e o gargalo do RAG puramente vetorial: perda de contexto relacional e incapacidade de síntese global. | Slide do problema conceitual. |
-| **2. Metodologia PRISMA & Ontologia** | 4 min | Como a RSL foi planejada e como o conhecimento científico foi formalizado em um modelo ontológico rígido (nós e arestas). | Diagrama do modelo ontológico rígido. |
+| **2. Metodologia PRISMA & Ontologia** | 4 min | Como a RSL foi planejada e como o conhecimento científico de 11 estudos foi formalizado em um modelo ontológico rígido (84 nós e 92 arestas). | Diagrama do modelo ontológico rígido. |
 | **3. Arquitetura do Software (MVP)** | 4 min | O pipeline de 4 etapas: entrada vetorial leve, travessia topológica de 1 a 2 saltos, e LLM estritamente como formatador neutro. | Diagrama de componentes e fluxo. |
-| **4. Demonstração Prática ao Vivo** | 5 min | 1. Executar consulta de gestão de obras; <br>2. Mostrar matriz lado a lado e rota causal topológica; <br>3. Ativar o Switch A/B contra o RAG vetorial comum; <br>4. Exibir a aba de Avaliação com 97.5% de Hit Rate. | Navegador em `http://localhost:3000`. |
+| **4. Demonstração Prática ao Vivo** | 5 min | 1. Executar consulta de gestão de obras ou infraestrutura; <br>2. Mostrar matriz lado a lado e rota causal topológica; <br>3. Ativar o Switch A/B contra o RAG vetorial comum; <br>4. Exibir a aba de Avaliação com os 43 cenários empíricos e 0,0% de fabricação. | Navegador em `https://graphrag-web-rho.vercel.app`. |
 | **5. Conclusão & Contribuições** | 2 min | A transformação de uma revisão estática em um software vivo; soberania decisória humana (Simon, 1960). | Slide de encerramento e agradecimentos. |
 
 ---
@@ -52,7 +53,7 @@
 * **Resposta:** Implementamos o padrão de projeto *Repository Pattern* com fallback resiliente. Caso a conexão externa com o Neo4j falhe, o sistema migra automaticamente e de forma transparente para o motor em memória com NetworkX, mantendo 100% das funcionalidades operacionais sem qualquer interrupção de serviço.
 
 ### Q5. *"Qual a diferença prática entre a aba de Apoio à Decisão e a aba de Avaliação Experimental?"*
-* **Resposta:** A primeira aba é o ambiente operacional de uso do decisor final (onde ele pesquisa suas dúvidas de engenharia, inspeciona rotas causais e exporta dossiês técnicos). A segunda aba é o painel de validação científica para a comunidade acadêmica e auditores, que executa o banco de 20 testes com gabarito formal e exibe o Hit Rate de 97,5% em tempo real.
+* **Resposta:** A primeira aba é o ambiente operacional de uso do decisor final (onde ele pesquisa suas dúvidas de engenharia, inspeciona rotas causais e exporta dossiês técnicos). A segunda aba é o painel de validação científica para a comunidade acadêmica e auditores, que executa o banco de 43 testes empíricos com gabarito formal (perguntas diretas, paráfrases, relações multi-estudo e recusa fora de escopo) e exibe as 4 métricas (Hit Rate, Precisão, Abstenção Correta e 0,0% de Fabricação) calculadas dinamicamente a cada execução.
 
 ### Q6. *"Por que vocês focaram o MVP nos artigos selecionados pelo PRISMA em vez de permitir upload e análise de qualquer PDF anexado na hora?"*
 * **Resposta:** Se o sistema recebesse qualquer PDF avulso e respondesse sobre ele, ele seria um **RAG Vetorial Comum (Naive RAG)** — ferramenta genérica já trivializada no mercado (ex.: ChatPDF). O mérito de Engenharia de Software da nossa pesquisa foi transformar uma Revisão Sistemática da Literatura (protocolo PRISMA 2020) em um **software vivo com Grafo de Conhecimento formalmente modelado**. Para o GraphRAG funcionar com integridade semântica e sem alucinações (Taxa de Fabricação 0.0%), a literatura (Gao et al., 2023) exige ontologia rígida e curada; a extração dinâmica aberta (*OpenIE*) geraria entidades inconsistentes e nós duplicados. A ingestão assistida de novos PDFs está formalizada como Trabalho Futuro no Capítulo 5 da monografia e estruturada no Guia de Ingestão do repositório.

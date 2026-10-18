@@ -3,6 +3,7 @@
 **Projeto:** GraphRAG para Apoio à Tomada de Decisão: Um Mapeamento Sistemático da Literatura  
 **Instituição:** Universidade Católica do Salvador (UCSAL) — Bacharelado em Engenharia de Software (2026)  
 **Orientadora:** Profª Angela Peixoto  
+**Autores:** Adriano Abreu de Almeida, Alison Andrade Rocha, Caio Roldão de Almeida Fonseca, Lívia Alves de Souza e Wendel Campos Bezerra  
 **Referência Metodológica:** Capítulos 2 e 3 do documento monográfico [TCC___RAG.pdf](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/TCC___RAG.pdf)
 
 ---
@@ -24,12 +25,12 @@ O software adota uma arquitetura de monorepo moderno desacoplado, projetado para
 
 ```mermaid
 graph TD
-    User([Usuário / Decisor]) -->|1. Consulta em Linguagem Natural| Frontend[Frontend Next.js 15 / React / Tailwind]
+    User([Usuário / Decisor]) -->|1. Consulta em Linguagem Natural| Frontend[Frontend Next.js 16 / React / Tailwind]
     
     subgraph Camada de Apresentação
         Frontend --> ViewDecision[Aba 1: Apoio à Decisão & Comparador A/B]
-        Frontend --> ViewEval[Aba 2: Avaliação Experimental 20 Cenários]
-        Frontend --> ViewOntology[Aba 3: Visualizador de Ontologia & Corpus]
+        Frontend --> ViewEval[Aba 2: Avaliação Experimental 43 Cenários]
+        Frontend --> ViewOntology[Aba 3: Visualizador de Ontologia & Corpus 11 Estudos]
         Frontend --> Dossier[Exportador de Dossiê Decisório Markdown]
     end
 
@@ -95,6 +96,19 @@ erDiagram
 | **`AVALIADO_POR`** | `Tecnica` $\rightarrow$ `MetricaAvaliacao` | Como a técnica foi mensurada na literatura primária (ex.: NDCG@5, Win-Rate). |
 | **`POSSUI_LIMITACAO`** | `Tecnica` $\rightarrow$ `Limitacao` | Restrições explícitas assumidas ao adotar a abordagem. |
 | **`EVIDENCIA_TEXTUAL`** | `Estudo` $\rightarrow$ `Snippet` | Vinculação literal auditável entre o estudo e seu trecho comprobatório. |
+
+### 3.3 Escala e Topologia Atual do Grafo (11 Estudos Primários)
+
+O grafo de conhecimento calibrado do MVP é constituído pelas seguintes entidades auditadas:
+* **84 Nós Totais:**
+  * 11 nós de `Estudo` (E01 a E11)
+  * 11 nós de `Tecnica`
+  * 11 nós de `CenarioDecisao` (cobrindo construção civil, nutrição, robótica, manufatura, transporte urbano, oleodutos, aviação, medicina clínica/TCM, recarga de VEs e UUVs)
+  * 11 nós de `EstrategiaRecuperacao`
+  * 11 nós de `MetricaAvaliacao`
+  * 11 nós de `Limitacao`
+  * 24 nós de `Snippet` (trechos literais com citação exata de página)
+* **92 Arestas Direcionadas:** garantindo conectividade topológica estrita entre estudos, técnicas, cenários, estratégias, métricas, limitações e snippets literais.
 
 ---
 

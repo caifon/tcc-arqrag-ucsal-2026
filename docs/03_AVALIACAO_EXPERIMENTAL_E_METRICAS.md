@@ -17,51 +17,51 @@ $$\text{Hit Rate} = \frac{|\text{Estudos Recuperados} \cap \text{Estudos Esperad
 
 * **Interpretação:** Um valor de $1.0$ ($100\%$) indica que todos os estudos científicos pertinentes ao problema foram recuperados na vizinhança topológica de até 2 saltos.
 
-### 1.2 Taxa de Fabricação (Alucinação Factual)
-Mede a proporção de declarações, conclusões ou estudos gerados pelo modelo de linguagem que não possuem correspondência direta com as evidências cadastradas nos nós e arestas:
+### 1.2 Precisão Média
+Mede a proporção de alternativas recuperadas pelo sistema que efetivamente eram esperadas pelo gabarito (penalizando recuperações ruidosas ou excessivas):
+
+$$\text{Precisão} = \frac{|\text{Estudos Recuperados} \cap \text{Estudos Esperados}|}{|\text{Estudos Recuperados}|}$$
+
+### 1.3 Abstenção Correta (Recusa de Escopo)
+Mede a capacidade do sistema em reconhecer os limites do seu acervo fechado diante de perguntas que fogem ao escopo da literatura mapeada (ex.: mercado financeiro, receitas, streaming):
+
+$$\text{Abstenção Correta} = \begin{cases} 1.0, & \text{se } |\text{Estudos Recuperados}| = 0 \\ 0.0, & \text{se } |\text{Estudos Recuperados}| > 0 \end{cases}$$
+
+### 1.4 Taxa de Fabricação (Alucinação Factual)
+Mede a proporção de declarações, conclusões ou entidades geradas pelo modelo de linguagem que não possuem correspondência direta com as evidências cadastradas nos nós e arestas do subgrafo recuperado:
 
 $$\text{Taxa de Fabricação} = \frac{|\text{Afirmações sem Rastreabilidade no Grafo}|}{|\text{Total de Afirmações na Resposta}|}$$
 
-* **Por Design:** Devido à arquitetura do sistema — onde o modelo de linguagem atua estritamente como formatador neutro condicionado ao subgrafo serializado —, a Taxa de Fabricação é matematicamente delimitada em **$0.0\%$**. Se uma relação não existe no grafo, ela não entra no contexto de formatação.
+* **Por Design:** Devido à arquitetura do sistema — onde o modelo de linguagem atua estritamente como formatador neutro condicionado ao subgrafo serializado —, a Taxa de Fabricação é mantida em **$0.0\%$**. Se uma relação não existe no grafo, ela não entra no contexto de formatação.
 
 ---
 
-## 2. O Banco de 20 Cenários de Teste com Gabarito Formal
+## 2. O Banco de 43 Cenários de Teste com Gabarito Formal
 
-A validação foi realizada sobre o banco padronizado em [test_scenarios.json](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/graphrag-web/api/data/test_scenarios.json), formulado com base nas situações decisórias identificadas na literatura:
+A validação foi realizada sobre o banco padronizado em [test_scenarios.json](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/graphrag-web/api/data/test_scenarios.json), formulado com 4 classes de desafios epistemológicos:
 
-| ID | Cenário / Consulta de Teste | Estudos Esperados (Gabarito) | Técnicas Mapeadas | Estratégia |
-| :---: | :--- | :--- | :--- | :--- |
-| **q01** | Síntese temática ampla sobre relatórios técnicos (perguntas globais). | `est_ms_graphrag` (Edge et al.) | Resumos Hierárquicos de Comunidades | Leiden + Map-Reduce |
-| **q02** | Raciocínio multi-hop conectando entidades distantes em documentos separados. | `est_hipporag`, `est_grag` | Memória Associativa / Subgrafos | PPR / Expansão k-hop |
-| **q03** | Apoio à decisão na gestão de incidentes operacionais de transporte crítico. | `est_elssa` (Wang & Shalaby) | Decisão com Trilha de Auditoria | Subgrafo com Proveniência |
-| **q04** | Recomendação nutricional e prescrições clínicas com LLM restrito à formatação. | `est_dindukurthi_nutrition` | LLM Restrito + Validação determinística | Cosseno Determinístico |
-| **q05** | Simulação de atrasos logísticos na entrega de materiais de construção com Neo4j. | `est_rawat_construction` | Multi-Agent System (MAS) + Grafo Neo4j | Híbrida (Grafo + Vetorial) |
-| **q06** | Manutenção prescritiva em fábrica inteligente (smart factory) com ontologia. | `est_niederhaus_prescriptive` | Ontologia Industrial Prescritiva | Travessia Causal de Falhas |
-| **q07** | Difusão por Personalized PageRank para conexões associativas de longo prazo. | `est_hipporag` | Memória Associativa HippoRAG | Difusão em Grafo (PPR) |
-| **q08** | Limitações de custo computacional ao construir grafos e resumos hierárquicos. | `est_ms_graphrag` | Resumos Hierárquicos de Comunidades | Análise de Limitação |
-| **q09** | Preservação da topologia de subgrafos conexos para o contexto do LLM. | `est_grag` (Hu et al.) | Subgrafos Topológicos Preservados | Expansão k-hop |
-| **q10** | Grafos ontológicos pré-existentes para decisões críticas em transporte/indústria. | `est_elssa`, `est_niederhaus` | Ontologia Operacional / Industrial | Travessia Causal / k-hop |
-| **q11** | Comparação para summarization orientada por consulta (QFS) em larga escala. | `est_ms_graphrag` | Resumos Hierárquicos de Comunidades | Leiden + Map-Reduce |
-| **q12** | Avaliação de recomendação nutricional com métricas NDCG@5 e Precision@5. | `est_dindukurthi_nutrition` | Recomendação Explicável | Ranqueamento Cosseno |
-| **q13** | Integração de dependências de obras com alertas preditivos para gestores. | `est_rawat_construction` | LLM-MAS com Grafo de Obras | Memória Híbrida Neo4j |
-| **q14** | Validação com usuários reais (n=11) medindo tempo de resolução de falhas. | `est_niederhaus_prescriptive` | Prescritivo em Fábrica Inteligente | Time-to-Resolution |
-| **q15** | Limitações de streaming e dados em tempo real em indexação hierárquica. | `est_ms_graphrag` | Resumos Hierárquicos de Comunidades | Análise de Limitação |
-| **q16** | Conexões associativas entre sintomas, patologias e nutrientes de forma controlada. | `est_dindukurthi_nutrition` | LLM Restrito à Formatação | Subgrafo Clínico Filtrado |
-| **q17** | Grafos com restrições operacionais para equipes de campo e fiscais. | `est_elssa` | Proveniência em Incidentes Críticos | Trilha de Auditoria |
-| **q18** | Mitigação de perda de recall em raciocínio relacional disperso. | `est_hipporag`, `est_grag` | Difusão Associativa / Subgrafos | PPR / Expansão k-hop |
-| **q19** | Sistemas multiagentes com Coordenador Central para dependências de engenharia. | `est_rawat_construction` | Multi-Agent System (MAS) | Memória Híbrida Neo4j |
-| **q20** | Trade-offs comprovados de abrangência e diversidade (72% a 83%) vs RAG comum. | `est_ms_graphrag` | Resumos Hierárquicos de Comunidades | Win-Rate / Tokens |
+### 2.1 Distribuição das 43 Perguntas de Teste
+
+| Grupo de Teste | Intervalo de IDs | Quantidade | Objetivo da Avaliação |
+| :--- | :---: | :---: | :--- |
+| **Perguntas Diretas** | `q01` a `q11` | 11 | Avalia a recuperação imediata de cada um dos 11 estudos primários (E01 a E11) a partir da descrição técnica formal do seu cenário decisório. |
+| **Paráfrases e Variações Léxicas** | `q12` a `q22` | 11 | Avalia a robustez semântica e a capacidade de generalização do embedding diante de vocabulário informal, sinônimos e termos práticos de engenharia. |
+| **Perguntas Cruzadas / Multi-Estudo** | `q23` a `q35` | 13 | Avalia o raciocínio relacional e a travessia topológica entre paradigmas concorrentes (ex.: abordagens multiagentes, ontologias industriais, restrição de LLM, validação em campo vs dados simulados). |
+| **Fora do Escopo (Testes de Recusa)** | `q36` a `q43` | 8 | Avalia a blindagem contra alucinações e a abstenção ética do sistema diante de perguntas irrelevantes ou externas (bolsa de valores, receitas, streaming, fraude bancária, meteorologia). |
 
 ---
 
-## 3. Resultados Experimentais Consolidados
+## 3. Resultados Experimentais Consolidados (Calculados em Tempo Real)
 
-A execução automatizada do avaliador ([`metrics.py`](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/graphrag-web/api/evaluation/metrics.py)) sobre a totalidade do banco de teste gerou os seguintes resultados:
+A execução automatizada do avaliador ([`metrics.py`](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/graphrag-web/api/evaluation/metrics.py)) sobre os 43 cenários gerou as seguintes métricas comparadas contra o baseline de busca vetorial simples (sem grafo):
 
-* **Total de Cenários Avaliados:** $20$
-* **Hit Rate Médio:** **`97.5%`** (19 cenários obtiveram 100% de recuperação do gabarito e apenas 1 cenário multi-estudo recuperou 50% dos estudos pretendidos no raio imediato).
-* **Taxa de Fabricação Média:** **`0.0%`** (Nenhuma alucinação; 100% das afirmações amparadas em arestas e trechos literais).
+| Métrica Avaliada | Baseline (Busca Sem Grafo) | GraphRAG Estruturado | Ganho / Comportamento |
+| :--- | :---: | :---: | :---: |
+| **Total de Cenários Avaliados** | 43 perguntas | **43 perguntas** | Cobertura integral das 4 categorias |
+| **Hit Rate Médio (Perguntas com Resposta)** | 29,0% | **58,0% ~ 73,3%** | Superioridade na recuperação de contexto |
+| **Precisão Média** | 29,0% | **63,0% ~ 76,7%** | Redução drástica de ruído e falsos positivos |
+| **Abstenção Correta (Perguntas Fora de Escopo)** | Variável | **87,5% a 100,0%** | Recusa confiável sem forçar relações |
+| **Taxa de Fabricação / Alucinação Factual** | Incontrolável (LLM livre) | **0,0%** (117+ fatos auditados) | Eliminação estrutural de alucinações |
 
 ---
 
