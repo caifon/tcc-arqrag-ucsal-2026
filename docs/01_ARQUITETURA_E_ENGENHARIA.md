@@ -104,9 +104,9 @@ O grafo de conhecimento calibrado do MVP é constituído pelas seguintes entidad
   * 10 nós de `Estudo` (E01 a E10)
   * 10 nós de `Tecnica`
   * 10 nós de `CenarioDecisao` (cobrindo construção civil, nutrição, robótica, manufatura, transporte urbano, oleodutos, medicina clínica/TCM, recarga de VEs, O&M aeroespacial e UUVs)
-  * 11 nós de `EstrategiaRecuperacao`
-  * 11 nós de `MetricaAvaliacao`
-  * 11 nós de `Limitacao`
+  * 7 nós de `EstrategiaRecuperacao`
+  * 10 nós de `MetricaAvaliacao`
+  * 10 nós de `Limitacao`
   * 22 nós de `Snippet` (trechos literais com citação exata de página)
 * **85 Arestas Direcionadas:** garantindo conectividade topológica estrita entre estudos, técnicas, cenários, estratégias, métricas, limitações e snippets literais.
 

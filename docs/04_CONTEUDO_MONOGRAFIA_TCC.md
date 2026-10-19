@@ -106,7 +106,7 @@ Para responder à pergunta de pesquisa RQ4, o sistema submeteu consultas idênti
 \section{Conclusões}
 Este trabalho investigou o uso de abordagens GraphRAG no contexto do apoio à tomada de decisão através de um mapeamento sistemático da literatura e do desenvolvimento de um artefato aplicado de Engenharia de Software.
 
-Os resultados comprovam que a representação em grafos de conhecimento soluciona uma das maiores fragilidades dos sistemas RAG convencionais: a incapacidade de sintetizar visões globais e explicitar relações causais complexas. A imposição de uma ontologia rígida com LLM restrito à formatação assegurou uma Taxa de Fabricação nula (0,0\%) e um Hit Rate de 97,5\%, demonstrando a viabilidade de sistemas de apoio à decisão auditáveis e confiáveis.
+Os resultados comprovam que a representação em grafos de conhecimento soluciona uma das maiores fragilidades dos sistemas RAG convencionais: a incapacidade de sintetizar visões globais e explicitar relações causais complexas. A imposição de uma ontologia rígida com LLM restrito à formatação assegurou uma Taxa de Fabricação nula (0,0\%) e Hit Rate de até 73,3\% com Abstenção Correta de até 100,0\%, demonstrando a viabilidade de sistemas de apoio à decisão auditáveis e confiáveis.
 
 \section{Trabalhos Futuros}
 Como perspectivas de evolução para este estudo, apontam-se:
