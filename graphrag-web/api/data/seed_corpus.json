@@ -1,5 +1,5 @@
 {
-  "versao": "2026-10-18-v4",
+  "versao": "2026-10-19-v5",
   "nos": [
     {
       "id": "estr_consulta_cypher",
@@ -465,57 +465,6 @@
         "estudo_id": "est_lu_pipeline",
         "pagina": 3,
         "arquivo_pdf": "Knowledge_Graph_Reasoning_and_Security_Assurance_Decision-Making_Based_on_Online_Retrieval_Augment_Generation.pdf"
-      }
-    },
-    {
-      "id": "est_yu_aviation",
-      "tipo": "Estudo",
-      "nome": "Engineering Critical Analysis Software Services: A Graph-RAG and Self-Learning LLM-Based Agent Services Approach",
-      "descricao": "Framework de agentes com GraphRAG e autoaprendizado para análise de relatórios do AAIB (Air Accidents Investigation Branch), extraindo causalidades sem atribuir culpas.",
-      "metadados": {
-        "autores": "Yu, Scanlon e Reiff-Marganiec",
-        "ano": 2025,
-        "veiculo": "IEEE SOSE",
-        "arquivo_pdf": "Engineering_Critical_Analysis_Software_Services_a_Graph-Rag_and_Self-Learning_Large_Language_Model_Agent_Services_Approach.pdf"
-      }
-    },
-    {
-      "id": "tec_yu_aviation",
-      "tipo": "Tecnica",
-      "nome": "GraphRAG com grafo de chunks e agentes com autoaprendizado",
-      "descricao": "Converte relatórios aeronáuticos em um grafo de conhecimento onde cada chunk textual vira nó conectado por relações semânticas e causais, permitindo raciocínio estruturado.",
-      "metadados": {
-        "ferramentas": "CKGM, LLM Agents",
-        "estudo_id": "est_yu_aviation"
-      }
-    },
-    {
-      "id": "cen_yu_aviation",
-      "tipo": "CenarioDecisao",
-      "nome": "Aviação – investigação de acidentes aeronáuticos e prevenção de falhas",
-      "descricao": "Apoiar investigadores aeronáuticos a reconstruir a cadeia causal de falhas e incidentes para propor recomendações de segurança operacional sem apontar culpados.",
-      "metadados": {}
-    },
-    {
-      "id": "tr_yu_aviation_1",
-      "tipo": "Snippet",
-      "nome": "Trecho de Yu, Scanlon e Reiff-Marganiec (2025)",
-      "descricao": "This paper presents Graph-RAG and Self-learning LLM-based Agent Services Framework for structured reasoning and knowledge-driven analysis",
-      "metadados": {
-        "estudo_id": "est_yu_aviation",
-        "pagina": 1,
-        "arquivo_pdf": "Engineering_Critical_Analysis_Software_Services_a_Graph-Rag_and_Self-Learning_Large_Language_Model_Agent_Services_Approach.pdf"
-      }
-    },
-    {
-      "id": "tr_yu_aviation_2",
-      "tipo": "Snippet",
-      "nome": "Trecho de Yu, Scanlon e Reiff-Marganiec (2025)",
-      "descricao": "The sole objective of an AAIB investigation is the prevention of future accidents and incidents. The AAIB reports do not apportion blame",
-      "metadados": {
-        "estudo_id": "est_yu_aviation",
-        "pagina": 5,
-        "arquivo_pdf": "Engineering_Critical_Analysis_Software_Services_a_Graph-Rag_and_Self-Learning_Large_Language_Model_Agent_Services_Approach.pdf"
       }
     },
     {
@@ -1042,48 +991,6 @@
     {
       "origem_id": "est_lu_pipeline",
       "destino_id": "tr_lu_pipeline_2",
-      "tipo": "EVIDENCIA_TEXTUAL",
-      "peso": 1.0
-    },
-    {
-      "origem_id": "est_yu_aviation",
-      "destino_id": "tec_yu_aviation",
-      "tipo": "USA",
-      "peso": 1.0
-    },
-    {
-      "origem_id": "tec_yu_aviation",
-      "destino_id": "cen_yu_aviation",
-      "tipo": "APLICADO_EM",
-      "peso": 1.0
-    },
-    {
-      "origem_id": "tec_yu_aviation",
-      "destino_id": "estr_entrada_por_similaridade_e_travessia",
-      "tipo": "UTILIZA_ESTRATEGIA",
-      "peso": 1.0
-    },
-    {
-      "origem_id": "tec_yu_aviation",
-      "destino_id": "met_demonstracao_viabilidade",
-      "tipo": "AVALIADO_POR",
-      "peso": 1.0
-    },
-    {
-      "origem_id": "tec_yu_aviation",
-      "destino_id": "lim_consumo_memoria_borda",
-      "tipo": "POSSUI_LIMITACAO",
-      "peso": 1.0
-    },
-    {
-      "origem_id": "est_yu_aviation",
-      "destino_id": "tr_yu_aviation_1",
-      "tipo": "EVIDENCIA_TEXTUAL",
-      "peso": 1.0
-    },
-    {
-      "origem_id": "est_yu_aviation",
-      "destino_id": "tr_yu_aviation_2",
       "tipo": "EVIDENCIA_TEXTUAL",
       "peso": 1.0
     },

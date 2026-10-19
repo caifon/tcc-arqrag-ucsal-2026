@@ -13,7 +13,7 @@
 | Bloco | Tempo | Foco da Fala | Slide / Demonstração |
 | :---: | :---: | :--- | :--- |
 | **1. Introdução & O Problema** | 3 min | Limitações dos LLMs (alucinações) e o gargalo do RAG puramente vetorial: perda de contexto relacional e incapacidade de síntese global. | Slide do problema conceitual. |
-| **2. Metodologia PRISMA & Ontologia** | 4 min | Como a RSL foi planejada e como o conhecimento científico de 11 estudos foi formalizado em um modelo ontológico rígido (84 nós e 92 arestas). | Diagrama do modelo ontológico rígido. |
+| **2. Metodologia PRISMA & Ontologia** | 4 min | Como a RSL foi planejada e como o conhecimento científico de 10 estudos foi formalizado em um modelo ontológico rígido (79 nós e 85 arestas). | Diagrama do modelo ontológico rígido. |
 | **3. Arquitetura do Software (MVP)** | 4 min | O pipeline de 4 etapas: entrada vetorial leve, travessia topológica de 1 a 2 saltos, e LLM estritamente como formatador neutro. | Diagrama de componentes e fluxo. |
 | **4. Demonstração Prática ao Vivo** | 5 min | 1. Executar consulta de gestão de obras ou infraestrutura; <br>2. Mostrar matriz lado a lado e rota causal topológica; <br>3. Ativar o Switch A/B contra o RAG vetorial comum; <br>4. Exibir a aba de Avaliação com os 43 cenários empíricos e 0,0% de fabricação. | Navegador em `https://graphrag-web-rho.vercel.app`. |
 | **5. Conclusão & Contribuições** | 2 min | A transformação de uma revisão estática em um software vivo; soberania decisória humana (Simon, 1960). | Slide de encerramento e agradecimentos. |

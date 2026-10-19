@@ -15,14 +15,14 @@
 
 ---
 
-> **Atualização (out/2026 – Acervo Expandido para 11 Artigos):** 
-> - O acervo de estudos incluídos no mapeamento sistemático foi expandido para **11 estudos revisados por pares** (IEEE, Elsevier, Springer, ACM), localizados na pasta `Artigos Selecionados`.
-> - **Evidências Literais Auditadas**: 24 trechos literais extraídos diretamente dos PDFs com conferência automática via `scripts/verificar_trechos.py` (**100% de precisão e 0 falhas**).
+> **Atualização (out/2026 – Acervo Consolidado em 10 Artigos):** 
+> - O acervo de estudos incluídos no mapeamento sistemático é composto por **10 estudos revisados por pares** (IEEE, Elsevier, Springer, ACM), localizados na pasta `Artigos Selecionados`.
+> - **Evidências Literais Auditadas**: 22 trechos literais extraídos diretamente dos PDFs com conferência automática via `scripts/verificar_trechos.py` (**100% de precisão e 0 falhas**).
 > - **Banco Experimental Ampliado**: 43 cenários de teste padronizados cobrindo perguntas diretas, paráfrases, análises comparativas cruzadas e questões fora do escopo com abstenção automática.
 > - **Zero Alucinação**: Taxa de fabricação rigorosamente mantida em **0%**, ancorada estritamente na topologia ontológica do grafo.
 > - **Controle de Geração do LLM**: `gemini-2.5-flash` configurado com `thinkingBudget: 0` e 1024 tokens para garantir síntese completa sem cortes.
 >
-> ### 📑 Acervo de Estudos Selecionados (11 Artigos)
+> ### 📑 Acervo de Estudos Selecionados (10 Artigos)
 > | ID | Estudo | Autores | Ano | Veículo | Domínio de Decisão |
 > |---|---|---|:---:|---|---|
 > | `est_rawat` | Conceptual Framework for LLM-Based MAS | Rawat, Witt & Lill | 2025 | EC3 / CIB W78 | Gestão de Obras & Cronogramas |
@@ -30,7 +30,6 @@
 > | `est_dindukurthi` | Explainable GraphRAG for Nutrition Recommendation | Dindukurthi et al. | 2026 | Frontiers in AI | Nutrição Clínica & Dietoterapia |
 > | `est_elssa` | ELSSA: Decision Support for Transit Incidents | Wang & Shalaby | 2026 | Transp. Res. Part C | Gestão de Incidentes em Transporte |
 > | `est_lu_pipeline` | KG Reasoning and Security Assurance Decision-Making | Lu et al. | 2024 | IEEE AIIM | Segurança de Redes de Oleodutos |
-> | `est_yu_aviation` | Engineering Critical Analysis Software Services | Yu, Scanlon & Reiff-M. | 2025 | IEEE SOSE | Investigação de Acidentes Aéreos (AAIB) |
 > | `est_zheng_tcm` | ChatGLM-FGIDs-TCM: Clinical Decision Support | Zheng et al. | 2025 | IEEE BIBM | Medicina Clínica & Fitoterapia |
 > | `est_zheng_ev` | KG Augmented Agents for EV Charging Support | Zheng, Yan, Du et al. | 2025 | IEEE IAECST | O&M em Mobilidade Elétrica |
 > | `est_liu_fusionom` | FusionOM: Dual-Channel Framework for O&M | Liu, Wang, Li et al. | 2025 | IEEE NTCI | Estratégia de O&M em Aviação Civil |
@@ -154,6 +153,7 @@ O script avalia combinações de limiares e margens de corte sobre o banco exper
 ## 🏛️ Estrutura do Repositório
 
 ```text
+├── Artigos Selecionados/             # 10 estudos primários incluídos no mapeamento (PDFs oficiais)
 ├── docs/                             # Documentação técnica e acadêmica completa
 │   ├── 01_ARQUITETURA_E_ENGENHARIA.md
 │   ├── 02_GUIA_INGESTAO_E_CORPUS.md
@@ -162,14 +162,16 @@ O script avalia combinações de limiares e margens de corte sobre o banco exper
 │   └── 05_MANUAL_DE_DEFESA_BANCA.md
 ├── graphrag-web/                     # Aplicação Web Monorepo Oficial (Next.js + FastAPI)
 │   ├── api/                          # Backend Serverless Python
-│   │   ├── data/                     # Seed corpus e banco de 20 cenários de teste
+│   │   ├── data/                     # Seed corpus e banco de 43 cenários de teste
 │   │   ├── engine/                   # TraversalEngine e GeminiService
 │   │   ├── evaluation/               # Aferidor de Hit Rate e Fabricação
 │   │   ├── graph/                    # Adaptadores Neo4j e NetworkX
 │   │   └── ontology.py               # Modelo ontológico formal tipado
 │   ├── app/                          # Frontend Next.js (App Router / Tailwind)
+│   ├── scripts/                      # Scripts de manutenção e auditoria de evidências
+│   ├── tests/                        # Bateria de testes automatizados (pytest)
 │   └── README.md                     # Manual técnico da aplicação web
 ├── mvp_graphrag/                     # Protótipo inicial em Streamlit (legado)
-├── PROXIMOS_PASSOS_E_ROADMAP.md      # Roteiro de entrega e transição final
-└── TCC___RAG.pdf                     # Documento Monográfico Oficial do TCC
+├── GUIA_DE_COMPARTILHAMENTO_DO_GRUPO.md # Roteiro de apresentação e divisão de papéis
+└── PROXIMOS_PASSOS_E_ROADMAP.md      # Roteiro de entrega e transição final
 ```

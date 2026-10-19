@@ -23,7 +23,6 @@ def test_acervo_so_tem_estudos_incluidos():
         "est_dindukurthi",
         "est_elssa",
         "est_lu_pipeline",
-        "est_yu_aviation",
         "est_zheng_tcm",
         "est_zheng_ev",
         "est_liu_fusionom",

@@ -26,9 +26,9 @@
 3. **Exportador de Dossiê Decisório em 1 Clique:**
    * Geração automática de parecer técnico formal estruturado em Markdown (`.md`).
 4. **Painel de Avaliação Experimental Automático:**
-   * Bateria com 43 cenários de teste com gabarito formal cobrindo os 11 estudos selecionados (perguntas diretas, paráfrases, cruzadas e fora do escopo), apurando em tempo real *Hit Rate*, *Precisão*, *Recusa Correta* e *Taxa de Fabricação* (rigorosamente 0.0%).
+   * Bateria com 43 cenários de teste com gabarito formal cobrindo os 10 estudos selecionados (perguntas diretas, paráfrases, cruzadas e fora do escopo), apurando em tempo real *Hit Rate*, *Precisão*, *Recusa Correta* e *Taxa de Fabricação* (rigorosamente 0.0%).
 5. **Auditoria de Evidências Literais e Calibração:**
-   * Script `scripts/verificar_trechos.py` confere automaticamente os 24 trechos literais nos PDFs (100% de precisão).
+   * Script `scripts/verificar_trechos.py` confere automaticamente os 22 trechos literais nos PDFs (100% de precisão).
    * Script `scripts/calibrar_limiar.py` para ajuste fino de `LIMIAR_SIMILARIDADE` e `MARGEM_SIMILARIDADE`.
 
 ### 1. Instalação das Dependências

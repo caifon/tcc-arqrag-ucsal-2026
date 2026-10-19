@@ -13,7 +13,7 @@ import json
 import os
 import shutil
 
-VERSAO_CORPUS = "2026-10-18-v4"
+VERSAO_CORPUS = "2026-10-19-v5"
 
 ESTUDOS = [
     {
@@ -208,43 +208,6 @@ ESTUDOS = [
                 "id": "tr_lu_pipeline_2",
                 "pagina": 3,
                 "texto": "Risks R are modeled as a function of geopolitical factors (G), economic conditions (E), and pipeline vulnerabilities (P)",
-            },
-        ],
-    },
-    {
-        "id": "est_yu_aviation",
-        "nome": "Engineering Critical Analysis Software Services: A Graph-RAG and Self-Learning LLM-Based Agent Services Approach",
-        "descricao": "Framework de agentes com GraphRAG e autoaprendizado para análise de relatórios do AAIB (Air Accidents Investigation Branch), extraindo causalidades sem atribuir culpas.",
-        "metadados": {
-            "autores": "Yu, Scanlon e Reiff-Marganiec",
-            "ano": 2025,
-            "veiculo": "IEEE SOSE",
-            "arquivo_pdf": "Engineering_Critical_Analysis_Software_Services_a_Graph-Rag_and_Self-Learning_Large_Language_Model_Agent_Services_Approach.pdf",
-        },
-        "tecnica": {
-            "id": "tec_yu_aviation",
-            "nome": "GraphRAG com grafo de chunks e agentes com autoaprendizado",
-            "descricao": "Converte relatórios aeronáuticos em um grafo de conhecimento onde cada chunk textual vira nó conectado por relações semânticas e causais, permitindo raciocínio estruturado.",
-            "metadados": {"ferramentas": "CKGM, LLM Agents"},
-        },
-        "cenario": {
-            "id": "cen_yu_aviation",
-            "nome": "Aviação – investigação de acidentes aeronáuticos e prevenção de falhas",
-            "descricao": "Apoiar investigadores aeronáuticos a reconstruir a cadeia causal de falhas e incidentes para propor recomendações de segurança operacional sem apontar culpados.",
-        },
-        "estrategias": ["estr_entrada_por_similaridade_e_travessia"],
-        "metricas": ["met_demonstracao_viabilidade"],
-        "limitacoes": ["lim_consumo_memoria_borda"],
-        "trechos": [
-            {
-                "id": "tr_yu_aviation_1",
-                "pagina": 1,
-                "texto": "This paper presents Graph-RAG and Self-learning LLM-based Agent Services Framework for structured reasoning and knowledge-driven analysis",
-            },
-            {
-                "id": "tr_yu_aviation_2",
-                "pagina": 5,
-                "texto": "The sole objective of an AAIB investigation is the prevention of future accidents and incidents. The AAIB reports do not apportion blame",
             },
         ],
     },

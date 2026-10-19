@@ -4,7 +4,7 @@
 **Instituição:** Universidade Católica do Salvador (UCSAL) — Bacharelado em Engenharia de Software (2026)  
 **Orientadora:** Profª Angela Peixoto  
 **Autores:** Adriano Abreu de Almeida, Alison Andrade Rocha, Caio Roldão de Almeida Fonseca, Lívia Alves de Souza e Wendel Campos Bezerra  
-**Referência Metodológica:** Capítulos 2 e 3 do documento monográfico [TCC___RAG.pdf](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/TCC___RAG.pdf)
+**Referência Metodológica:** Capítulos 2 e 3 do documento monográfico do TCC (harmonizado em [04_CONTEUDO_MONOGRAFIA_TCC.md](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/docs/04_CONTEUDO_MONOGRAFIA_TCC.md))
 
 ---
 
@@ -30,7 +30,7 @@ graph TD
     subgraph Camada de Apresentação
         Frontend --> ViewDecision[Aba 1: Apoio à Decisão & Comparador A/B]
         Frontend --> ViewEval[Aba 2: Avaliação Experimental 43 Cenários]
-        Frontend --> ViewOntology[Aba 3: Visualizador de Ontologia & Corpus 11 Estudos]
+        Frontend --> ViewOntology[Aba 3: Visualizador de Ontologia & Corpus 10 Estudos]
         Frontend --> Dossier[Exportador de Dossiê Decisório Markdown]
     end
 
@@ -62,7 +62,7 @@ graph TD
 
 ## 3. Modelo Ontológico Rigoroso (Seção 3.5 do TCC)
 
-A estrutura de dados obedece à **ontologia fixa pré-estabelecida** descrita na Seção 3.5 do [TCC___RAG.pdf](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/TCC___RAG.pdf) e implementada em [ontology.py](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/graphrag-web/api/ontology.py):
+A estrutura de dados obedece à **ontologia fixa pré-estabelecida** descrita na Seção 3.5 da monografia do TCC e implementada em [ontology.py](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/graphrag-web/api/ontology.py):
 
 ```mermaid
 erDiagram
@@ -97,18 +97,18 @@ erDiagram
 | **`POSSUI_LIMITACAO`** | `Tecnica` $\rightarrow$ `Limitacao` | Restrições explícitas assumidas ao adotar a abordagem. |
 | **`EVIDENCIA_TEXTUAL`** | `Estudo` $\rightarrow$ `Snippet` | Vinculação literal auditável entre o estudo e seu trecho comprobatório. |
 
-### 3.3 Escala e Topologia Atual do Grafo (11 Estudos Primários)
+### 3.3 Escala e Topologia Atual do Grafo (10 Estudos Primários)
 
 O grafo de conhecimento calibrado do MVP é constituído pelas seguintes entidades auditadas:
-* **84 Nós Totais:**
-  * 11 nós de `Estudo` (E01 a E11)
-  * 11 nós de `Tecnica`
-  * 11 nós de `CenarioDecisao` (cobrindo construção civil, nutrição, robótica, manufatura, transporte urbano, oleodutos, aviação, medicina clínica/TCM, recarga de VEs e UUVs)
+* **79 Nós Totais:**
+  * 10 nós de `Estudo` (E01 a E10)
+  * 10 nós de `Tecnica`
+  * 10 nós de `CenarioDecisao` (cobrindo construção civil, nutrição, robótica, manufatura, transporte urbano, oleodutos, medicina clínica/TCM, recarga de VEs, O&M aeroespacial e UUVs)
   * 11 nós de `EstrategiaRecuperacao`
   * 11 nós de `MetricaAvaliacao`
   * 11 nós de `Limitacao`
-  * 24 nós de `Snippet` (trechos literais com citação exata de página)
-* **92 Arestas Direcionadas:** garantindo conectividade topológica estrita entre estudos, técnicas, cenários, estratégias, métricas, limitações e snippets literais.
+  * 22 nós de `Snippet` (trechos literais com citação exata de página)
+* **85 Arestas Direcionadas:** garantindo conectividade topológica estrita entre estudos, técnicas, cenários, estratégias, métricas, limitações e snippets literais.
 
 ---
 

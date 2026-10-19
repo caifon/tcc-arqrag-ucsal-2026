@@ -79,8 +79,7 @@
     "pergunta": "Quais abordagens montam o grafo a partir de documentos de texto usando um LLM?",
     "estudos_esperados": [
       "est_niederhaus",
-      "est_elssa",
-      "est_yu_aviation"
+      "est_elssa"
     ]
   },
   {
@@ -108,7 +107,6 @@
       "est_dindukurthi",
       "est_elssa",
       "est_lu_pipeline",
-      "est_yu_aviation",
       "est_zheng_tcm",
       "est_zheng_ev",
       "est_liu_fusionom",
@@ -182,11 +180,9 @@
   },
   {
     "id": "q23",
-    "tipo": "direta",
+    "tipo": "fora_do_escopo",
     "pergunta": "Como apoiar investigadores na reconstrução da cadeia causal de acidentes aeronáuticos a partir de relatórios do AAIB sem atribuir culpa?",
-    "estudos_esperados": [
-      "est_yu_aviation"
-    ]
+    "estudos_esperados": []
   },
   {
     "id": "q24",
@@ -238,11 +234,9 @@
   },
   {
     "id": "q30",
-    "tipo": "parafrase",
+    "tipo": "fora_do_escopo",
     "pergunta": "Investigação técnica de falhas em aeronaves com análise estruturada de relatórios de incidentes.",
-    "estudos_esperados": [
-      "est_yu_aviation"
-    ]
+    "estudos_esperados": []
   },
   {
     "id": "q31",
@@ -297,9 +291,8 @@
   {
     "id": "q37",
     "tipo": "cruzada",
-    "pergunta": "Quais estudos são voltados para o setor aeroespacial ou investigação de incidentes aeronáuticos?",
+    "pergunta": "Quais estudos são voltados para o setor aeroespacial ou manutenção de componentes críticos?",
     "estudos_esperados": [
-      "est_yu_aviation",
       "est_liu_fusionom"
     ]
   },
@@ -318,7 +311,6 @@
     "pergunta": "Quais abordagens usam agentes autônomos ou sistemas multiagentes com grafos de conhecimento?",
     "estudos_esperados": [
       "est_rawat",
-      "est_yu_aviation",
       "est_zheng_ev"
     ]
   },
@@ -327,7 +319,6 @@
     "tipo": "cruzada",
     "pergunta": "Quais estudos projetaram soluções voltadas para execução na borda (edge computing) com restrições severas de hardware?",
     "estudos_esperados": [
-      "est_yu_aviation",
       "est_yan_uuv"
     ]
   },

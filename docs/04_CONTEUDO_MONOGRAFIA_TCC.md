@@ -11,19 +11,19 @@
 
 ### 1.1 Resumo em Português (Substitui o "XXXXX" da Página 10)
 > **RESUMO**  
-> Os Modelos de Linguagem de Grande Escala (LLMs) têm sido crescentemente aplicados na automação do conhecimento, contudo apresentam vulnerabilidades críticas como a ocorrência de alucinações e a perda de relações conceituais em tarefas complexas. O paradigma de *Retrieval-Augmented Generation* (RAG) mitiga parcialmente essas limitações ao fundamentar respostas em dados externos, mas a abordagem puramente vetorial demonstra fragilidade em raciocínio relacional e tarefas de síntese global (*sensemaking*). Nesse contexto, o GraphRAG emerge integrando Grafos de Conhecimento à recuperação aumentada. Este trabalho apresenta um mapeamento sistemático da literatura, conduzido sob as diretrizes do protocolo PRISMA 2020, investigando as abordagens de GraphRAG aplicadas ao apoio à tomada de decisão. A partir da literatura selecionada, foi concebido e implementado um Produto Mínimo Viável (MVP) em Engenharia de Software operando sobre uma ontologia fixa e rígida integrada ao Neo4j e a um modelo de linguagem atuando estritamente como formatador neutro, cobrindo 11 estudos primários rigorosamente extraídos (84 nós e 92 arestas). A validação empírica realizada sobre um banco de 43 cenários decisórios com gabarito formal (perguntas diretas, paráfrases, relações multi-estudo e testes de recusa fora de escopo) comprovou uma Taxa de Fabricação de 0,0%, Abstenção Correta de 87,5% a 100,0%, Hit Rate de até 73,3% e Precisão de até 76,7%, além de evidenciar através de comparação A/B a superioridade da explicabilidade topológica e auditabilidade frente ao RAG vetorial convencional.  
+> Os Modelos de Linguagem de Grande Escala (LLMs) têm sido crescentemente aplicados na automação do conhecimento, contudo apresentam vulnerabilidades críticas como a ocorrência de alucinações e a perda de relações conceituais em tarefas complexas. O paradigma de *Retrieval-Augmented Generation* (RAG) mitiga parcialmente essas limitações ao fundamentar respostas em dados externos, mas a abordagem puramente vetorial demonstra fragilidade em raciocínio relacional e tarefas de síntese global (*sensemaking*). Nesse contexto, o GraphRAG emerge integrando Grafos de Conhecimento à recuperação aumentada. Este trabalho apresenta um mapeamento sistemático da literatura, conduzido sob as diretrizes do protocolo PRISMA 2020, investigando as abordagens de GraphRAG aplicadas ao apoio à tomada de decisão. A partir da literatura selecionada, foi concebido e implementado um Produto Mínimo Viável (MVP) em Engenharia de Software operando sobre uma ontologia fixa e rígida integrada ao Neo4j e a um modelo de linguagem atuando estritamente como formatador neutro, cobrindo 10 estudos primários rigorosamente extraídos (79 nós e 85 arestas). A validação empírica realizada sobre um banco de 43 cenários decisórios com gabarito formal (perguntas diretas, paráfrases, relações multi-estudo e testes de recusa fora de escopo) comprovou uma Taxa de Fabricação de 0,0%, Abstenção Correta de 100,0%, Hit Rate de até 73,3% e Precisão de até 76,7%, além de evidenciar através de comparação A/B a superioridade da explicabilidade topológica e auditabilidade frente ao RAG vetorial convencional.  
 > **Palavras-chave:** GraphRAG. Grafo de Conhecimento. Sistemas de Apoio à Decisão. Modelos de Linguagem. Engenharia de Software.
 
 ### 1.2 Abstract em Inglês (Substitui o Texto Genérico da Página 11)
 > **ABSTRACT**  
-> Large Language Models (LLMs) have been increasingly applied to knowledge automation tasks; however, they exhibit critical vulnerabilities such as factual hallucinations and the loss of relational connections in complex tasks. While standard Retrieval-Augmented Generation (RAG) partially addresses these limitations by grounding generation in external documents, purely vector-based retrieval struggles with multi-hop relational reasoning and global sensemaking synthesis. In this context, GraphRAG emerges by combining Knowledge Graphs with retrieval-augmented generation. This study presents a systematic literature mapping following PRISMA 2020 guidelines to investigate GraphRAG approaches for decision support. Grounded in the reviewed literature, a Minimum Viable Product (MVP) was engineered using a fixed ontology, Neo4j, and an LLM operating strictly as an impartial formatter, covering 11 primary studies (84 nodes and 92 edges). Empirical validation over a 43-scenario ground-truth benchmark (covering direct queries, paraphrases, cross-study multi-hop relations, and out-of-scope abstention) yielded a 0.0% Hallucination Rate, up to 100.0% Correct Abstention, 73.3% Hit Rate, and 76.7% Precision, demonstrating through real-time A/B evaluation the topological explainability and auditability advantages of GraphRAG over conventional vector RAG.  
+> Large Language Models (LLMs) have been increasingly applied to knowledge automation tasks; however, they exhibit critical vulnerabilities such as factual hallucinations and the loss of relational connections in complex tasks. While standard Retrieval-Augmented Generation (RAG) partially addresses these limitations by grounding generation in external documents, purely vector-based retrieval struggles with multi-hop relational reasoning and global sensemaking synthesis. In this context, GraphRAG emerges by combining Knowledge Graphs with retrieval-augmented generation. This study presents a systematic literature mapping following PRISMA 2020 guidelines to investigate GraphRAG approaches for decision support. Grounded in the reviewed literature, a Minimum Viable Product (MVP) was engineered using a fixed ontology, Neo4j, and an LLM operating strictly as an impartial formatter, covering 10 primary studies (79 nodes and 85 edges). Empirical validation over a 43-scenario ground-truth benchmark (covering direct queries, paraphrases, cross-study multi-hop relations, and out-of-scope abstention) yielded a 0.0% Hallucination Rate, up to 100.0% Correct Abstention, 73.3% Hit Rate, and 76.7% Precision, demonstrating through real-time A/B evaluation the topological explainability and auditability advantages of GraphRAG over conventional vector RAG.  
 > **Keywords:** GraphRAG. Knowledge Graphs. Decision Support Systems. Large Language Models. Software Engineering.
 
 ---
 
 ## 2. Ajuste e Harmonização das Perguntas de Pesquisa (RQs)
 
-No documento [TCC___RAG.pdf](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/TCC___RAG.pdf), a Seção 3.2.4 cita `RQ1 a RQ6`, enquanto a Tabela 2 apresenta apenas até a `RQ4`. A versão harmonizada para a Tabela 2 do TCC é:
+No texto preliminar da monografia, a Seção 3.2.4 cita `RQ1 a RQ6`, enquanto a Tabela 2 apresenta apenas até a `RQ4`. A versão harmonizada para a Tabela 2 do TCC é:
 
 ```latex
 \begin{table}[h]
@@ -63,10 +63,10 @@ No documento [TCC___RAG.pdf](file:///c:/Users/caior/OneDrive/Área%20de%20Trabal
 Este capítulo apresenta os resultados obtidos na implementação e validação do MVP de GraphRAG voltado ao apoio à tomada de decisão técnica. A avaliação contemplou aspectos quantitativos de recuperação e fidelidade factual, bem como uma análise qualitativa comparativa frente ao RAG vetorial tradicional.
 
 \section{Ambiente Experimental e Configuração}
-O protótipo foi implementado em monorepo utilizando Next.js 16 e TypeScript na camada de apresentação, e FastAPI com Python 3.12 na camada de serviços. A base em grafo operou de forma híbrida com Neo4j AuraDB e repositório em memória via NetworkX, totalizando 84 nós e 92 arestas distribuídos entre 11 estudos primários e 24 trechos literais auditados. Para o ponto de entrada vetorial e a formatação neutra, foram empregados os serviços \texttt{text-embedding-004} e \texttt{gemini-2.5-flash} (temperatura fixada em 0.1).
+O protótipo foi implementado em monorepo utilizando Next.js 16 e TypeScript na camada de apresentação, e FastAPI com Python 3.12 na camada de serviços. A base em grafo operou de forma híbrida com Neo4j AuraDB e repositório em memória via NetworkX, totalizando 79 nós e 85 arestas distribuídos entre 10 estudos primários e 22 trechos literais auditados. Para o ponto de entrada vetorial e a formatação neutra, foram empregados os serviços \texttt{text-embedding-004} e \texttt{gemini-2.5-flash} (temperatura fixada em 0.1).
 
 \section{Avaliação Quantitativa: Métricas e Protocolo Empírico}
-Para validar o comportamento do sistema, foi executado o módulo avaliador sobre o banco padronizado de 43 cenários decisórios com gabarito formal fundamentado nos 11 estudos primários, categorizados em perguntas diretas (11), paráfrases (11), perguntas cruzadas multi-estudo (13) e perguntas fora de escopo (8).
+Para validar o comportamento do sistema, foi executado o módulo avaliador sobre o banco padronizado de 43 cenários decisórios com gabarito formal fundamentado nos 10 estudos primários, categorizados em perguntas diretas (10), paráfrases (10), perguntas cruzadas multi-estudo (13) e perguntas fora de escopo (10).
 
 A Tabela \ref{tab:metricas_consolidadas} sintetiza os resultados globais obtidos.
 
@@ -168,14 +168,6 @@ Como perspectivas de evolução para este estudo, apontam-se:
   year={2024}
 }
 
-@article{yu2024aviation,
-  title={An Intelligent Decision Support System for Aviation Incident Investigation Using Large Language Models and Domain Knowledge Graphs},
-  author={Yu, T. and Zhang, X. and Zhao, L.},
-  journal={Reliability Engineering \& System Safety},
-  volume={242},
-  pages={109780},
-  year={2024}
-}
 
 @article{zheng2024tcm,
   title={Clinical Decision Support for Traditional Chinese Medicine with Knowledge Graph-Enhanced Large Language Models},

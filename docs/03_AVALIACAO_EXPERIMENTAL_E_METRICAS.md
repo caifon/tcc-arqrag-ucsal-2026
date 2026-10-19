@@ -2,7 +2,7 @@
 
 **Projeto:** GraphRAG para Apoio à Tomada de Decisão: Um Mapeamento Sistemático da Literatura  
 **Instituição:** Universidade Católica do Salvador (UCSAL) — Bacharelado em Engenharia de Software (2026)  
-**Referência Metodológica:** Seção 3.7 do documento monográfico [TCC___RAG.pdf](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/TCC___RAG.pdf)
+**Referência Metodológica:** Seção 3.7 do documento monográfico do TCC (harmonizado em [04_CONTEUDO_MONOGRAFIA_TCC.md](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/docs/04_CONTEUDO_MONOGRAFIA_TCC.md))
 
 ---
 
@@ -42,12 +42,12 @@ A validação foi realizada sobre o banco padronizado em [test_scenarios.json](f
 
 ### 2.1 Distribuição das 43 Perguntas de Teste
 
-| Grupo de Teste | Intervalo de IDs | Quantidade | Objetivo da Avaliação |
-| :--- | :---: | :---: | :--- |
-| **Perguntas Diretas** | `q01` a `q11` | 11 | Avalia a recuperação imediata de cada um dos 11 estudos primários (E01 a E11) a partir da descrição técnica formal do seu cenário decisório. |
-| **Paráfrases e Variações Léxicas** | `q12` a `q22` | 11 | Avalia a robustez semântica e a capacidade de generalização do embedding diante de vocabulário informal, sinônimos e termos práticos de engenharia. |
-| **Perguntas Cruzadas / Multi-Estudo** | `q23` a `q35` | 13 | Avalia o raciocínio relacional e a travessia topológica entre paradigmas concorrentes (ex.: abordagens multiagentes, ontologias industriais, restrição de LLM, validação em campo vs dados simulados). |
-| **Fora do Escopo (Testes de Recusa)** | `q36` a `q43` | 8 | Avalia a blindagem contra alucinações e a abstenção ética do sistema diante de perguntas irrelevantes ou externas (bolsa de valores, receitas, streaming, fraude bancária, meteorologia). |
+| Grupo de Teste | Quantidade | Objetivo da Avaliação |
+| :--- | :---: | :--- |
+| **Perguntas Diretas** | 10 | Avalia a recuperação imediata de cada um dos 10 estudos primários ativos (E01 a E10) a partir da descrição técnica formal do seu cenário decisório. |
+| **Paráfrases e Variações Léxicas** | 10 | Avalia a robustez semântica e a capacidade de generalização do embedding diante de vocabulário informal, sinônimos e termos práticos de engenharia. |
+| **Perguntas Cruzadas / Multi-Estudo** | 13 | Avalia o raciocínio relacional e a travessia topológica entre paradigmas concorrentes (ex.: abordagens multiagentes, ontologias industriais, restrição de LLM, validação em campo vs dados simulados). |
+| **Fora do Escopo (Testes de Recusa)** | 10 | Avalia a blindagem contra alucinações e a abstenção ética do sistema diante de perguntas externas ou domínios não cobertos pelo acervo fechado (bolsa de valores, meteorologia, aviação descontinuada). |
 
 ---
 
