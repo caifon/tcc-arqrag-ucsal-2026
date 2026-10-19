@@ -77,8 +77,6 @@ Toda a documentação técnica, acadêmica e metodológica do projeto encontra-s
    * Roteiro sugerido de apresentação de 15 a 20 minutos com script de demo prática.
    * Os 3 Pilares Científicos Irrefutáveis para responder sobre a necessidade do GraphRAG.
    * Banco com 12 perguntas difíceis prováveis da banca e suas respostas fundamentadas.
-6. [**Próximos Passos e Roadmap**](file:///c:/Users/caior/OneDrive/Área%20de%20Trabalho/Faculdade/TCC/PROXIMOS_PASSOS_E_ROADMAP.md):
-   * Cronograma de atividades finais para o time teórico e time de desenvolvimento.
 
 ---
 
@@ -171,7 +169,5 @@ O script avalia combinações de limiares e margens de corte sobre o banco exper
 │   ├── scripts/                      # Scripts de manutenção e auditoria de evidências
 │   ├── tests/                        # Bateria de testes automatizados (pytest)
 │   └── README.md                     # Manual técnico da aplicação web
-├── mvp_graphrag/                     # Protótipo inicial em Streamlit (legado)
-├── GUIA_DE_COMPARTILHAMENTO_DO_GRUPO.md # Roteiro de apresentação e divisão de papéis
-└── PROXIMOS_PASSOS_E_ROADMAP.md      # Roteiro de entrega e transição final
+└── mvp_graphrag/                     # Protótipo inicial em Streamlit (legado)
 ```
