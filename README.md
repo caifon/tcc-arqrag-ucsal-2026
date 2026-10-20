@@ -25,16 +25,16 @@
 > ### 📑 Acervo de Estudos Selecionados (10 Artigos)
 > | ID | Estudo | Autores | Ano | Veículo | Domínio de Decisão |
 > |---|---|---|:---:|---|---|
+> | `est_lu_pipeline` | KG Reasoning and Security Assurance Decision-Making | Lu et al. | 2024 | IEEE AIIM | Segurança de Redes de Dutos de Energia |
 > | `est_rawat` | Conceptual Framework for LLM-Based MAS | Rawat, Witt & Lill | 2025 | EC3 / CIB W78 | Gestão de Obras & Cronogramas |
 > | `est_niederhaus` | GraphRAG for Prescriptive Recommender Systems | Niederhaus et al. | 2025 | BDCC / MDPI | Manutenção Ciberfísica Industrial |
-> | `est_dindukurthi` | Explainable GraphRAG for Nutrition Recommendation | Dindukurthi et al. | 2026 | Frontiers in AI | Nutrição Clínica & Dietoterapia |
-> | `est_elssa` | ELSSA: Decision Support for Transit Incidents | Wang & Shalaby | 2026 | Transp. Res. Part C | Gestão de Incidentes em Transporte |
-> | `est_lu_pipeline` | KG Reasoning and Security Assurance Decision-Making | Lu et al. | 2024 | IEEE AIIM | Segurança de Redes de Oleodutos |
-> | `est_zheng_tcm` | ChatGLM-FGIDs-TCM: Clinical Decision Support | Zheng et al. | 2025b | IEEE BIBM | Medicina Clínica & Fitoterapia |
 > | `est_zheng_ev` | KG Augmented Agents for EV Charging Support | Zheng et al. | 2025a | IEEE IAECST | O&M em Mobilidade Elétrica |
 > | `est_liu_fusionom` | FusionOM: Dual-Channel Framework for O&M | Liu et al. | 2025 | IEEE NTCI | Estratégia de O&M em Aviação Civil |
-> | `est_yan_uuv` | Autonomous Decision-Making for UUV Emergencies | Yan et al. | 2025 | IEEE | Emergências em Veículos Subaquáticos |
-> | `est_mallala_robot` | Escalation Engine for Root-Cause Analysis | Mallala & Sharma | 2025 | IEEE / ArXiv | Análise de Causa-Raiz em Robótica |
+> | `est_zheng_tcm` | ChatGLM-FGIDs-TCM: Clinical Decision Support | Zheng et al. | 2025b | IEEE BIBM | Medicina Clínica & Fitoterapia |
+> | `est_yan_uuv` | Autonomous Decision-Making for UUV Emergencies | Yan et al. | 2025 | IEEE CAC | Emergências em Veículos Subaquáticos |
+> | `est_dindukurthi` | Explainable GraphRAG for Nutrition Recommendation | Dindukurthi et al. | 2026 | Frontiers in AI | Nutrição Clínica & Dietoterapia |
+> | `est_elssa` | ELSSA: Decision Support for Transit Incidents | Wang & Shalaby | 2026 | Transp. Res. Part C | Gestão de Incidentes em Transporte |
+> | `est_mallala_robot` | Escalation Engine for Root-Cause Analysis | Mallala & Sharma | 2026 | IEEE CONIT | Análise de Causa-Raiz em Robótica |
 
 ## 💡 Sobre o Projeto
 

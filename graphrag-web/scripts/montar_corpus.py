@@ -13,9 +13,46 @@ import json
 import os
 import shutil
 
-VERSAO_CORPUS = "2026-10-20-v6"
+VERSAO_CORPUS = "2026-10-20-v7"
 
 ESTUDOS = [
+    {
+        "id": "est_lu_pipeline",
+        "nome": "Knowledge Graph Reasoning and Security Assurance Decision-Making Based on Online Retrieval Augment Generation",
+        "descricao": "Framework online de raciocínio em grafos de conhecimento e RAG para tomada de decisão em segurança e avaliação de riscos geopolíticos e cibernéticos em infraestruturas de dutos de energia.",
+        "metadados": {
+            "autores": "Lu et al.",
+            "ano": 2024,
+            "veiculo": "IEEE AIIM",
+            "arquivo_pdf": "Knowledge_Graph_Reasoning_and_Security_Assurance_Decision-Making_Based_on_Online_Retrieval_Augment_Generation.pdf",
+        },
+        "tecnica": {
+            "id": "tec_lu_pipeline",
+            "nome": "Online KG-RAG com raciocínio de grafo (TransE)",
+            "descricao": "Combina representação vetorial de grafos (TransE) com RAG online para projetar cenários contrafactuais de ameaça e embasar planos de contingência em tempo de execução.",
+            "metadados": {"ferramentas": "TransE, Neo4j, LLM"},
+        },
+        "cenario": {
+            "id": "cen_lu_pipeline",
+            "nome": "Infraestrutura crítica – segurança e gestão de riscos em dutos de energia",
+            "descricao": "Avaliar a segurança física, cibernética e geopolítica de dutos de transporte de energia e oleodutos e propor medidas defensivas imediatas a partir de dados em tempo real.",
+        },
+        "estrategias": ["estr_embeddings_grafo", "estr_entrada_por_similaridade_e_travessia"],
+        "metricas": ["met_demonstracao_viabilidade"],
+        "limitacoes": ["lim_latencia_streaming"],
+        "trechos": [
+            {
+                "id": "tr_lu_pipeline_1",
+                "pagina": 1,
+                "texto": "This paper proposes a novel framework leveraging Knowledge Graph (KG) reasoning and online Retrieval Augmented Generation (RAG)",
+            },
+            {
+                "id": "tr_lu_pipeline_2",
+                "pagina": 3,
+                "texto": "Risks R are modeled as a function of geopolitical factors (G), economic conditions (E), and pipeline vulnerabilities (P)",
+            },
+        ],
+    },
     {
         "id": "est_rawat",
         "nome": "A Conceptual Framework for LLM-Based Multi-Agent Systems in Construction Management",
@@ -92,6 +129,154 @@ ESTUDOS = [
                 "id": "tr_niederhaus_3",
                 "pagina": 17,
                 "texto": "However, GraphRAG is more complex than traditional RAG, and it requires continuous maintenance beyond document processing and embeddings.",
+            },
+        ],
+    },
+    {
+        "id": "est_zheng_ev",
+        "nome": "Knowledge Graph Augmented Autonomous Agents for Intelligent Customer Service in Electric Vehicle Charging Infrastructure",
+        "descricao": "Agente autônomo baseado em grafo hierárquico de conhecimento para diagnóstico de anomalias e despacho de operações de manutenção em estações de recarga de veículos elétricos.",
+        "metadados": {
+            "autores": "Zheng et al.",
+            "ano": "2025a",
+            "veiculo": "IEEE IAECST",
+            "arquivo_pdf": "Knowledge_Graph_Augmented_Autonomous_Agents_for_Intelligent_Customer_Service_in_Electric_Vehicle_Charging_Infrastructure.pdf",
+        },
+        "tecnica": {
+            "id": "tec_zheng_ev",
+            "nome": "Grafo de Conhecimento Hierárquico (HKG) com verificação estrita",
+            "descricao": "Usa o grafo hierárquico como mecanismo estrito de validação das respostas do agente, garantindo que as soluções geradas sejam subconjuntos de regras operacionais históricas.",
+            "metadados": {"ferramentas": "Hierarchical KG, Hybrid Search, Autonomous Agent"},
+        },
+        "cenario": {
+            "id": "cen_zheng_ev",
+            "nome": "Mobilidade elétrica – triagem de falhas e despacho de O&M em eletropostos",
+            "descricao": "Identificar a causa de falhas operacionais em estações de recarga a partir do relato do motorista e emitir ordens de serviço precisas para as equipes de campo.",
+        },
+        "estrategias": ["estr_travessia_hierarquica", "estr_entrada_por_similaridade_e_travessia"],
+        "metricas": ["met_acuracia_classificacao"],
+        "limitacoes": ["lim_falta_suporte_multimodal"],
+        "trechos": [
+            {
+                "id": "tr_zheng_ev_1",
+                "pagina": 1,
+                "texto": "To address these issues, this paper proposes a novel framework that integrates a Hierarchical Knowledge Graph (HKG) with an Autonomous Agent",
+            },
+            {
+                "id": "tr_zheng_ev_2",
+                "pagina": 2,
+                "texto": "Our approach diverges from standard GraphRAG by utilizing the KG structure as a strict verification mechanism",
+            },
+        ],
+    },
+    {
+        "id": "est_liu_fusionom",
+        "nome": "FusionOM: A Dual-Channel LLM-KG Framework for Intelligent Operations and Maintenance Strategy Generation",
+        "descricao": "Framework de canal duplo que integra recuperação semântica vetorial e GraphRAG estruturado para geração automatizada de estratégias de manutenção e operação.",
+        "metadados": {
+            "autores": "Liu et al.",
+            "ano": 2025,
+            "veiculo": "IEEE NTCI",
+            "arquivo_pdf": "FusionOM_A_Dual-Channel_LLM-KG_Framework_for_Intelligent_Operations_and_Maintenance_Strategy_Generation.pdf",
+        },
+        "tecnica": {
+            "id": "tec_liu_fusionom",
+            "nome": "Recuperação em canal duplo (FusionOM: vetorial + fecho de subgrafo)",
+            "descricao": "Combina recuperação semântica densa de textos com expansão topológica no grafo de conhecimento (fecho de subgrafo), acelerando a inferência e reduzindo alucinações.",
+            "metadados": {"ferramentas": "Dual-Channel Engine, Subgraph Closure, Qwen-32B"},
+        },
+        "cenario": {
+            "id": "cen_liu_fusionom",
+            "nome": "Engenharia de manutenção – geração de planos de O&M em sistemas críticos",
+            "descricao": "Formular procedimentos e planos de ação de manutenção preventiva e corretiva para componentes industriais complexos sob tolerância zero a falhas.",
+        },
+        "estrategias": ["estr_recuperacao_canal_duplo", "estr_entrada_por_similaridade_e_travessia"],
+        "metricas": ["met_f1_acoes", "met_risco_alucinacao"],
+        "limitacoes": ["lim_manutencao_ontologia"],
+        "trechos": [
+            {
+                "id": "tr_liu_fusionom_1",
+                "pagina": 1,
+                "texto": "Operations and Maintenance (O&M) strategies in safety-critical systems often rely on manual workflows that are time-consuming and error-prone",
+            },
+            {
+                "id": "tr_liu_fusionom_2",
+                "pagina": 2,
+                "texto": "The dual-channel retrieval module consists of semantic retrieval and knowledge graph reasoning",
+            },
+        ],
+    },
+    {
+        "id": "est_zheng_tcm",
+        "nome": "ChatGLM-FGIDs-TCM: A Knowledge-Integrated Large Language Model for Clinical Decision Support in Traditional Chinese Medicine",
+        "descricao": "Sistema de apoio à decisão clínica para distúrbios gastrointestinais funcionais (FGIDs), integrando ontologia médica e grafo de conhecimento como esqueleto lógico de raciocínio.",
+        "metadados": {
+            "autores": "Zheng et al.",
+            "ano": "2025b",
+            "veiculo": "IEEE BIBM",
+            "arquivo_pdf": "ChatGLM-FGIDs-TCM_A_Knowledge_Integrated_Large_Language_Model_for_Clinical_Decision_Support_in_Traditional_Chinese_Medicine.pdf",
+        },
+        "tecnica": {
+            "id": "tec_zheng_tcm",
+            "nome": "Dual-Layer GraphRAG com normalização terminológica e feedback de triplas",
+            "descricao": "Normaliza termos médicos e queixas de pacientes mapeando para entidades do grafo, que fornece o esqueleto lógico conectando sintomas a diagnósticos e prescrições validadas.",
+            "metadados": {"ferramentas": "ChatGLM-6B, Medical KG, WordNet"},
+        },
+        "cenario": {
+            "id": "cen_zheng_tcm",
+            "nome": "Medicina clínica – diagnóstico diferencial e recomendação terapêutica",
+            "descricao": "Auxiliar médicos no diagnóstico de distúrbios gastrointestinais complexos e na seleção de intervenções terapêuticas fundamentadas em evidências ontológicas.",
+        },
+        "estrategias": ["estr_entrada_por_similaridade_e_travessia"],
+        "metricas": ["met_acuracia_diagnostica"],
+        "limitacoes": ["lim_sem_validacao_real"],
+        "trechos": [
+            {
+                "id": "tr_zheng_tcm_1",
+                "pagina": 1,
+                "texto": "This study presents ChatGLM-FGIDs-TCM, a domain-adapted large language model based on the open-source ChatGLM-6B framework",
+            },
+            {
+                "id": "tr_zheng_tcm_2",
+                "pagina": 5,
+                "texto": "The knowledge graph, on the other hand, provides the skeleton of clinical reasoning the explicit logical pathways that connect symptoms to treatments",
+            },
+        ],
+    },
+    {
+        "id": "est_yan_uuv",
+        "nome": "Autonomous Decision-Making Method for UUV Emergency Management Based on Graph Retrieval-Augmented Generation Large Language Model",
+        "descricao": "Método de tomada de decisão autônoma para gerenciamento de emergências em Veículos Subaquáticos Não Tripulados (UUV) via GraphRAG baseado em agrupamento e LLM na borda.",
+        "metadados": {
+            "autores": "Yan et al.",
+            "ano": 2025,
+            "veiculo": "IEEE CAC",
+            "arquivo_pdf": "Autonomous_Decision-Making_Method_for_UUV_Emergency_Management_Based_on_Graph_Retrieval-Augmented_Generation_Large_Language_Model.pdf",
+        },
+        "tecnica": {
+            "id": "tec_yan_uuv",
+            "nome": "GraphRAG baseado em clusters com LLM embarcado ajustado por LoRA",
+            "descricao": "Agrupa nós do grafo de emergência em clusters conceituais para recuperação ultrarrápida na borda, acoplada a um LLM refinado com LoRA para planos de resposta imediata.",
+            "metadados": {"ferramentas": "Cluster-GraphRAG, LoRA, Edge Computing"},
+        },
+        "cenario": {
+            "id": "cen_yan_uuv",
+            "nome": "Robótica subaquática – gerenciamento autônomo de emergências em UUVs",
+            "descricao": "Decidir manobras de evasão, reconfiguração de lemes ou aborto de missão quando ocorrem falhas críticas de hardware em submarinos autônomos sem comunicação humana.",
+        },
+        "estrategias": ["estr_resumos_comunidades", "estr_entrada_por_similaridade_e_travessia"],
+        "metricas": ["met_taxa_sucesso_emergencia"],
+        "limitacoes": ["lim_consumo_memoria_borda"],
+        "trechos": [
+            {
+                "id": "tr_yan_uuv_1",
+                "pagina": 1,
+                "texto": "we propose an autonomous emergency-management framework that couples a domain knowledge graph with a retrieval-augmented generative large language model",
+            },
+            {
+                "id": "tr_yan_uuv_2",
+                "pagina": 2,
+                "texto": "In UUV emergency-management scenarios, this capability promises greater autonomy and smarter decisions",
             },
         ],
     },
@@ -175,198 +360,13 @@ ESTUDOS = [
         ],
     },
     {
-        "id": "est_lu_pipeline",
-        "nome": "Knowledge Graph Reasoning and Security Assurance Decision-Making Based on Online Retrieval Augment Generation",
-        "descricao": "Framework online de raciocínio em grafos de conhecimento e RAG para tomada de decisão em segurança e avaliação de riscos geopolíticos e cibernéticos em infraestruturas de oleodutos.",
-        "metadados": {
-            "autores": "Lu et al.",
-            "ano": 2024,
-            "veiculo": "IEEE AIIM",
-            "arquivo_pdf": "Knowledge_Graph_Reasoning_and_Security_Assurance_Decision-Making_Based_on_Online_Retrieval_Augment_Generation.pdf",
-        },
-        "tecnica": {
-            "id": "tec_lu_pipeline",
-            "nome": "Online KG-RAG com raciocínio de grafo (TransE)",
-            "descricao": "Combina representação vetorial de grafos (TransE) com RAG online para projetar cenários contrafactuais de ameaça e embasar planos de contingência em tempo de execução.",
-            "metadados": {"ferramentas": "TransE, Neo4j, LLM"},
-        },
-        "cenario": {
-            "id": "cen_lu_pipeline",
-            "nome": "Infraestrutura crítica – segurança e gestão de riscos em oleodutos",
-            "descricao": "Avaliar a segurança física, cibernética e geopolítica de dutos de transporte de energia e propor medidas defensivas imediatas a partir de dados em tempo real.",
-        },
-        "estrategias": ["estr_embeddings_grafo", "estr_entrada_por_similaridade_e_travessia"],
-        "metricas": ["met_demonstracao_viabilidade"],
-        "limitacoes": ["lim_latencia_streaming"],
-        "trechos": [
-            {
-                "id": "tr_lu_pipeline_1",
-                "pagina": 1,
-                "texto": "This paper proposes a novel framework leveraging Knowledge Graph (KG) reasoning and online Retrieval Augmented Generation (RAG)",
-            },
-            {
-                "id": "tr_lu_pipeline_2",
-                "pagina": 3,
-                "texto": "Risks R are modeled as a function of geopolitical factors (G), economic conditions (E), and pipeline vulnerabilities (P)",
-            },
-        ],
-    },
-    {
-        "id": "est_zheng_tcm",
-        "nome": "ChatGLM-FGIDs-TCM: A Knowledge-Integrated Large Language Model for Clinical Decision Support in Traditional Chinese Medicine",
-        "descricao": "Sistema de apoio à decisão clínica para distúrbios gastrointestinais funcionais (FGIDs), integrando ontologia médica e grafo de conhecimento como esqueleto lógico de raciocínio.",
-        "metadados": {
-            "autores": "Zheng et al.",
-            "ano": "2025b",
-            "veiculo": "IEEE BIBM",
-            "arquivo_pdf": "ChatGLM-FGIDs-TCM_A_Knowledge_Integrated_Large_Language_Model_for_Clinical_Decision_Support_in_Traditional_Chinese_Medicine.pdf",
-        },
-        "tecnica": {
-            "id": "tec_zheng_tcm",
-            "nome": "Dual-Layer GraphRAG com normalização terminológica e feedback de triplas",
-            "descricao": "Normaliza termos médicos e queixas de pacientes mapeando para entidades do grafo, que fornece o esqueleto lógico conectando sintomas a diagnósticos e prescrições validadas.",
-            "metadados": {"ferramentas": "ChatGLM-6B, Medical KG, WordNet"},
-        },
-        "cenario": {
-            "id": "cen_zheng_tcm",
-            "nome": "Medicina clínica – diagnóstico diferencial e recomendação terapêutica",
-            "descricao": "Auxiliar médicos no diagnóstico de distúrbios gastrointestinais complexos e na seleção de intervenções terapêuticas fundamentadas em evidências ontológicas.",
-        },
-        "estrategias": ["estr_entrada_por_similaridade_e_travessia"],
-        "metricas": ["met_acuracia_diagnostica"],
-        "limitacoes": ["lim_sem_validacao_real"],
-        "trechos": [
-            {
-                "id": "tr_zheng_tcm_1",
-                "pagina": 1,
-                "texto": "This study presents ChatGLM-FGIDs-TCM, a domain-adapted large language model based on the open-source ChatGLM-6B framework",
-            },
-            {
-                "id": "tr_zheng_tcm_2",
-                "pagina": 5,
-                "texto": "The knowledge graph, on the other hand, provides the skeleton of clinical reasoning the explicit logical pathways that connect symptoms to treatments",
-            },
-        ],
-    },
-    {
-        "id": "est_zheng_ev",
-        "nome": "Knowledge Graph Augmented Autonomous Agents for Intelligent Customer Service in Electric Vehicle Charging Infrastructure",
-        "descricao": "Agente autônomo baseado em grafo hierárquico de conhecimento para diagnóstico de anomalias e despacho de operações de manutenção em estações de recarga de veículos elétricos.",
-        "metadados": {
-            "autores": "Zheng et al.",
-            "ano": "2025a",
-            "veiculo": "IEEE IAECST",
-            "arquivo_pdf": "Knowledge_Graph_Augmented_Autonomous_Agents_for_Intelligent_Customer_Service_in_Electric_Vehicle_Charging_Infrastructure.pdf",
-        },
-        "tecnica": {
-            "id": "tec_zheng_ev",
-            "nome": "Grafo de Conhecimento Hierárquico (HKG) com verificação estrita",
-            "descricao": "Usa o grafo hierárquico como mecanismo estrito de validação das respostas do agente, garantindo que as soluções geradas sejam subconjuntos de regras operacionais históricas.",
-            "metadados": {"ferramentas": "Hierarchical KG, Hybrid Search, Autonomous Agent"},
-        },
-        "cenario": {
-            "id": "cen_zheng_ev",
-            "nome": "Mobilidade elétrica – triagem de falhas e despacho de O&M em eletropostos",
-            "descricao": "Identificar a causa de falhas operacionais em estações de recarga a partir do relato do motorista e emitir ordens de serviço precisas para as equipes de campo.",
-        },
-        "estrategias": ["estr_travessia_hierarquica", "estr_entrada_por_similaridade_e_travessia"],
-        "metricas": ["met_acuracia_classificacao"],
-        "limitacoes": ["lim_falta_suporte_multimodal"],
-        "trechos": [
-            {
-                "id": "tr_zheng_ev_1",
-                "pagina": 1,
-                "texto": "To address these issues, this paper proposes a novel framework that integrates a Hierarchical Knowledge Graph (HKG) with an Autonomous Agent",
-            },
-            {
-                "id": "tr_zheng_ev_2",
-                "pagina": 2,
-                "texto": "Our approach diverges from standard GraphRAG by utilizing the KG structure as a strict verification mechanism",
-            },
-        ],
-    },
-    {
-        "id": "est_liu_fusionom",
-        "nome": "FusionOM: A Dual-Channel LLM-KG Framework for Intelligent Operations and Maintenance Strategy Generation",
-        "descricao": "Framework de canal duplo que integra recuperação semântica vetorial e GraphRAG estruturado para geração automatizada de estratégias de manutenção e operação.",
-        "metadados": {
-            "autores": "Liu et al.",
-            "ano": 2025,
-            "veiculo": "IEEE NTCI",
-            "arquivo_pdf": "FusionOM_A_Dual-Channel_LLM-KG_Framework_for_Intelligent_Operations_and_Maintenance_Strategy_Generation.pdf",
-        },
-        "tecnica": {
-            "id": "tec_liu_fusionom",
-            "nome": "Recuperação em canal duplo (FusionOM: vetorial + fecho de subgrafo)",
-            "descricao": "Combina recuperação semântica densa de textos com expansão topológica no grafo de conhecimento (fecho de subgrafo), acelerando a inferência e reduzindo alucinações.",
-            "metadados": {"ferramentas": "Dual-Channel Engine, Subgraph Closure, Qwen-32B"},
-        },
-        "cenario": {
-            "id": "cen_liu_fusionom",
-            "nome": "Engenharia de manutenção – geração de planos de O&M em sistemas críticos",
-            "descricao": "Formular procedimentos e planos de ação de manutenção preventiva e corretiva para componentes industriais complexos sob tolerância zero a falhas.",
-        },
-        "estrategias": ["estr_recuperacao_canal_duplo", "estr_entrada_por_similaridade_e_travessia"],
-        "metricas": ["met_f1_acoes", "met_risco_alucinacao"],
-        "limitacoes": ["lim_manutencao_ontologia"],
-        "trechos": [
-            {
-                "id": "tr_liu_fusionom_1",
-                "pagina": 1,
-                "texto": "Operations and Maintenance (O&M) strategies in safety-critical systems often rely on manual workflows that are time-consuming and error-prone",
-            },
-            {
-                "id": "tr_liu_fusionom_2",
-                "pagina": 2,
-                "texto": "The dual-channel retrieval module consists of semantic retrieval and knowledge graph reasoning",
-            },
-        ],
-    },
-    {
-        "id": "est_yan_uuv",
-        "nome": "Autonomous Decision-Making Method for UUV Emergency Management Based on Graph Retrieval-Augmented Generation Large Language Model",
-        "descricao": "Método de tomada de decisão autônoma para gerenciamento de emergências em Veículos Subaquáticos Não Tripulados (UUV) via GraphRAG baseado em agrupamento e LLM na borda.",
-        "metadados": {
-            "autores": "Yan et al.",
-            "ano": 2025,
-            "veiculo": "IEEE",
-            "arquivo_pdf": "Autonomous_Decision-Making_Method_for_UUV_Emergency_Management_Based_on_Graph_Retrieval-Augmented_Generation_Large_Language_Model.pdf",
-        },
-        "tecnica": {
-            "id": "tec_yan_uuv",
-            "nome": "GraphRAG baseado em clusters com LLM embarcado ajustado por LoRA",
-            "descricao": "Agrupa nós do grafo de emergência em clusters conceituais para recuperação ultrarrápida na borda, acoplada a um LLM refinado com LoRA para planos de resposta imediata.",
-            "metadados": {"ferramentas": "Cluster-GraphRAG, LoRA, Edge Computing"},
-        },
-        "cenario": {
-            "id": "cen_yan_uuv",
-            "nome": "Robótica subaquática – gerenciamento autônomo de emergências em UUVs",
-            "descricao": "Decidir manobras de evasão, reconfiguração de lemes ou aborto de missão quando ocorrem falhas críticas de hardware em submarinos autônomos sem comunicação humana.",
-        },
-        "estrategias": ["estr_resumos_comunidades", "estr_entrada_por_similaridade_e_travessia"],
-        "metricas": ["met_taxa_sucesso_emergencia"],
-        "limitacoes": ["lim_consumo_memoria_borda"],
-        "trechos": [
-            {
-                "id": "tr_yan_uuv_1",
-                "pagina": 1,
-                "texto": "we propose an autonomous emergency-management framework that couples a domain knowledge graph with a retrieval-augmented generative large language model",
-            },
-            {
-                "id": "tr_yan_uuv_2",
-                "pagina": 2,
-                "texto": "In UUV emergency-management scenarios, this capability promises greater autonomy and smarter decisions",
-            },
-        ],
-    },
-    {
         "id": "est_mallala_robot",
         "nome": "An LLM and Knowledge-Graph Based Escalation Engine for Root-Cause Analysis in Advanced Robotics Systems",
         "descricao": "Mecanismo de escalonamento baseado em LLM e grafo de conhecimento para análise de causa-raiz e suporte à decisão em frotas de robôs autônomos avançados.",
         "metadados": {
             "autores": "Mallala e Sharma",
-            "ano": 2025,
-            "veiculo": "IEEE / ArXiv",
+            "ano": 2026,
+            "veiculo": "IEEE CONIT",
             "arquivo_pdf": "An_LLM_and_Knowledge-Graph_Based_Escalation_Engine_for_Root-Cause_Analysis_in_Advanced_Robotics_Systems.pdf",
         },
         "tecnica": {
