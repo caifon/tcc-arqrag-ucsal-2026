@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Union
 from pydantic import BaseModel, Field
 
 
@@ -57,7 +57,7 @@ class EstudoResumo(BaseModel):
     id: str
     titulo: str
     autores: str = ""
-    ano: Optional[int] = None
+    ano: Optional[Union[int, str]] = None
     veiculo: str = ""
 
 

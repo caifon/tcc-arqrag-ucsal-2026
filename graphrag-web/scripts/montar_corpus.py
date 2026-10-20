@@ -13,7 +13,7 @@ import json
 import os
 import shutil
 
-VERSAO_CORPUS = "2026-10-19-v5"
+VERSAO_CORPUS = "2026-10-20-v6"
 
 ESTUDOS = [
     {
@@ -217,7 +217,7 @@ ESTUDOS = [
         "descricao": "Sistema de apoio à decisão clínica para distúrbios gastrointestinais funcionais (FGIDs), integrando ontologia médica e grafo de conhecimento como esqueleto lógico de raciocínio.",
         "metadados": {
             "autores": "Zheng et al.",
-            "ano": 2025,
+            "ano": "2025b",
             "veiculo": "IEEE BIBM",
             "arquivo_pdf": "ChatGLM-FGIDs-TCM_A_Knowledge_Integrated_Large_Language_Model_for_Clinical_Decision_Support_in_Traditional_Chinese_Medicine.pdf",
         },
@@ -253,8 +253,8 @@ ESTUDOS = [
         "nome": "Knowledge Graph Augmented Autonomous Agents for Intelligent Customer Service in Electric Vehicle Charging Infrastructure",
         "descricao": "Agente autônomo baseado em grafo hierárquico de conhecimento para diagnóstico de anomalias e despacho de operações de manutenção em estações de recarga de veículos elétricos.",
         "metadados": {
-            "autores": "Zheng, Yan, Du et al.",
-            "ano": 2025,
+            "autores": "Zheng et al.",
+            "ano": "2025a",
             "veiculo": "IEEE IAECST",
             "arquivo_pdf": "Knowledge_Graph_Augmented_Autonomous_Agents_for_Intelligent_Customer_Service_in_Electric_Vehicle_Charging_Infrastructure.pdf",
         },
@@ -290,7 +290,7 @@ ESTUDOS = [
         "nome": "FusionOM: A Dual-Channel LLM-KG Framework for Intelligent Operations and Maintenance Strategy Generation",
         "descricao": "Framework de canal duplo que integra recuperação semântica vetorial e GraphRAG estruturado para geração automatizada de estratégias de manutenção e operação.",
         "metadados": {
-            "autores": "Liu, Wang, Li et al.",
+            "autores": "Liu et al.",
             "ano": 2025,
             "veiculo": "IEEE NTCI",
             "arquivo_pdf": "FusionOM_A_Dual-Channel_LLM-KG_Framework_for_Intelligent_Operations_and_Maintenance_Strategy_Generation.pdf",
@@ -327,7 +327,7 @@ ESTUDOS = [
         "nome": "Autonomous Decision-Making Method for UUV Emergency Management Based on Graph Retrieval-Augmented Generation Large Language Model",
         "descricao": "Método de tomada de decisão autônoma para gerenciamento de emergências em Veículos Subaquáticos Não Tripulados (UUV) via GraphRAG baseado em agrupamento e LLM na borda.",
         "metadados": {
-            "autores": "Yan, Wang, Deng et al.",
+            "autores": "Yan et al.",
             "ano": 2025,
             "veiculo": "IEEE",
             "arquivo_pdf": "Autonomous_Decision-Making_Method_for_UUV_Emergency_Management_Based_on_Graph_Retrieval-Augmented_Generation_Large_Language_Model.pdf",
@@ -477,11 +477,8 @@ def montar():
 if __name__ == "__main__":
     raiz = os.path.dirname(os.path.abspath(__file__))
     destino_web = os.path.join(raiz, "..", "api", "data", "seed_corpus.json")
-    destino_mvp = os.path.join(raiz, "..", "..", "mvp_graphrag", "data", "seed_corpus.json")
 
     dados = montar()
-    for dest in [destino_web, destino_mvp]:
-        if os.path.exists(os.path.dirname(dest)):
-            with open(dest, "w", encoding="utf-8") as f:
-                json.dump(dados, f, ensure_ascii=False, indent=2)
-            print(f"Corpus gravado: {len(dados['nos'])} nós, {len(dados['arestas'])} arestas -> {os.path.abspath(dest)}")
+    with open(destino_web, "w", encoding="utf-8") as f:
+        json.dump(dados, f, ensure_ascii=False, indent=2)
+    print(f"Corpus gravado: {len(dados['nos'])} nós, {len(dados['arestas'])} arestas -> {os.path.abspath(destino_web)}")

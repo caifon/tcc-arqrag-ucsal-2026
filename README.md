@@ -30,10 +30,10 @@
 > | `est_dindukurthi` | Explainable GraphRAG for Nutrition Recommendation | Dindukurthi et al. | 2026 | Frontiers in AI | Nutrição Clínica & Dietoterapia |
 > | `est_elssa` | ELSSA: Decision Support for Transit Incidents | Wang & Shalaby | 2026 | Transp. Res. Part C | Gestão de Incidentes em Transporte |
 > | `est_lu_pipeline` | KG Reasoning and Security Assurance Decision-Making | Lu et al. | 2024 | IEEE AIIM | Segurança de Redes de Oleodutos |
-> | `est_zheng_tcm` | ChatGLM-FGIDs-TCM: Clinical Decision Support | Zheng et al. | 2025 | IEEE BIBM | Medicina Clínica & Fitoterapia |
-> | `est_zheng_ev` | KG Augmented Agents for EV Charging Support | Zheng, Yan, Du et al. | 2025 | IEEE IAECST | O&M em Mobilidade Elétrica |
-> | `est_liu_fusionom` | FusionOM: Dual-Channel Framework for O&M | Liu, Wang, Li et al. | 2025 | IEEE NTCI | Estratégia de O&M em Aviação Civil |
-> | `est_yan_uuv` | Autonomous Decision-Making for UUV Emergencies | Yan, Wang, Deng et al. | 2025 | IEEE | Emergências em Veículos Subaquáticos |
+> | `est_zheng_tcm` | ChatGLM-FGIDs-TCM: Clinical Decision Support | Zheng et al. | 2025b | IEEE BIBM | Medicina Clínica & Fitoterapia |
+> | `est_zheng_ev` | KG Augmented Agents for EV Charging Support | Zheng et al. | 2025a | IEEE IAECST | O&M em Mobilidade Elétrica |
+> | `est_liu_fusionom` | FusionOM: Dual-Channel Framework for O&M | Liu et al. | 2025 | IEEE NTCI | Estratégia de O&M em Aviação Civil |
+> | `est_yan_uuv` | Autonomous Decision-Making for UUV Emergencies | Yan et al. | 2025 | IEEE | Emergências em Veículos Subaquáticos |
 > | `est_mallala_robot` | Escalation Engine for Root-Cause Analysis | Mallala & Sharma | 2025 | IEEE / ArXiv | Análise de Causa-Raiz em Robótica |
 
 ## 💡 Sobre o Projeto
@@ -158,16 +158,15 @@ O script avalia combinações de limiares e margens de corte sobre o banco exper
 │   ├── 03_AVALIACAO_EXPERIMENTAL_E_METRICAS.md
 │   ├── 04_CONTEUDO_MONOGRAFIA_TCC.md
 │   └── 05_MANUAL_DE_DEFESA_BANCA.md
-├── graphrag-web/                     # Aplicação Web Monorepo Oficial (Next.js + FastAPI)
-│   ├── api/                          # Backend Serverless Python
-│   │   ├── data/                     # Seed corpus e banco de 43 cenários de teste
-│   │   ├── engine/                   # TraversalEngine e GeminiService
-│   │   ├── evaluation/               # Aferidor de Hit Rate e Fabricação
-│   │   ├── graph/                    # Adaptadores Neo4j e NetworkX
-│   │   └── ontology.py               # Modelo ontológico formal tipado
-│   ├── app/                          # Frontend Next.js (App Router / Tailwind)
-│   ├── scripts/                      # Scripts de manutenção e auditoria de evidências
-│   ├── tests/                        # Bateria de testes automatizados (pytest)
-│   └── README.md                     # Manual técnico da aplicação web
-└── mvp_graphrag/                     # Protótipo inicial em Streamlit (legado)
+└── graphrag-web/                     # Aplicação Web Monorepo Oficial (Next.js + FastAPI)
+    ├── api/                          # Backend Serverless Python
+    │   ├── data/                     # Seed corpus e banco de 43 cenários de teste
+    │   ├── engine/                   # TraversalEngine e GeminiService
+    │   ├── evaluation/               # Aferidor de Hit Rate e Fabricação
+    │   ├── graph/                    # Adaptadores Neo4j e NetworkX
+    │   └── ontology.py               # Modelo ontológico formal tipado
+    ├── app/                          # Frontend Next.js (App Router / Tailwind)
+    ├── scripts/                      # Scripts de manutenção e auditoria de evidências
+    ├── tests/                        # Bateria de testes automatizados (pytest)
+    └── README.md                     # Manual técnico da aplicação web
 ```

@@ -1,5 +1,5 @@
 {
-  "versao": "2026-10-19-v5",
+  "versao": "2026-10-20-v6",
   "nos": [
     {
       "id": "estr_consulta_cypher",
@@ -474,7 +474,7 @@
       "descricao": "Sistema de apoio à decisão clínica para distúrbios gastrointestinais funcionais (FGIDs), integrando ontologia médica e grafo de conhecimento como esqueleto lógico de raciocínio.",
       "metadados": {
         "autores": "Zheng et al.",
-        "ano": 2025,
+        "ano": "2025b",
         "veiculo": "IEEE BIBM",
         "arquivo_pdf": "ChatGLM-FGIDs-TCM_A_Knowledge_Integrated_Large_Language_Model_for_Clinical_Decision_Support_in_Traditional_Chinese_Medicine.pdf"
       }
@@ -499,7 +499,7 @@
     {
       "id": "tr_zheng_tcm_1",
       "tipo": "Snippet",
-      "nome": "Trecho de Zheng et al. (2025)",
+      "nome": "Trecho de Zheng et al. (2025b)",
       "descricao": "This study presents ChatGLM-FGIDs-TCM, a domain-adapted large language model based on the open-source ChatGLM-6B framework",
       "metadados": {
         "estudo_id": "est_zheng_tcm",
@@ -510,7 +510,7 @@
     {
       "id": "tr_zheng_tcm_2",
       "tipo": "Snippet",
-      "nome": "Trecho de Zheng et al. (2025)",
+      "nome": "Trecho de Zheng et al. (2025b)",
       "descricao": "The knowledge graph, on the other hand, provides the skeleton of clinical reasoning the explicit logical pathways that connect symptoms to treatments",
       "metadados": {
         "estudo_id": "est_zheng_tcm",
@@ -524,8 +524,8 @@
       "nome": "Knowledge Graph Augmented Autonomous Agents for Intelligent Customer Service in Electric Vehicle Charging Infrastructure",
       "descricao": "Agente autônomo baseado em grafo hierárquico de conhecimento para diagnóstico de anomalias e despacho de operações de manutenção em estações de recarga de veículos elétricos.",
       "metadados": {
-        "autores": "Zheng, Yan, Du et al.",
-        "ano": 2025,
+        "autores": "Zheng et al.",
+        "ano": "2025a",
         "veiculo": "IEEE IAECST",
         "arquivo_pdf": "Knowledge_Graph_Augmented_Autonomous_Agents_for_Intelligent_Customer_Service_in_Electric_Vehicle_Charging_Infrastructure.pdf"
       }
@@ -550,7 +550,7 @@
     {
       "id": "tr_zheng_ev_1",
       "tipo": "Snippet",
-      "nome": "Trecho de Zheng, Yan, Du et al. (2025)",
+      "nome": "Trecho de Zheng et al. (2025a)",
       "descricao": "To address these issues, this paper proposes a novel framework that integrates a Hierarchical Knowledge Graph (HKG) with an Autonomous Agent",
       "metadados": {
         "estudo_id": "est_zheng_ev",
@@ -561,7 +561,7 @@
     {
       "id": "tr_zheng_ev_2",
       "tipo": "Snippet",
-      "nome": "Trecho de Zheng, Yan, Du et al. (2025)",
+      "nome": "Trecho de Zheng et al. (2025a)",
       "descricao": "Our approach diverges from standard GraphRAG by utilizing the KG structure as a strict verification mechanism",
       "metadados": {
         "estudo_id": "est_zheng_ev",
@@ -575,7 +575,7 @@
       "nome": "FusionOM: A Dual-Channel LLM-KG Framework for Intelligent Operations and Maintenance Strategy Generation",
       "descricao": "Framework de canal duplo que integra recuperação semântica vetorial e GraphRAG estruturado para geração automatizada de estratégias de manutenção e operação.",
       "metadados": {
-        "autores": "Liu, Wang, Li et al.",
+        "autores": "Liu et al.",
         "ano": 2025,
         "veiculo": "IEEE NTCI",
         "arquivo_pdf": "FusionOM_A_Dual-Channel_LLM-KG_Framework_for_Intelligent_Operations_and_Maintenance_Strategy_Generation.pdf"
@@ -601,7 +601,7 @@
     {
       "id": "tr_liu_fusionom_1",
       "tipo": "Snippet",
-      "nome": "Trecho de Liu, Wang, Li et al. (2025)",
+      "nome": "Trecho de Liu et al. (2025)",
       "descricao": "Operations and Maintenance (O&M) strategies in safety-critical systems often rely on manual workflows that are time-consuming and error-prone",
       "metadados": {
         "estudo_id": "est_liu_fusionom",
@@ -612,7 +612,7 @@
     {
       "id": "tr_liu_fusionom_2",
       "tipo": "Snippet",
-      "nome": "Trecho de Liu, Wang, Li et al. (2025)",
+      "nome": "Trecho de Liu et al. (2025)",
       "descricao": "The dual-channel retrieval module consists of semantic retrieval and knowledge graph reasoning",
       "metadados": {
         "estudo_id": "est_liu_fusionom",
@@ -626,7 +626,7 @@
       "nome": "Autonomous Decision-Making Method for UUV Emergency Management Based on Graph Retrieval-Augmented Generation Large Language Model",
       "descricao": "Método de tomada de decisão autônoma para gerenciamento de emergências em Veículos Subaquáticos Não Tripulados (UUV) via GraphRAG baseado em agrupamento e LLM na borda.",
       "metadados": {
-        "autores": "Yan, Wang, Deng et al.",
+        "autores": "Yan et al.",
         "ano": 2025,
         "veiculo": "IEEE",
         "arquivo_pdf": "Autonomous_Decision-Making_Method_for_UUV_Emergency_Management_Based_on_Graph_Retrieval-Augmented_Generation_Large_Language_Model.pdf"
@@ -652,7 +652,7 @@
     {
       "id": "tr_yan_uuv_1",
       "tipo": "Snippet",
-      "nome": "Trecho de Yan, Wang, Deng et al. (2025)",
+      "nome": "Trecho de Yan et al. (2025)",
       "descricao": "we propose an autonomous emergency-management framework that couples a domain knowledge graph with a retrieval-augmented generative large language model",
       "metadados": {
         "estudo_id": "est_yan_uuv",
@@ -663,7 +663,7 @@
     {
       "id": "tr_yan_uuv_2",
       "tipo": "Snippet",
-      "nome": "Trecho de Yan, Wang, Deng et al. (2025)",
+      "nome": "Trecho de Yan et al. (2025)",
       "descricao": "In UUV emergency-management scenarios, this capability promises greater autonomy and smarter decisions",
       "metadados": {
         "estudo_id": "est_yan_uuv",

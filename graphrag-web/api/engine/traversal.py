@@ -71,7 +71,7 @@ class GraphTraversalEngine:
             snippets.extend(alt.trechos_evidencia)
 
         # Ordem neutra (por ano e título), sem ranking de "melhor alternativa".
-        alternativas.sort(key=lambda a: ((a.estudo.ano or 0) if a.estudo else 0, a.tecnica_nome))
+        alternativas.sort(key=lambda a: (str(a.estudo.ano or "") if a.estudo else "", a.tecnica_nome))
 
         subgrafo = SubgrafoEvidencia(
             nos_entrada=[n for n, _ in entradas],
@@ -138,7 +138,7 @@ class GraphTraversalEngine:
             md = estudo_no.metadados or {}
             estudo_resumo = EstudoResumo(
                 id=estudo_no.id, titulo=estudo_no.nome, autores=str(md.get("autores", "")),
-                ano=int(md["ano"]) if str(md.get("ano", "")).isdigit() else None,
+                ano=md.get("ano"),
                 veiculo=str(md.get("veiculo", "")),
             )
             sub_est = self._vizinhanca(estudo_no.id)

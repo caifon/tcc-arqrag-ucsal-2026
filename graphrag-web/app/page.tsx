@@ -157,6 +157,12 @@ const nomeEstudo = (id: string) =>
     est_niederhaus: "Niederhaus et al.",
     est_dindukurthi: "Dindukurthi et al.",
     est_elssa: "Wang & Shalaby (ELSSA)",
+    est_lu_pipeline: "Lu et al.",
+    est_zheng_ev: "Zheng et al. (2025a)",
+    est_zheng_tcm: "Zheng et al. (2025b)",
+    est_liu_fusionom: "Liu et al.",
+    est_yan_uuv: "Yan et al.",
+    est_mallala_robot: "Mallala & Sharma",
   }[id] ?? id);
 
 /* ------------------------------------------------------------------ */
