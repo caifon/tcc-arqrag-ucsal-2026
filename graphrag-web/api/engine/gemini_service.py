@@ -1,4 +1,5 @@
 import os
+import time
 import re
 import math
 import json
@@ -90,15 +91,20 @@ class GeminiService:
                         for t in chunk
                     ]
                 }
-                resp = requests.post(url, json=payload, timeout=30)
-                if resp.status_code == 200:
+                resp = None
+                for tentativa in range(4):  # 429 = limite por minuto da API gratuita: espera e tenta de novo
+                    resp = requests.post(url, json=payload, timeout=30)
+                    if resp.status_code != 429:
+                        break
+                    time.sleep(2 ** tentativa * 5)
+                if resp is not None and resp.status_code == 200:
                     data = resp.json()
                     embs = data.get("embeddings", [])
                     for t, e in zip(chunk, embs):
                         vals = e.get("values")
                         if vals:
                             self._cache_embeddings[t] = vals
-                elif resp.status_code in (400, 403):
+                elif resp is not None and resp.status_code in (400, 403):
                     self._api_desabilitada = True
                     self.ultimo_modo = "local"
                     break

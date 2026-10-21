@@ -94,7 +94,8 @@ interface Avaliacao {
   total_cenarios: number;
   perguntas_com_resposta: number;
   perguntas_fora_do_escopo: number;
-  modo_similaridade: "embedding" | "local";
+  modo_similaridade: "embedding" | "local" | "misto";
+  perguntas_por_modo?: Record<string, number>;
   graphrag: {
     hit_rate_medio: number;
     precisao_media: number;
@@ -661,6 +662,8 @@ function ComoAvaliamos() {
             <strong>
               {dados.modo_similaridade === "embedding"
                 ? "Embeddings do Gemini (API)"
+                : dados.modo_similaridade === "misto"
+                ? `Misto: ${dados.perguntas_por_modo?.embedding ?? 0} perguntas com embeddings e ${dados.perguntas_por_modo?.local ?? 0} com comparação local (limite da API). Rode novamente.`
                 : "Comparação local de termos (sem chave da API)"}
             </strong>
             .

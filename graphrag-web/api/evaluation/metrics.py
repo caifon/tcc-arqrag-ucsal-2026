@@ -138,10 +138,18 @@ class Evaluator:
         todos_nos = engine.repo.obter_todos_nos()
         sobrenomes = sobrenomes_do_acervo(todos_nos)
 
+        # Calcula de uma vez os embeddings de todas as perguntas e nós (poucas chamadas à API),
+        # para que nenhuma pergunta caia na comparação local por limite de requisições.
+        svc = engine.gemini_service
+        if svc.api_key:
+            svc.obter_embeddings_lote([c["pergunta"] for c in cenarios] + [svc.texto_do_no(n) for n in todos_nos])
+
         detalhes = []
+        modos: List[str] = []
         total_itens = total_sem_suporte = 0
         for c in cenarios:
             _, alternativas = engine.executar_recuperacao(c["pergunta"])
+            modos.append(svc.ultimo_modo)
             recuperados = [a.estudo.id for a in alternativas if a.estudo]
             pont = cls._pontuar(c["estudos_esperados"], recuperados)
 
@@ -179,7 +187,9 @@ class Evaluator:
             "total_cenarios": len(detalhes),
             "perguntas_com_resposta": len(com_resposta),
             "perguntas_fora_do_escopo": len(fora_escopo),
-            "modo_similaridade": engine.gemini_service.ultimo_modo,
+            "modo_similaridade": ("embedding" if all(m == "embedding" for m in modos)
+                                  else "local" if all(m == "local" for m in modos) else "misto"),
+            "perguntas_por_modo": {m: modos.count(m) for m in set(modos)},
             "graphrag": {
                 **resumo(None),
                 "taxa_fabricacao": round(total_sem_suporte / total_itens, 4) if total_itens else 0.0,
