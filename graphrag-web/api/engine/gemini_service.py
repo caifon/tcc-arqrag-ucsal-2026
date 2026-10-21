@@ -79,8 +79,8 @@ class GeminiService:
             return {t: self._cache_embeddings[t] for t in textos if t in self._cache_embeddings}
 
         try:
-            for i in range(0, len(faltantes), 50):
-                chunk = faltantes[i:i + 50]
+            for i in range(0, len(faltantes), 100):  # até 100 textos por chamada (limite da API)
+                chunk = faltantes[i:i + 100]
                 url = f"{self.base_url}/models/gemini-embedding-001:batchEmbedContents?key={self.api_key}"
                 payload = {
                     "requests": [
@@ -92,11 +92,11 @@ class GeminiService:
                     ]
                 }
                 resp = None
-                for tentativa in range(4):  # 429 = limite por minuto da API gratuita: espera e tenta de novo
-                    resp = requests.post(url, json=payload, timeout=30)
-                    if resp.status_code != 429:
+                for espera in (2, 5, 10, None):  # 429 = limite por minuto da API gratuita: espera e tenta de novo
+                    resp = requests.post(url, json=payload, timeout=20)
+                    if resp.status_code != 429 or espera is None:
                         break
-                    time.sleep(2 ** tentativa * 5)
+                    time.sleep(espera)
                 if resp is not None and resp.status_code == 200:
                     data = resp.json()
                     embs = data.get("embeddings", [])
