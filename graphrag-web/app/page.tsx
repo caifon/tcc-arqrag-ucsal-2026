@@ -140,8 +140,8 @@ const EXEMPLOS = [
     texto: "Como recomendar alimentos para uma pessoa com uma doença específica, explicando o motivo de cada indicação?",
   },
   {
-    rotulo: "Fora do escopo: ações em bolsa",
-    texto: "Como usar GraphRAG para prever o preço de ações na bolsa de valores?",
+    rotulo: "Fora do escopo: fraude em cartão",
+    texto: "Como detectar fraudes em transações de cartão de crédito?",
   },
 ];
 
