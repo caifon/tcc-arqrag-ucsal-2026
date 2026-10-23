@@ -204,7 +204,7 @@ export default function Home() {
             {(
               [
                 ["consultar", "Consultar", Search],
-                ["avaliacao", "Como avaliamos", FlaskConical],
+                ["avaliacao", "Avaliação", FlaskConical],
                 ["acervo", "Sobre o acervo", BookOpen],
               ] as const
             ).map(([id, rotulo, Icone]) => {
@@ -231,7 +231,7 @@ export default function Home() {
       {/* Conteúdo Central */}
       <main className="mx-auto max-w-5xl px-4 py-8">
         {aba === "consultar" && <Consultar />}
-        {aba === "avaliacao" && <ComoAvaliamos />}
+        {aba === "avaliacao" && <AbaAvaliacao />}
         {aba === "acervo" && <SobreAcervo />}
       </main>
 
@@ -546,7 +546,7 @@ function SecaoDestaque({
 }
 
 /* ------------------------------------------------------------------ */
-/* Aba 2: Como avaliamos                                               */
+/* Aba 2: Avaliação                                                   */
 /* ------------------------------------------------------------------ */
 const TIPO_PERGUNTA: Record<string, string> = {
   direta: "Direta",
@@ -555,7 +555,7 @@ const TIPO_PERGUNTA: Record<string, string> = {
   fora_do_escopo: "Fora do escopo",
 };
 
-function ComoAvaliamos() {
+function AbaAvaliacao() {
   const [dados, setDados] = useState<Avaliacao | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
