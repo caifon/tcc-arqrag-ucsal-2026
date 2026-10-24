@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 
 def _ler_metadados(n) -> dict:
-    """Os metadados ficam gravados no Neo4j como texto JSON; aqui voltam a ser dicionário."""
     bruto = n.get("metadados")
     if not bruto:
         return {}
@@ -20,7 +19,6 @@ def _ler_metadados(n) -> dict:
 
 
 class Neo4jGraphRepository(BaseGraphRepository):
-    """Adaptador oficial para Neo4j (Local ou Neo4j AuraDB na nuvem)."""
 
     def __init__(self, uri: Optional[str] = None, user: Optional[str] = None, password: Optional[str] = None, database: Optional[str] = None):
         self.uri = (uri or os.getenv("NEO4J_URI", "bolt://localhost:7687")).strip()
@@ -54,11 +52,6 @@ class Neo4jGraphRepository(BaseGraphRepository):
         return self._conectado
 
     def carregar_dados(self, nos: List[NoGrafo], arestas: List[ArestaGrafo], versao: str = "") -> None:
-        """
-        Carrega o acervo no Neo4j. Se a versão gravada no banco for diferente da versão do
-        arquivo seed_corpus.json, o banco é APAGADO e recarregado, para que mudanças no
-        acervo (estudos removidos ou corrigidos) cheguem de fato ao Neo4j.
-        """
         if not self._conectado:
             return
 

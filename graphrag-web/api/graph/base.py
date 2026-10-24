@@ -4,7 +4,6 @@ from api.ontology import NoGrafo, ArestaGrafo, SubgrafoEvidencia, TipoNo
 
 
 class BaseGraphRepository(ABC):
-    """Interface abstrata para persistência e travessia do Grafo de Conhecimento."""
 
     @abstractmethod
     def carregar_dados(self, nos: List[NoGrafo], arestas: List[ArestaGrafo], versao: str = "") -> None:

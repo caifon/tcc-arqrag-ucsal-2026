@@ -10,12 +10,6 @@ from api.ontology import NoGrafo, AlternativaDecisao, SubgrafoEvidencia
 
 
 class GeminiService:
-    """
-    Serviço unificado para Embeddings Leves e Formatação Estrita com LLM (Seções 3.4, 3.6 e 3.8 do PDF):
-    - Embedding leve: usado estritamente como porta de entrada para encontrar o nó inicial.
-    - LLM Formatador (gemini-2.5-flash / fallback estruturado): organiza e apresenta o que o grafo recuperou,
-      sem inventar informações (taxa de fabricação = 0%) e sem recomendar escolha final (conforme Simon, 1960 e Seção 3.3).
-    """
 
     def __init__(self, api_key: Optional[str] = None):
         key = api_key or os.getenv("GEMINI_API_KEY")
@@ -24,8 +18,6 @@ class GeminiService:
         self._cache_embeddings: Dict[str, List[float]] = {}
         self._api_desabilitada: bool = False
         self.ultimo_modo = "embedding" if self.api_key else "local"
-
-    # ----------------- 1. EMBEDDINGS LEVES (PORTA DE ENTRADA) ----------------- #
 
     def _tokenizar_fallback(self, texto: str) -> List[str]:
         palavras = re.findall(r"\w+", texto.lower())
@@ -79,7 +71,7 @@ class GeminiService:
             return {t: self._cache_embeddings[t] for t in textos if t in self._cache_embeddings}
 
         try:
-            for i in range(0, len(faltantes), 100):  # até 100 textos por chamada (limite da API)
+            for i in range(0, len(faltantes), 100):
                 chunk = faltantes[i:i + 100]
                 url = f"{self.base_url}/models/gemini-embedding-001:batchEmbedContents?key={self.api_key}"
                 payload = {
@@ -92,7 +84,7 @@ class GeminiService:
                     ]
                 }
                 resp = None
-                for espera in (2, 5, 10, None):  # 429 = limite por minuto da API gratuita: espera e tenta de novo
+                for espera in (2, 5, 10, None):
                     resp = requests.post(url, json=payload, timeout=20)
                     if resp.status_code != 429 or espera is None:
                         break
@@ -129,7 +121,6 @@ class GeminiService:
         t_n = self._tokenizar_fallback(texto_no)
         return self._cosseno_fallback(t_q, t_n)
 
-    # Metadados que ajudam a achar o nó (os demais, como nome do arquivo PDF, só atrapalham)
     CAMPOS_METADADOS_BUSCA = ("autores", "ano", "veiculo", "ferramentas")
 
     def texto_do_no(self, no: NoGrafo) -> str:
@@ -137,31 +128,23 @@ class GeminiService:
         return f"{no.nome}. {no.descricao} {extras}".strip()
 
     def limiar_padrao(self) -> float:
-        """
-        Similaridade mínima para um nó virar porta de entrada. Abaixo disso o sistema responde
-        que não encontrou nada (em vez de "forçar" uma resposta). Os valores mudam conforme o
-        modelo de similaridade, por isso há dois limiares. Calibre com scripts/calibrar_limiar.py.
-        """
         if self.api_key and not self._api_desabilitada:
             return float(os.getenv("LIMIAR_SIMILARIDADE", "0.66"))
         return float(os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.45"))
 
     def encontrar_nos_entrada(self, query: str, nos: List[NoGrafo], top_k: int = 3,
                               threshold: Optional[float] = None) -> List[Tuple[NoGrafo, float]]:
-        """Pontua todos os nós e devolve até top_k nós acima do limiar (pode devolver lista vazia)."""
         pontuados = self.pontuar_nos(query, nos)
         if threshold is None:
             threshold = self.limiar_padrao() if self.ultimo_modo == "embedding" else float(
                 os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.45"))
         if not pontuados or pontuados[0][1] < threshold:
             return []
-        # Só entram nós quase tão parecidos com a pergunta quanto o melhor (evita "puxar" estudos por ligações fracas)
         margem = float(os.getenv("MARGEM_SIMILARIDADE", "0.03"))
         corte = max(threshold, pontuados[0][1] - margem)
         return [(n, s) for n, s in pontuados if s >= corte][:top_k]
 
     def pontuar_nos(self, query: str, nos: List[NoGrafo]) -> List[Tuple[NoGrafo, float]]:
-        """Similaridade entre a pergunta e cada nó, em ordem decrescente. Registra o modo usado."""
         textos_alvo = [self.texto_do_no(no) for no in nos]
         if self.api_key:
             self.obter_embeddings_lote([query] + textos_alvo)
@@ -183,12 +166,9 @@ class GeminiService:
         scores.sort(key=lambda x: x[1], reverse=True)
         return scores
 
-    # ----------------- 2. LLM APENAS FORMATADOR ----------------- #
-
     def formatar_sintese(self, query: str, alternativas: List[AlternativaDecisao],
                          subgrafo: Optional[SubgrafoEvidencia] = None,
                          usar_llm: bool = True) -> Dict[str, str]:
-        """Devolve {"texto": ..., "origem": "llm" | "modelo_fixo"}."""
         if not alternativas:
             return {
                 "texto": "Nenhuma abordagem dos estudos selecionados corresponde a essa situação. "
@@ -238,7 +218,6 @@ Regras:
             "generationConfig": {
                 "temperature": 0.0,
                 "maxOutputTokens": 1024,
-                # sem "raciocínio" interno: senão ele consome o limite e o resumo sai cortado
                 "thinkingConfig": {"thinkingBudget": 0},
             },
         }

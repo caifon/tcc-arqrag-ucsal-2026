@@ -5,7 +5,6 @@ from api.ontology import NoGrafo, ArestaGrafo, SubgrafoEvidencia, TipoNo, TipoAr
 
 
 class InMemoryGraphRepository(BaseGraphRepository):
-    """Implementação em memória utilizando NetworkX."""
 
     def __init__(self):
         self.grafo = nx.MultiDiGraph()

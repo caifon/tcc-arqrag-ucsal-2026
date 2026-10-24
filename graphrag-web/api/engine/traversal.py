@@ -23,22 +23,12 @@ def _valor(tipo) -> str:
 
 
 class GraphTraversalEngine:
-    """
-    Recuperação em 4 etapas (Metodologia do TCC):
-    1. Pergunta do usuário.
-    2. Porta de entrada: similaridade de texto (embedding) escolhe até `top_k` nós de entrada,
-       desde que passem do limiar mínimo. Se nenhum passar, o sistema NÃO responde (abstenção).
-    3. Caminho no grafo: de cada nó de entrada, o sistema segue as relações até chegar às
-       abordagens (nós Técnica) ligadas a ele e depois reúne o contexto de cada abordagem
-       (estudo, cenário, estratégias, avaliação, limitações e trechos literais).
-    4. Formatação: o LLM só escreve um resumo com os dados recuperados (ver gemini_service).
-    """
 
     def __init__(self, repo: BaseGraphRepository, gemini_service: GeminiService):
         self.repo = repo
         self.gemini_service = gemini_service
 
-    # ------------------------------------------------------------------ #
+
     def executar_recuperacao(self, query: str, top_k_entrada: int = 3, max_saltos: int = 2,
                              limiar: Optional[float] = None) -> Tuple[SubgrafoEvidencia, List[AlternativaDecisao]]:
         candidatos = self.repo.obter_todos_nos()
@@ -47,13 +37,13 @@ class GraphTraversalEngine:
         if not entradas:
             return SubgrafoEvidencia(nos_entrada=[], nos_recuperados=[], arestas=[], snippets=[]), []
 
-        # Etapa 3a: da entrada até as abordagens (no máximo 2 saltos: Trecho -> Estudo -> Abordagem)
+
         tecnicas_motivo: Dict[str, List[NoGrafo]] = {}
         for no_entrada, _ in entradas:
             for tec_id in self._tecnicas_alcancadas(no_entrada):
                 tecnicas_motivo.setdefault(tec_id, []).append(no_entrada)
 
-        # Etapa 3b: contexto de cada abordagem (1 salto a partir dela + trechos do estudo)
+
         nos_recuperados: Dict[str, NoGrafo] = {n.id: n for n, _ in entradas}
         arestas_recuperadas: Dict[str, ArestaGrafo] = {}
         snippets: List[Dict[str, Any]] = []
@@ -70,7 +60,7 @@ class GraphTraversalEngine:
                 arestas_recuperadas[f"{a.origem_id}|{_valor(a.tipo)}|{a.destino_id}"] = a
             snippets.extend(alt.trechos_evidencia)
 
-        # Ordem neutra (por ano e título), sem ranking de "melhor alternativa".
+
         alternativas.sort(key=lambda a: (str(a.estudo.ano or "") if a.estudo else "", a.tecnica_nome))
 
         subgrafo = SubgrafoEvidencia(
@@ -81,7 +71,7 @@ class GraphTraversalEngine:
         )
         return subgrafo, alternativas
 
-    # ------------------------------------------------------------------ #
+
     def _vizinhanca(self, no_id: str) -> SubgrafoEvidencia:
         return self.repo.buscar_subgrafo_multi_nos([no_id], max_saltos=1)
 
@@ -96,7 +86,6 @@ class GraphTraversalEngine:
         tecnicas = [i for i in ids if i in mapa and mapa[i].tipo == TipoNo.TECNICA]
 
         if no_entrada.tipo == TipoNo.SNIPPET:
-            # Trecho -> Estudo -> Abordagem (2 saltos)
             for est_id in [i for i in ids if i in mapa and mapa[i].tipo == TipoNo.ESTUDO]:
                 sub_est = self._vizinhanca(est_id)
                 mapa_est = {n.id: n for n in sub_est.nos_recuperados}

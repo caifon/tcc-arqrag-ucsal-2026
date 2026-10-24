@@ -47,7 +47,6 @@ class SubgrafoEvidencia(BaseModel):
 
 
 class PassoCaminho(BaseModel):
-    """Um passo do caminho no grafo que explica por que a alternativa apareceu."""
     tipo: str
     nome: str
     relacao: Optional[str] = None

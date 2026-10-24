@@ -1,18 +1,3 @@
-"""
-Avaliação do MVP (Seção de Métricas da Metodologia).
-
-Tudo aqui é CALCULADO a cada execução; nenhum valor é fixo no código.
-
-- Hit rate: em perguntas que têm resposta conhecida, proporção dos estudos esperados que
-  apareceram nas alternativas exibidas.
-- Precisão: das alternativas exibidas, quantas eram esperadas (mede "trazer coisa a mais").
-- Abstenção correta: em perguntas FORA do escopo dos estudos, proporção em que o sistema
-  respondeu que não encontrou nada (em vez de inventar uma relação).
-- Taxa de fabricação: proporção de afirmações verificáveis do resumo (números, autores citados
-  e trechos entre aspas) que NÃO estão nos dados recuperados do grafo.
-- Comparação: as mesmas perguntas são respondidas por uma busca só por similaridade de texto,
-  sem caminhar no grafo (estilo RAG vetorial simples), para servir de referência.
-"""
 import json
 import re
 import unicodedata
@@ -22,9 +7,6 @@ from api.ontology import TipoNo, AlternativaDecisao, NoGrafo
 from api.engine.traversal import GraphTraversalEngine
 
 
-# ---------------------------------------------------------------------------
-# Verificação de fabricação
-# ---------------------------------------------------------------------------
 def _norm(texto: str) -> str:
     texto = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode().lower()
     return re.sub(r"[^a-z0-9]", "", texto)
@@ -52,7 +34,6 @@ from typing import List, Dict, Any, Iterable, Set
 
 
 def sobrenomes_do_acervo(nos: Iterable[NoGrafo]) -> Dict[str, Set[str]]:
-    """Mapa sobrenome -> conjunto de ids de estudos com autores que possuem esse sobrenome."""
     mapa: Dict[str, Set[str]] = {}
     for n in nos:
         if n.tipo == TipoNo.ESTUDO:
@@ -74,7 +55,7 @@ def verificar_fabricacao(texto: str, alternativas: List[AlternativaDecisao], sob
     permitido = _textos_permitidos(alternativas)
     permitido_norm = _norm(permitido)
     numeros_permitidos = {_para_float(n) for n in _numeros(permitido)}
-    numeros_permitidos.add(float(len(alternativas)))  # o resumo pode dizer quantas abordagens foram encontradas
+    numeros_permitidos.add(float(len(alternativas)))
     estudos_exibidos = {a.estudo.id for a in alternativas if a.estudo}
 
     itens = []
@@ -96,15 +77,12 @@ def verificar_fabricacao(texto: str, alternativas: List[AlternativaDecisao], sob
     }
 
 
-# ---------------------------------------------------------------------------
-# Avaliação do banco de perguntas
-# ---------------------------------------------------------------------------
 class Evaluator:
 
     @staticmethod
     def _pontuar(esperados: List[str], recuperados: List[str]) -> Dict[str, Any]:
         esp, rec = set(esperados), set(recuperados)
-        if not esp:  # pergunta fora do escopo: o certo é não trazer nada
+        if not esp:
             return {"hit_rate": None, "precisao": None, "abstencao_correta": len(rec) == 0}
         acertos = len(esp & rec)
         return {
@@ -115,7 +93,6 @@ class Evaluator:
 
     @staticmethod
     def busca_so_similaridade(engine: GraphTraversalEngine, pergunta: str, top_k: int = 3) -> List[str]:
-        """Referência sem grafo: compara a pergunta direto com estudos e trechos e devolve os estudos dos mais parecidos."""
         candidatos = [n for n in engine.repo.obter_todos_nos() if n.tipo in {TipoNo.ESTUDO, TipoNo.SNIPPET}]
         achados = engine.gemini_service.encontrar_nos_entrada(pergunta, candidatos, top_k=top_k)
         estudos = []
@@ -138,8 +115,6 @@ class Evaluator:
         todos_nos = engine.repo.obter_todos_nos()
         sobrenomes = sobrenomes_do_acervo(todos_nos)
 
-        # Calcula de uma vez os embeddings de todas as perguntas e nós (poucas chamadas à API),
-        # para que nenhuma pergunta caia na comparação local por limite de requisições.
         svc = engine.gemini_service
         if svc.api_key:
             svc.obter_embeddings_lote([c["pergunta"] for c in cenarios] + [svc.texto_do_no(n) for n in todos_nos])

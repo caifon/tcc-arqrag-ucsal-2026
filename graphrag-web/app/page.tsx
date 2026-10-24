@@ -25,9 +25,6 @@ import {
   Scale
 } from "lucide-react";
 
-/* ------------------------------------------------------------------ */
-/* Tipos (espelham api/index.py e api/ontology.py)                     */
-/* ------------------------------------------------------------------ */
 interface Estudo {
   id: string;
   titulo: string;
@@ -119,9 +116,6 @@ interface NoGrafo {
   metadados: Record<string, string | number>;
 }
 
-/* ------------------------------------------------------------------ */
-/* Constantes e Auxiliares                                             */
-/* ------------------------------------------------------------------ */
 const EXEMPLOS = [
   {
     rotulo: "Falha em máquina na fábrica",
@@ -166,15 +160,11 @@ const nomeEstudo = (id: string) =>
     est_mallala_robot: "Mallala & Sharma",
   }[id] ?? id);
 
-/* ------------------------------------------------------------------ */
-/* Componente Principal                                                */
-/* ------------------------------------------------------------------ */
 export default function Home() {
   const [aba, setAba] = useState<"consultar" | "avaliacao" | "acervo">("consultar");
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 antialiased">
-      {/* Header Limpo e Moderno */}
       <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
@@ -196,7 +186,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Abas Minimalistas */}
           <nav
             className="flex rounded-xl bg-slate-100 p-1 text-xs font-medium text-slate-600 shadow-inner"
             aria-label="Navegação do MVP"
@@ -228,14 +217,12 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Conteúdo Central */}
       <main className="mx-auto max-w-5xl px-4 py-8">
         {aba === "consultar" && <Consultar />}
         {aba === "avaliacao" && <AbaAvaliacao />}
         {aba === "acervo" && <SobreAcervo />}
       </main>
 
-      {/* Rodapé Clean */}
       <footer className="mt-16 border-t border-slate-200/60 bg-white py-6 text-center text-xs text-slate-500">
         <p>
           Trabalho de Conclusão de Curso (TCC) · Universidade Católica do Salvador (UCSal)
@@ -248,9 +235,6 @@ export default function Home() {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* Aba 1: Consultar                                                    */
-/* ------------------------------------------------------------------ */
 function Consultar() {
   const [pergunta, setPergunta] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -280,7 +264,6 @@ function Consultar() {
 
   return (
     <div className="space-y-6">
-      {/* Bloco de Busca Clean */}
       <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
         <div className="mb-3">
           <label htmlFor="pergunta" className="block text-sm font-semibold text-slate-800">
@@ -306,7 +289,6 @@ function Consultar() {
         </div>
 
         <div className="mt-3.5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          {/* Exemplos em pills elegantes */}
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-[11px] font-medium text-slate-400">Exemplos:</span>
             {EXEMPLOS.map((ex) => (
@@ -343,14 +325,12 @@ function Consultar() {
         )}
       </section>
 
-      {/* Resultados */}
       {resposta && <Resultado resposta={resposta} />}
     </div>
   );
 }
 
 function Resultado({ resposta }: { resposta: Resposta }) {
-  // Estado de abstenção (fora de escopo ou sem match de limiar)
   if (resposta.alternativas.length === 0) {
     return (
       <section className="flex items-start gap-3.5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -374,7 +354,6 @@ function Resultado({ resposta }: { resposta: Resposta }) {
 
   return (
     <section className="space-y-5">
-      {/* Card de Síntese Automatizada */}
       <div className="rounded-2xl border border-teal-200/70 bg-gradient-to-br from-teal-50/70 to-emerald-50/40 p-5 shadow-xs">
         <div className="flex items-start justify-between gap-3">
           <p className="text-sm leading-relaxed text-slate-800">
@@ -404,7 +383,6 @@ function Resultado({ resposta }: { resposta: Resposta }) {
         </div>
       </div>
 
-      {/* Cartões das Abordagens Lado a Lado */}
       <div className="grid gap-5 md:grid-cols-2">
         {resposta.alternativas.map((alt) => (
           <CartaoAbordagem key={alt.tecnica_id} alt={alt} />
@@ -425,7 +403,6 @@ function CartaoAbordagem({ alt }: { alt: Alternativa }) {
   return (
     <article className="flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs transition hover:border-slate-300">
       <div>
-        {/* Metadados do Artigo */}
         {e && (
           <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
             <span className="rounded-md bg-slate-100 px-2 py-0.5 font-semibold text-slate-700">
@@ -437,7 +414,6 @@ function CartaoAbordagem({ alt }: { alt: Alternativa }) {
           </div>
         )}
 
-        {/* Título e Descrição */}
         <h3 className="mt-2 text-base font-bold text-slate-900 leading-snug">
           {alt.tecnica_nome}
         </h3>
@@ -445,14 +421,12 @@ function CartaoAbordagem({ alt }: { alt: Alternativa }) {
           {alt.descricao}
         </p>
 
-        {/* Blocos Estruturados: Cenário, Avaliação, Limitações */}
         <div className="mt-4 space-y-3 border-t border-slate-100 pt-3 text-xs">
           <SecaoDestaque titulo="Onde foi aplicada" itens={alt.cenarios} />
           <SecaoDestaque titulo="Como foi avaliada" itens={alt.metricas_avaliacao} />
           <SecaoDestaque titulo="Limitações relatadas" itens={alt.limitacoes} alerta />
         </div>
 
-        {/* Trechos Literais do PDF */}
         {alt.trechos_evidencia.length > 0 && (
           <div className="mt-4 space-y-2 border-t border-slate-100 pt-3">
             <p className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
@@ -475,7 +449,6 @@ function CartaoAbordagem({ alt }: { alt: Alternativa }) {
         )}
       </div>
 
-      {/* Rastreabilidade Causal / Caminho no Grafo */}
       <details className="group mt-4 border-t border-slate-100 pt-3 text-xs text-slate-500">
         <summary className="flex cursor-pointer list-none items-center gap-1 font-medium text-slate-600 hover:text-slate-900">
           <ChevronRight className="h-3.5 w-3.5 transition group-open:rotate-90 text-slate-400" />
@@ -595,7 +568,6 @@ function AbaAvaliacao() {
 
   return (
     <div className="space-y-6">
-      {/* Cabeçalho do Experimento */}
       <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="max-w-2xl">
@@ -723,8 +695,7 @@ function AbaAvaliacao() {
               </div>
             </div>
 
-            {/* Tabela */}
-            <div className="overflow-x-auto">
+              <div className="overflow-x-auto">
               <table className="w-full min-w-[640px] text-left text-xs">
                 <thead className="bg-slate-50 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                   <tr>
@@ -825,9 +796,6 @@ function CardMetrica({
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* Aba 3: Sobre o acervo                                               */
-/* ------------------------------------------------------------------ */
 function SobreAcervo() {
   const [nos, setNos] = useState<NoGrafo[]>([]);
 
@@ -843,7 +811,6 @@ function SobreAcervo() {
 
   return (
     <div className="space-y-6">
-      {/* Contexto dos Estudos Incluídos */}
       <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
         <h2 className="text-base font-bold text-slate-900">
           Acervo Fechado do Mapeamento Sistemático
@@ -855,7 +822,6 @@ function SobreAcervo() {
         </p>
       </section>
 
-      {/* Cartões dos 10 Estudos Primários */}
       <div className="grid gap-4 md:grid-cols-2">
         {estudos.map((e) => (
           <div
@@ -881,7 +847,6 @@ function SobreAcervo() {
         ))}
       </div>
 
-      {/* Estatísticas da Topologia do Grafo */}
       <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
           Estrutura e Topologia do Grafo
