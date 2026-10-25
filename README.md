@@ -125,7 +125,7 @@ cd graphrag-web
 python scripts/calibrar_limiar.py
 ```
 O script avalia combinações de limiares e margens de corte sobre o banco experimental e sugere os valores com melhor equilíbrio entre acerto, precisão e recusa:
-* `LIMIAR_SIMILARIDADE`: Similaridade mínima para um nó ser considerado porta de entrada (`0.66` no modo Gemini Embedding).
+* `LIMIAR_SIMILARIDADE`: Similaridade mínima para um nó ser considerado porta de entrada (`0.74` no modo Gemini Embedding).
 * `MARGEM_SIMILARIDADE`: Margem máxima em relação ao melhor nó (`0.03`), evitando puxar estudos irrelevantes por ligações fracas.
 * `LIMIAR_SIMILARIDADE_LOCAL`: Limiar para o modo fallback local sem API (`0.60`).
 

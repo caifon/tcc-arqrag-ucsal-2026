@@ -129,7 +129,7 @@ class GeminiService:
 
     def limiar_padrao(self) -> float:
         if self.api_key and not self._api_desabilitada:
-            return float(os.getenv("LIMIAR_SIMILARIDADE", "0.66"))
+            return float(os.getenv("LIMIAR_SIMILARIDADE", "0.74"))
         return float(os.getenv("LIMIAR_SIMILARIDADE_LOCAL", "0.45"))
 
     def encontrar_nos_entrada(self, query: str, nos: List[NoGrafo], top_k: int = 3,
