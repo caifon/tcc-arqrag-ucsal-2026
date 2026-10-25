@@ -1,0 +1,1057 @@
+{
+  "total_cenarios": 43,
+  "perguntas_com_resposta": 33,
+  "perguntas_fora_do_escopo": 10,
+  "modo_similaridade": "local",
+  "perguntas_por_modo": {
+    "local": 43
+  },
+  "graphrag": {
+    "hit_rate_medio": 0.4192,
+    "precisao_media": 0.4545,
+    "abstencao_correta": 1.0,
+    "taxa_fabricacao": 0.0,
+    "afirmacoes_verificadas": 65
+  },
+  "referencia_sem_grafo": {
+    "hit_rate_medio": 0.1515,
+    "precisao_media": 0.1515,
+    "abstencao_correta": 1.0
+  },
+  "detalhes": [
+    {
+      "id": "q01",
+      "tipo": "direta",
+      "pergunta": "Preciso avisar o gestor de uma obra quando um atraso na entrega de material afetar outras atividades do cronograma.",
+      "estudos_esperados": [
+        "est_rawat"
+      ],
+      "estudos_recuperados": [
+        "est_rawat"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 5,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q02",
+      "tipo": "direta",
+      "pergunta": "Quero um sistema que recomende ações para corrigir falhas em máquinas usando os manuais técnicos da fábrica.",
+      "estudos_esperados": [
+        "est_niederhaus"
+      ],
+      "estudos_recuperados": [
+        "est_niederhaus"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 3,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q03",
+      "tipo": "direta",
+      "pergunta": "Como recomendar alimentos para uma pessoa com uma doença específica, explicando o motivo de cada indicação?",
+      "estudos_esperados": [
+        "est_dindukurthi"
+      ],
+      "estudos_recuperados": [
+        "est_dindukurthi"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 3,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q04",
+      "tipo": "direta",
+      "pergunta": "Preciso apoiar supervisores na escolha de ações durante um incidente no transporte público.",
+      "estudos_esperados": [
+        "est_elssa"
+      ],
+      "estudos_recuperados": [
+        "est_elssa"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 4,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [
+          "est_elssa"
+        ],
+        "hit_rate": 1.0,
+        "precisao": 1.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q05",
+      "tipo": "parafrase",
+      "pergunta": "Cronograma de construção com risco de fornecedor entregar material atrasado.",
+      "estudos_esperados": [
+        "est_rawat"
+      ],
+      "estudos_recuperados": [
+        "est_rawat"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 5,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q06",
+      "tipo": "parafrase",
+      "pergunta": "Manutenção de equipamentos industriais quando uma máquina para.",
+      "estudos_esperados": [
+        "est_niederhaus"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q07",
+      "tipo": "parafrase",
+      "pergunta": "Dieta personalizada para pacientes com diabetes ou hipertensão.",
+      "estudos_esperados": [
+        "est_dindukurthi"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q08",
+      "tipo": "parafrase",
+      "pergunta": "O ônibus quebrou na rota e o controle precisa decidir o que fazer.",
+      "estudos_esperados": [
+        "est_elssa"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q09",
+      "tipo": "cruzada",
+      "pergunta": "Quais abordagens restringem o LLM para que ele não invente informações?",
+      "estudos_esperados": [
+        "est_dindukurthi",
+        "est_elssa",
+        "est_zheng_ev"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q10",
+      "tipo": "cruzada",
+      "pergunta": "Quais abordagens montam o grafo a partir de documentos de texto usando um LLM?",
+      "estudos_esperados": [
+        "est_niederhaus",
+        "est_elssa"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q11",
+      "tipo": "cruzada",
+      "pergunta": "Quais abordagens foram testadas com usuários reais?",
+      "estudos_esperados": [
+        "est_niederhaus"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q12",
+      "tipo": "cruzada",
+      "pergunta": "Quais limitações aparecem quando o grafo é construído automaticamente?",
+      "estudos_esperados": [
+        "est_niederhaus",
+        "est_elssa"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q13",
+      "tipo": "cruzada",
+      "pergunta": "Quais estudos usam a similaridade apenas como porta de entrada e depois percorrem o grafo?",
+      "estudos_esperados": [
+        "est_dindukurthi",
+        "est_elssa",
+        "est_lu_pipeline",
+        "est_zheng_tcm",
+        "est_zheng_ev",
+        "est_liu_fusionom",
+        "est_yan_uuv",
+        "est_mallala_robot"
+      ],
+      "estudos_recuperados": [
+        "est_lu_pipeline",
+        "est_yan_uuv",
+        "est_liu_fusionom",
+        "est_zheng_ev",
+        "est_zheng_tcm",
+        "est_dindukurthi",
+        "est_elssa",
+        "est_mallala_robot"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 15,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q14",
+      "tipo": "cruzada",
+      "pergunta": "Quais abordagens usam sistemas multiagentes com um coordenador central?",
+      "estudos_esperados": [
+        "est_rawat"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q15",
+      "tipo": "cruzada",
+      "pergunta": "Quais estudos dividem o grafo em comunidades?",
+      "estudos_esperados": [
+        "est_elssa",
+        "est_yan_uuv"
+      ],
+      "estudos_recuperados": [
+        "est_yan_uuv",
+        "est_elssa"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 6,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q16",
+      "tipo": "cruzada",
+      "pergunta": "Quais estudos foram avaliados apenas com dados simulados?",
+      "estudos_esperados": [
+        "est_rawat",
+        "est_dindukurthi"
+      ],
+      "estudos_recuperados": [
+        "est_rawat"
+      ],
+      "hit_rate": 0.5,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 5,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q17",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Como usar GraphRAG para prever o preço de ações na bolsa de valores?",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    },
+    {
+      "id": "q18",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Qual é a melhor receita de bolo de chocolate?",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    },
+    {
+      "id": "q19",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Como recomendar filmes para assinantes de uma plataforma de streaming?",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    },
+    {
+      "id": "q20",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Como detectar fraudes em transações de cartão de crédito?",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    },
+    {
+      "id": "q21",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Qual será a previsão do tempo para Salvador amanhã?",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    },
+    {
+      "id": "q22",
+      "tipo": "direta",
+      "pergunta": "Preciso avaliar a segurança física, cibernética e riscos geopolíticos em infraestruturas de oleodutos.",
+      "estudos_esperados": [
+        "est_lu_pipeline"
+      ],
+      "estudos_recuperados": [
+        "est_lu_pipeline"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 2,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [
+          "est_lu_pipeline"
+        ],
+        "hit_rate": 1.0,
+        "precisao": 1.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q23",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Como apoiar investigadores na reconstrução da cadeia causal de acidentes aeronáuticos a partir de relatórios do AAIB sem atribuir culpa?",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    },
+    {
+      "id": "q24",
+      "tipo": "direta",
+      "pergunta": "Como auxiliar médicos no diagnóstico de distúrbios gastrointestinais funcionais e na recomendação de tratamentos usando ontologia e grafo clínico?",
+      "estudos_esperados": [
+        "est_zheng_tcm"
+      ],
+      "estudos_recuperados": [
+        "est_zheng_tcm"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 2,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [
+          "est_zheng_tcm"
+        ],
+        "hit_rate": 1.0,
+        "precisao": 1.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q25",
+      "tipo": "direta",
+      "pergunta": "Preciso diagnosticar falhas operacionais em estações de recarga de veículos elétricos e despachar ordens de manutenção usando grafo hierárquico.",
+      "estudos_esperados": [
+        "est_zheng_ev"
+      ],
+      "estudos_recuperados": [
+        "est_zheng_ev"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 2,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [
+          "est_zheng_ev"
+        ],
+        "hit_rate": 1.0,
+        "precisao": 1.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q26",
+      "tipo": "direta",
+      "pergunta": "Como formular estratégias de manutenção preventiva e corretiva para componentes críticos integrando busca semântica e raciocínio em grafos?",
+      "estudos_esperados": [
+        "est_liu_fusionom"
+      ],
+      "estudos_recuperados": [
+        "est_liu_fusionom"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 3,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q27",
+      "tipo": "direta",
+      "pergunta": "Como tomar decisões autônomas de emergência em veículos subaquáticos não tripulados (UUV) sob falhas de subsistemas?",
+      "estudos_esperados": [
+        "est_yan_uuv"
+      ],
+      "estudos_recuperados": [
+        "est_yan_uuv"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 3,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [
+          "est_yan_uuv"
+        ],
+        "hit_rate": 1.0,
+        "precisao": 1.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q28",
+      "tipo": "direta",
+      "pergunta": "Como correlacionar dados de telemetria e histórico de incidentes em um grafo para identificar a causa-raiz de falhas em robôs avançados?",
+      "estudos_esperados": [
+        "est_mallala_robot"
+      ],
+      "estudos_recuperados": [
+        "est_mallala_robot"
+      ],
+      "hit_rate": 1.0,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 4,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q29",
+      "tipo": "parafrase",
+      "pergunta": "Vulnerabilidades em dutos de petróleo sob ameaça de ataques cibernéticos ou tensões geopolíticas.",
+      "estudos_esperados": [
+        "est_lu_pipeline"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q30",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Investigação técnica de falhas em aeronaves com análise estruturada de relatórios de incidentes.",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    },
+    {
+      "id": "q31",
+      "tipo": "parafrase",
+      "pergunta": "Prescrição e diagnóstico de sintomas gástricos complexos com apoio de grafo de conhecimento médico.",
+      "estudos_esperados": [
+        "est_zheng_tcm"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q32",
+      "tipo": "parafrase",
+      "pergunta": "Eletroposto apresentando travamento no carregamento de carros elétricos com necessidade de envio de técnico.",
+      "estudos_esperados": [
+        "est_zheng_ev"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q33",
+      "tipo": "parafrase",
+      "pergunta": "Geração rápida de planos de O&M para engenharia com canal duplo e garantia contra alucinações.",
+      "estudos_esperados": [
+        "est_liu_fusionom"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q34",
+      "tipo": "parafrase",
+      "pergunta": "Submarino autônomo com leme travado ou vazamento no fundo do mar precisando de manobra imediata.",
+      "estudos_esperados": [
+        "est_yan_uuv"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q35",
+      "tipo": "parafrase",
+      "pergunta": "Robô na linha de produção com superaquecimento de motor e histórico de falhas semelhantes.",
+      "estudos_esperados": [
+        "est_mallala_robot"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q36",
+      "tipo": "cruzada",
+      "pergunta": "Quais abordagens utilizam recuperação em canal duplo ou combinam busca vetorial densa com fecho ou travessia no grafo?",
+      "estudos_esperados": [
+        "est_liu_fusionom",
+        "est_dindukurthi",
+        "est_elssa"
+      ],
+      "estudos_recuperados": [
+        "est_liu_fusionom"
+      ],
+      "hit_rate": 0.3333333333333333,
+      "precisao": 1.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 3,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q37",
+      "tipo": "cruzada",
+      "pergunta": "Quais estudos são voltados para o setor aeroespacial ou manutenção de componentes críticos?",
+      "estudos_esperados": [
+        "est_liu_fusionom"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q38",
+      "tipo": "cruzada",
+      "pergunta": "Quais estudos aplicam GraphRAG na área de saúde e medicina clínica?",
+      "estudos_esperados": [
+        "est_dindukurthi",
+        "est_zheng_tcm"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q39",
+      "tipo": "cruzada",
+      "pergunta": "Quais abordagens usam agentes autônomos ou sistemas multiagentes com grafos de conhecimento?",
+      "estudos_esperados": [
+        "est_rawat",
+        "est_zheng_ev"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q40",
+      "tipo": "cruzada",
+      "pergunta": "Quais estudos projetaram soluções voltadas para execução na borda (edge computing) com restrições severas de hardware?",
+      "estudos_esperados": [
+        "est_yan_uuv"
+      ],
+      "estudos_recuperados": [],
+      "hit_rate": 0.0,
+      "precisao": 0.0,
+      "abstencao_correta": null,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": 0.0,
+        "precisao": 0.0,
+        "abstencao_correta": null
+      }
+    },
+    {
+      "id": "q41",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Como usar GraphRAG para otimizar a rotação de culturas e adubação na agricultura de precisão?",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    },
+    {
+      "id": "q42",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Como programar um algoritmo de xadrez usando inteligência artificial generativa?",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    },
+    {
+      "id": "q43",
+      "tipo": "fora_do_escopo",
+      "pergunta": "Como calcular a rescisão trabalhista de um funcionário contratado sob o regime CLT?",
+      "estudos_esperados": [],
+      "estudos_recuperados": [],
+      "hit_rate": null,
+      "precisao": null,
+      "abstencao_correta": true,
+      "fabricacao": {
+        "itens_verificados": 0,
+        "itens_sem_suporte": 0,
+        "detalhes_sem_suporte": []
+      },
+      "referencia_sem_grafo": {
+        "estudos_recuperados": [],
+        "hit_rate": null,
+        "precisao": null,
+        "abstencao_correta": true
+      }
+    }
+  ]
+}
