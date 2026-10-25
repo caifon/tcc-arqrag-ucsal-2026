@@ -110,4 +110,10 @@ def execute_query(req: QueryRequest):
 
 @app.post("/api/evaluate")
 def run_evaluation():
-    return Evaluator.avaliar_banco_completo(traversal_engine_inmemory, caminho_testes)
+    # Avaliação usa modo local (n-gram) para caber no timeout serverless de 60 s.
+    # O ranking do grafo é avaliado sem chamadas externas ao Gemini.
+    svc_local = GeminiService()
+    svc_local._api_desabilitada = True  # bloqueia qualquer chamada HTTP ao Gemini
+    svc_local.api_key = None            # garante que limiar_padrao use LIMIAR_SIMILARIDADE_LOCAL
+    engine_local = GraphTraversalEngine(repo_inmemory, svc_local)
+    return Evaluator.avaliar_banco_completo(engine_local, caminho_testes)
