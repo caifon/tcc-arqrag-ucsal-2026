@@ -541,19 +541,11 @@ function AbaAvaliacao() {
     setCarregando(true);
     setErro("");
     try {
-      // Tenta avaliação em tempo real (pode estourar timeout no Vercel Hobby)
       const res = await fetch("/api/evaluate", { method: "POST" });
-      if (!res.ok) throw new Error("status " + res.status);
+      if (!res.ok) throw new Error();
       setDados(await res.json());
     } catch {
-      // Fallback: carrega cache pré-computado (instantâneo, sempre disponível)
-      try {
-        const cache = await fetch("/evaluation_cache.json");
-        if (!cache.ok) throw new Error();
-        setDados(await cache.json());
-      } catch {
-        setErro("Não foi possível executar a avaliação experimental agora.");
-      }
+      setErro("Não foi possível executar a avaliação experimental agora.");
     } finally {
       setCarregando(false);
     }
