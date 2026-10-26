@@ -51,7 +51,7 @@ class GeminiService:
                 "model": "models/gemini-embedding-001",
                 "content": {"parts": [{"text": texto[:2000]}]}
             }
-            resp = requests.post(url, json=payload, timeout=3)
+            resp = requests.post(url, json=payload, timeout=5)
             if resp.status_code == 200:
                 data = resp.json()
                 vals = data.get("embedding", {}).get("values")
@@ -84,8 +84,8 @@ class GeminiService:
                     ]
                 }
                 resp = None
-                for espera in (1, 3, 5, None):
-                    resp = requests.post(url, json=payload, timeout=30)
+                for espera in (2, 5, 10, None):
+                    resp = requests.post(url, json=payload, timeout=20)
                     if resp.status_code != 429 or espera is None:
                         break
                     time.sleep(espera)
