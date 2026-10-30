@@ -1,0 +1,101 @@
+Maior similaridade de cada pergunta:
+
+  COM  0.863  Preciso avisar o gestor de uma obra quando um atraso na entrega d -> Gestão de obras – impacto de atraso
+  COM  0.827  Quero um sistema que recomende ações para corrigir falhas em máqu -> Indústria – recomendar ações para c
+  COM  0.880  Como recomendar alimentos para uma pessoa com uma doença específi -> Saúde – recomendação de alimentos p
+  COM  0.869  Preciso apoiar supervisores na escolha de ações durante um incide -> Transporte público – ações durante 
+  COM  0.827  Cronograma de construção com risco de fornecedor entregar materia -> Gestão de obras – impacto de atraso
+  COM  0.747  Manutenção de equipamentos industriais quando uma máquina para.   -> Indústria – recomendar ações para c
+  COM  0.816  Dieta personalizada para pacientes com diabetes ou hipertensão.   -> Saúde – recomendação de alimentos p
+  COM  0.726  O ônibus quebrou na rota e o controle precisa decidir o que fazer -> Transporte público – ações durante 
+  COM  0.749  Quais abordagens restringem o LLM para que ele não invente inform -> Risco de alucinação
+  COM  0.780  Quais abordagens montam o grafo a partir de documentos de texto u -> Erros na montagem automática do gra
+  COM  0.719  Quais abordagens foram testadas com usuários reais?               -> Testado só com dados simulados
+  COM  0.773  Quais limitações aparecem quando o grafo é construído automaticam -> Erros na montagem automática do gra
+  COM  0.860  Quais estudos usam a similaridade apenas como porta de entrada e  -> Similaridade como porta de entrada 
+  COM  0.779  Quais abordagens usam sistemas multiagentes com um coordenador ce -> Coordenador central pode virar garg
+  COM  0.759  Quais estudos dividem o grafo em comunidades?                     -> Resumos de comunidades do grafo
+  COM  0.801  Quais estudos foram avaliados apenas com dados simulados?         -> Testado só com dados simulados
+  FORA 0.726  Como usar GraphRAG para prever o preço de ações na bolsa de valor -> GraphRAG orientado por ontologia pa
+  FORA 0.558  Qual é a melhor receita de bolo de chocolate?                     -> Saúde – recomendação de alimentos p
+  FORA 0.653  Como recomendar filmes para assinantes de uma plataforma de strea -> NDCG@5 e Precision@5
+  FORA 0.567  Como detectar fraudes em transações de cartão de crédito?         -> Ligações calculadas antes da consul
+  FORA 0.528  Qual será a previsão do tempo para Salvador amanhã?               -> Trecho de Niederhaus et al. (2025)
+  COM  0.673  Preciso avaliar a segurança física, cibernética e riscos geopolít -> Infraestrutura crítica – segurança 
+  FORA 0.653  Como apoiar investigadores na reconstrução da cadeia causal de ac -> Transporte público – ações durante 
+  COM  0.851  Como auxiliar médicos no diagnóstico de distúrbios gastrointestin -> Medicina clínica – diagnóstico dife
+  COM  0.807  Preciso diagnosticar falhas operacionais em estações de recarga d -> Mobilidade elétrica – triagem de fa
+  COM  0.758  Como formular estratégias de manutenção preventiva e corretiva pa -> FusionOM: A Dual-Channel LLM-KG Fra
+  COM  0.917  Como tomar decisões autônomas de emergência em veículos subaquáti -> Robótica subaquática – gerenciament
+  COM  0.807  Como correlacionar dados de telemetria e histórico de incidentes  -> Robótica avançada – análise de caus
+  COM  0.850  Vulnerabilidades em dutos de petróleo sob ameaça de ataques ciber -> Infraestrutura crítica – segurança 
+  FORA 0.708  Investigação técnica de falhas em aeronaves com análise estrutura -> Robótica avançada – análise de caus
+  COM  0.805  Prescrição e diagnóstico de sintomas gástricos complexos com apoi -> Medicina clínica – diagnóstico dife
+  COM  0.772  Eletroposto apresentando travamento no carregamento de carros elé -> Mobilidade elétrica – triagem de fa
+  COM  0.744  Geração rápida de planos de O&M para engenharia com canal duplo e -> Engenharia de manutenção – geração 
+  COM  0.812  Submarino autônomo com leme travado ou vazamento no fundo do mar  -> Robótica subaquática – gerenciament
+  COM  0.755  Robô na linha de produção com superaquecimento de motor e históri -> Robótica avançada – análise de caus
+  COM  0.851  Quais abordagens utilizam recuperação em canal duplo ou combinam  -> Recuperação em canal duplo (vetoria
+  COM  0.744  Quais estudos são voltados para o setor aeroespacial ou manutençã -> Engenharia de manutenção – geração 
+  COM  0.754  Quais estudos aplicam GraphRAG na área de saúde e medicina clínic -> Dual-Layer GraphRAG com normalizaçã
+  COM  0.741  Quais abordagens usam agentes autônomos ou sistemas multiagentes  -> Sistema multiagente com grafo de de
+  COM  0.779  Quais estudos projetaram soluções voltadas para execução na borda -> Alto consumo de memória na borda (e
+  FORA 0.740  Como usar GraphRAG para otimizar a rotação de culturas e adubação -> GraphRAG com LLM restrito à formata
+  FORA 0.622  Como programar um algoritmo de xadrez usando inteligência artific -> Online KG-RAG com raciocínio de gra
+  FORA 0.532  Como calcular a rescisão trabalhista de um funcionário contratado -> Acurácia da classificação dos trech
+
+Modo: embedding
+Menor similaridade entre perguntas COM resposta: 0.673
+Maior similaridade entre perguntas FORA do escopo: 0.740
+
+ limiar  margem  acerto  precisão  recusa
+   0.53    0.03     94%       91%     10%
+   0.53    0.05     94%       91%     10%
+   0.53    0.08     94%       84%     10%
+   0.56    0.03     94%       91%     30%
+   0.56    0.05     94%       91%     30%
+   0.56    0.08     94%       84%     30%
+   0.59    0.03     94%       91%     40%
+   0.59    0.05     94%       91%     40%
+   0.59    0.08     94%       84%     40%
+   0.62    0.03     94%       91%     40%
+   0.62    0.05     94%       91%     40%
+   0.62    0.08     94%       84%     40%
+   0.65    0.03     94%       91%     50%
+   0.65    0.05     94%       91%     50%
+   0.65    0.08     94%       84%     50%
+   0.68    0.03     94%       91%     70%
+   0.68    0.05     94%       91%     70%
+   0.68    0.08     94%       86%     70%
+   0.71    0.03     91%       90%     80%
+   0.71    0.05     91%       90%     80%
+   0.71    0.08     91%       85%     80%
+   0.74    0.03     85%       91%    100%
+   0.74    0.05     85%       91%    100%
+   0.74    0.08     85%       91%    100%
+   0.77    0.03     63%       66%    100%
+   0.77    0.05     63%       66%    100%
+   0.77    0.08     63%       66%    100%
+   0.80    0.03     48%       52%    100%
+   0.80    0.05     48%       52%    100%
+   0.80    0.08     48%       52%    100%
+   0.83    0.03     25%       27%    100%
+   0.83    0.05     25%       27%    100%
+   0.83    0.08     25%       27%    100%
+   0.86    0.03     18%       18%    100%
+   0.86    0.05     18%       18%    100%
+   0.86    0.08     18%       18%    100%
+   0.89    0.03      3%        3%    100%
+   0.89    0.05      3%        3%    100%
+   0.89    0.08      3%        3%    100%
+   0.92    0.03      0%        0%    100%
+   0.92    0.05      0%        0%    100%
+   0.92    0.08      0%        0%    100%
+
+Sugestão (melhor equilíbrio entre acerto, precisão e recusa):
+  LIMIAR_SIMILARIDADE=0.74
+  MARGEM_SIMILARIDADE=0.03
+  -> acerto 85%, precisão 91%, recusa correta 100%
+
+Atenção: o limiar foi escolhido olhando o próprio banco de testes. Registre isso como limitação
+na monografia e, se possível, valide com perguntas novas escritas por outra pessoa.
