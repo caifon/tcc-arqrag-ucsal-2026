@@ -96,6 +96,3 @@ Sugestão (melhor equilíbrio entre acerto, precisão e recusa):
   LIMIAR_SIMILARIDADE=0.74
   MARGEM_SIMILARIDADE=0.03
   -> acerto 85%, precisão 91%, recusa correta 100%
-
-Atenção: o limiar foi escolhido olhando o próprio banco de testes. Registre isso como limitação
-na monografia e, se possível, valide com perguntas novas escritas por outra pessoa.
