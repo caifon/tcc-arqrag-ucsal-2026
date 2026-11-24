@@ -19,6 +19,14 @@ class GeminiService:
         self._api_desabilitada: bool = False
         self.ultimo_modo = "embedding" if self.api_key else "local"
 
+        caminho_cache = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "embeddings_cache.json")
+        if os.path.exists(caminho_cache):
+            try:
+                with open(caminho_cache, "r", encoding="utf-8") as f:
+                    self._cache_embeddings = json.load(f)
+            except Exception:
+                pass
+
     def _tokenizar_fallback(self, texto: str) -> List[str]:
         palavras = re.findall(r"\w+", texto.lower())
         ngrams = []
