@@ -163,7 +163,7 @@ export default function Home() {
   const [aba, setAba] = useState<"consultar" | "avaliacao" | "acervo">("consultar");
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 antialiased">
+    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
       <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
@@ -177,7 +177,7 @@ export default function Home() {
                 </span>
               </div>
               <p className="text-xs text-slate-500">
-                Mapeamento Sistemático da Literatura · Engenharia de Software UCSal
+                Engenharia de Software UCSal
               </p>
             </div>
           </div>
@@ -213,13 +213,13 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-8">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
         {aba === "consultar" && <Consultar />}
         {aba === "avaliacao" && <AbaAvaliacao />}
         {aba === "acervo" && <SobreAcervo />}
       </main>
 
-      <footer className="mt-16 border-t border-slate-200/60 bg-white py-6 text-center text-xs text-slate-500">
+      <footer className="mt-auto border-t border-slate-200/60 bg-white py-6 text-center text-xs text-slate-500">
         <p>
           Trabalho de Conclusão de Curso (TCC) · Universidade Católica do Salvador (UCSal)
         </p>
@@ -263,7 +263,7 @@ function Consultar() {
       <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
         <div className="mb-3">
           <label htmlFor="pergunta" className="block text-sm font-semibold text-slate-800">
-            Descreva o cenário ou dúvida para apoio à decisão
+            Descreva o cenário ou dúvida:
           </label>
           <p className="text-xs text-slate-500">
             O sistema localiza abordagens aplicáveis no grafo, com citações originais e limitações relatadas.
@@ -284,21 +284,7 @@ function Consultar() {
           />
         </div>
 
-        <div className="mt-3.5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-[11px] font-medium text-slate-400">Exemplos:</span>
-            {EXEMPLOS.map((ex) => (
-              <button
-                key={ex.rotulo}
-                type="button"
-                onClick={() => buscar(ex.texto)}
-                className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-600 transition hover:border-teal-500 hover:bg-teal-50/50 hover:text-teal-800"
-              >
-                {ex.rotulo}
-              </button>
-            ))}
-          </div>
-
+        <div className="mt-3.5 flex justify-end">
           <button
             type="button"
             onClick={() => buscar()}
@@ -310,7 +296,7 @@ function Consultar() {
             ) : (
               <Search className="h-4 w-4 text-teal-400" />
             )}
-            {carregando ? "Consultando grafo…" : "Buscar nos estudos"}
+            {carregando ? "Buscando…" : "Buscar"}
           </button>
         </div>
 
@@ -586,7 +572,7 @@ function AbaAvaliacao() {
             ) : (
               <FlaskConical className="h-4 w-4 text-teal-200" />
             )}
-            {carregando ? "Computando métricas…" : dados ? "Rodar novamente" : "Rodar avaliação empírica"}
+            {carregando ? "Avaliando…" : "Avaliar"}
           </button>
         </div>
 

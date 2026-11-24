@@ -1,9 +1,14 @@
 import os
 import json
 from typing import Optional, List, Dict, Any
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
+caminho_base = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(caminho_base, "..", ".env"))
+load_dotenv()
 
 from api.ontology import NoGrafo, ArestaGrafo, TipoNo
 from api.graph.inmemory_adapter import InMemoryGraphRepository
