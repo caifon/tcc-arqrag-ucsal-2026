@@ -168,14 +168,9 @@ export default function Home() {
         <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-lg font-bold tracking-tight text-slate-900">
-                  GraphRAG para Apoio à Decisão
-                </h1>
-                <span className="hidden rounded-full bg-teal-50 px-2 py-0.5 text-[11px] font-semibold text-teal-700 border border-teal-200/60 sm:inline-block">
-                  MVP · TCC 2026
-                </span>
-              </div>
+              <h1 className="text-lg font-bold tracking-tight text-slate-900">
+                GraphRAG para Apoio à Decisão
+              </h1>
               <p className="text-xs text-slate-500">
                 Engenharia de Software UCSal
               </p>
